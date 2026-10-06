@@ -6,11 +6,14 @@ import type { Lesson } from "@phanet/supabase/types";
 import { done, errMsg, fail } from "@/lib/flash";
 import { bool, file, isUuid, lines, num, opt, str } from "@/lib/form";
 import { extOf, uploadPublic } from "@/lib/storage";
+import { parseLessonLines, parseQuestions } from "@/lib/quiz-import";
 
 const FORMATS = ["video", "audio", "mixed"] as const;
 const LESSON_KINDS = ["video", "audio", "reading"] as const;
 const RESOURCE_KINDS = ["book", "message", "audio", "document"] as const;
 const coursePath = (id: string) => `/academy/courses/${id}`;
+const lessonPath = (courseId: string, lessonId: string) => `/academy/courses/${courseId}/lessons/${lessonId}`;
+const safeBack = (v: string, fallback: string) => (v.startsWith("/academy/") ? v : fallback);
 
 /* ---------------- courses ---------------- */
 export async function saveCourse(formData: FormData) {
@@ -220,7 +223,7 @@ export async function addQuestion(formData: FormData) {
 export async function deleteQuestion(formData: FormData) {
   const id = str(formData, "id");
   const courseId = str(formData, "course_id");
-  const back = `${coursePath(courseId)}#quiz`;
+  const back = safeBack(str(formData, "back"), `${coursePath(courseId)}#quiz`);
   if (!isUuid(id) || !isUuid(courseId)) fail("/academy", "Unknown question.");
   const supabase = await createClient();
   const { error } = await supabase.from("quiz_questions").delete().eq("id", id);
@@ -290,4 +293,146 @@ export async function toggleResource(formData: FormData) {
   if (error) fail("/academy/resources", error.message);
   revalidatePath("/academy/resources");
   done("/academy/resources", publish ? "Resource published." : "Resource hidden.");
+}
+
+
+/* ---------------- lesson quizzes ---------------- */
+async function lessonQuizId(courseId: string, lessonId: string, title?: string): Promise<string> {
+  const supabase = await createClient();
+  const { data: existing } = await supabase.from("quizzes").select("id").eq("lesson_id", lessonId).maybeSingle();
+  if (existing) return (existing as { id: string }).id;
+  const { data, error } = await supabase.from("quizzes").insert({ course_id: courseId, lesson_id: lessonId, title: title || "Lesson quiz" }).select("id").single();
+  if (error) throw new Error(error.message);
+  return (data as { id: string }).id;
+}
+
+/** Add many lessons at once: one per line, "Title | YouTube link | minutes". */
+export async function bulkAddLessons(formData: FormData) {
+  const courseId = str(formData, "course_id");
+  if (!isUuid(courseId)) fail("/academy", "Unknown course.");
+  const back = `${coursePath(courseId)}#lessons`;
+  const { lessons, errors } = parseLessonLines(String(formData.get("lines") ?? ""));
+  if (errors.length) fail(back, errors.slice(0, 3).join(" "));
+  if (!lessons.length) fail(back, "Paste at least one lesson.");
+  if (lessons.length > 200) fail(back, "Add at most 200 lessons at a time.");
+  const existing = await orderedLessons(courseId);
+  let order = existing.at(-1)?.sort_order ?? 0;
+  const rows = lessons.map((l) => ({
+    course_id: courseId, title: l.title, kind: l.youtube_url ? "video" : "reading", youtube_url: l.youtube_url,
+    body: l.youtube_url ? null : "Notes coming soon.", duration_minutes: l.duration, sort_order: ++order,
+  }));
+  const supabase = await createClient();
+  const { error } = await supabase.from("lessons").insert(rows);
+  if (error) fail(back, error.message);
+  revalidatePath(coursePath(courseId));
+  revalidatePath("/academy");
+  done(back, `${rows.length} lessons added.`);
+}
+
+export async function updateLesson(formData: FormData) {
+  const id = str(formData, "id");
+  const courseId = str(formData, "course_id");
+  if (!isUuid(id) || !isUuid(courseId)) fail("/academy", "Unknown lesson.");
+  const back = lessonPath(courseId, id);
+  const title = str(formData, "title");
+  const kind = str(formData, "kind");
+  if (!title) fail(back, "Give the lesson a title.");
+  if (!(LESSON_KINDS as readonly string[]).includes(kind)) fail(back, "Pick a lesson type.");
+  const youtube_url = opt(formData, "youtube_url");
+  const audio_url = opt(formData, "audio_url");
+  const body = opt(formData, "body");
+  if (kind === "video" && !youtube_url) fail(back, "Video lessons need a YouTube link.");
+  if (kind === "audio" && !audio_url && !youtube_url) fail(back, "Audio lessons need an audio URL or YouTube link.");
+  if (kind === "reading" && !body) fail(back, "Reading lessons need some text.");
+  const durationRaw = str(formData, "duration_minutes");
+  const supabase = await createClient();
+  const { error } = await supabase.from("lessons").update({
+    title, kind, youtube_url, audio_url, body, duration_minutes: durationRaw ? Math.round(num(formData, "duration_minutes", 0)) : null,
+  }).eq("id", id);
+  if (error) fail(back, error.message);
+  revalidatePath(coursePath(courseId));
+  done(back, "Lesson saved.");
+}
+
+export async function addLessonQuestion(formData: FormData) {
+  const courseId = str(formData, "course_id");
+  const lessonId = str(formData, "lesson_id");
+  if (!isUuid(courseId) || !isUuid(lessonId)) fail("/academy", "Unknown lesson.");
+  const back = `${lessonPath(courseId, lessonId)}#quiz`;
+  const prompt = str(formData, "prompt");
+  if (!prompt) fail(back, "Write the question.");
+  const options = lines(str(formData, "options"));
+  if (options.length < 2) fail(back, "Give at least two options, one per line.");
+  if (options.length > 8) fail(back, "At most eight options.");
+  const correct_index = Math.round(num(formData, "correct_index", -1));
+  if (correct_index < 0 || correct_index >= options.length) fail(back, "Pick which option is correct (it must exist in the list).");
+  let quizId = "";
+  try { quizId = await lessonQuizId(courseId, lessonId); } catch (e) { fail(back, errMsg(e)); }
+  const supabase = await createClient();
+  const { data: last } = await supabase.from("quiz_questions").select("sort_order").eq("quiz_id", quizId).order("sort_order", { ascending: false }).limit(1).maybeSingle();
+  const sort_order = ((last as { sort_order: number } | null)?.sort_order ?? 0) + 1;
+  const { error } = await supabase.from("quiz_questions").insert({ quiz_id: quizId, prompt, options, correct_index, explanation: opt(formData, "explanation"), sort_order });
+  if (error) fail(back, error.message);
+  revalidatePath(coursePath(courseId));
+  revalidatePath(lessonPath(courseId, lessonId));
+  done(back, "Question added.");
+}
+
+export async function removeLessonQuiz(formData: FormData) {
+  const courseId = str(formData, "course_id");
+  const lessonId = str(formData, "lesson_id");
+  if (!isUuid(courseId) || !isUuid(lessonId)) fail("/academy", "Unknown lesson.");
+  const back = lessonPath(courseId, lessonId);
+  const supabase = await createClient();
+  const { error } = await supabase.from("quizzes").delete().eq("lesson_id", lessonId);
+  if (error) fail(back, error.message);
+  revalidatePath(coursePath(courseId));
+  done(back, "Quiz removed. Students now mark this lesson complete themselves.");
+}
+
+/**
+ * Import questions for many lessons from a CSV file or pasted text.
+ * Columns: lesson number, question, option A, option B, [C … H], answer letter, [explanation].
+ */
+export async function importQuestions(formData: FormData) {
+  const courseId = str(formData, "course_id");
+  if (!isUuid(courseId)) fail("/academy", "Unknown course.");
+  const back = `${coursePath(courseId)}#import`;
+  const upload = file(formData, "csv");
+  const text = upload ? await upload.text() : String(formData.get("text") ?? "");
+  const replace = bool(formData, "replace");
+  const { questions, errors } = parseQuestions(text);
+  if (errors.length) fail(back, `Nothing was imported. Fix these and try again: ${errors.slice(0, 4).join(" ")}${errors.length > 4 ? ` (+${errors.length - 4} more)` : ""}`);
+  if (!questions.length) fail(back, "No questions found. Check the column order.");
+  const lessons = await orderedLessons(courseId);
+  const tooHigh = [...new Set(questions.filter((q) => q.lesson > lessons.length).map((q) => q.lesson))];
+  if (tooHigh.length) fail(back, `This course has ${lessons.length} lessons, but the file mentions lesson ${tooHigh.slice(0, 5).join(", ")}. Add the lessons first.`);
+
+  const supabase = await createClient();
+  const byLesson = new Map<number, typeof questions>();
+  for (const q of questions) byLesson.set(q.lesson, [...(byLesson.get(q.lesson) ?? []), q]);
+  const rows: Record<string, unknown>[] = [];
+  try {
+    for (const [n, qs] of byLesson) {
+      const lesson = lessons[n - 1];
+      const quizId = await lessonQuizId(courseId, lesson.id);
+      let start = 0;
+      if (replace) {
+        const { error } = await supabase.from("quiz_questions").delete().eq("quiz_id", quizId);
+        if (error) throw new Error(error.message);
+      } else {
+        const { data: last } = await supabase.from("quiz_questions").select("sort_order").eq("quiz_id", quizId).order("sort_order", { ascending: false }).limit(1).maybeSingle();
+        start = (last as { sort_order: number } | null)?.sort_order ?? 0;
+      }
+      qs.forEach((q, i) => rows.push({ quiz_id: quizId, prompt: q.prompt, options: q.options, correct_index: q.correct_index, explanation: q.explanation, sort_order: start + i + 1 }));
+    }
+    for (let i = 0; i < rows.length; i += 500) {
+      const { error } = await supabase.from("quiz_questions").insert(rows.slice(i, i + 500));
+      if (error) throw new Error(error.message);
+    }
+  } catch (e) {
+    fail(back, errMsg(e));
+  }
+  revalidatePath(coursePath(courseId));
+  done(back, `Imported ${rows.length} questions into ${byLesson.size} lesson quizzes.`);
 }

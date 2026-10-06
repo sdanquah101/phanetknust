@@ -75,10 +75,11 @@ export async function listLessons(courseId: string): Promise<Lesson[]> {
   }
 }
 
+/** The optional course-wide final quiz (lesson quizzes are separate). */
 export async function getQuiz(courseId: string): Promise<Quiz | null> {
   try {
     const supabase = await createClient();
-    const { data, error } = await supabase.from("quizzes").select("*").eq("course_id", courseId).maybeSingle();
+    const { data, error } = await supabase.from("quizzes").select("*").eq("course_id", courseId).is("lesson_id", null).maybeSingle();
     if (error) return null;
     return (data as Quiz | null) ?? null;
   } catch {
@@ -95,6 +96,40 @@ export async function listQuizQuestions(quizId: string): Promise<QuizQuestionPub
   } catch {
     return [];
   }
+}
+
+/** Lesson id → number of questions in that lesson's quiz (only lessons whose quiz has questions). */
+export async function getLessonQuizCounts(courseId: string): Promise<Map<string, number>> {
+  const out = new Map<string, number>();
+  try {
+    const supabase = await createClient();
+    const { data: quizzes } = await supabase.from("quizzes").select("id, lesson_id").eq("course_id", courseId).not("lesson_id", "is", null);
+    const rows = (quizzes ?? []) as { id: string; lesson_id: string }[];
+    if (!rows.length) return out;
+    const { data: qs } = await supabase.from("quiz_questions_public").select("quiz_id").in("quiz_id", rows.map((r) => r.id));
+    const perQuiz = new Map<string, number>();
+    for (const q of (qs ?? []) as { quiz_id: string }[]) perQuiz.set(q.quiz_id, (perQuiz.get(q.quiz_id) ?? 0) + 1);
+    for (const r of rows) { const n = perQuiz.get(r.id) ?? 0; if (n) out.set(r.lesson_id, n); }
+  } catch { /* none */ }
+  return out;
+}
+
+export async function getLessonQuiz(lessonId: string): Promise<{ quiz: Quiz; questions: QuizQuestionPublic[] } | null> {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase.from("quizzes").select("*").eq("lesson_id", lessonId).maybeSingle();
+    const quiz = data as Quiz | null;
+    if (!quiz) return null;
+    const questions = await listQuizQuestions(quiz.id);
+    return questions.length ? { quiz, questions } : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Index of the first lesson not yet completed (lessons after it are locked), or -1 when all are done. */
+export function firstOpenIndex(lessons: { id: string }[], done: Set<string>) {
+  return lessons.findIndex((l) => !done.has(l.id));
 }
 
 /* ---------- signed-in: progress ---------- */

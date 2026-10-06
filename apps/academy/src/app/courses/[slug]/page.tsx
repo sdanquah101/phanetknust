@@ -4,7 +4,7 @@ import { fmtDate } from "@phanet/supabase/format";
 import { SiteShell, safeSession } from "@/components/site-shell";
 import { FORMAT_LABEL } from "@/components/course-card";
 import { LessonList } from "@/components/lesson-list";
-import { getCertificate, getCourseBySlug, getEnrollment, getCompletedLessonIds, getQuiz, listAttempts, listLessons, progressPct } from "@/lib/queries";
+import { firstOpenIndex, getCertificate, getCourseBySlug, getEnrollment, getCompletedLessonIds, getLessonQuizCounts, getQuiz, listAttempts, listLessons, progressPct } from "@/lib/queries";
 import { enrollAction } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +20,7 @@ export default async function CoursePage({ params, searchParams }: { params: Pro
   const course = await getCourseBySlug(slug);
   if (!course) notFound();
 
-  const [lessons, quiz, session] = await Promise.all([listLessons(course.id), getQuiz(course.id), safeSession()]);
+  const [lessons, quiz, session, quizCounts] = await Promise.all([listLessons(course.id), getQuiz(course.id), safeSession(), getLessonQuizCounts(course.id)]);
   const lessonIds = lessons.map((l) => l.id);
   const userId = session?.user.id;
   const [done, enrollment, certificate, attempts] = userId
@@ -32,6 +32,9 @@ export default async function CoursePage({ params, searchParams }: { params: Pro
   const pct = progressPct(doneCount, total);
   const allDone = total > 0 && doneCount === total;
   const nextLesson = lessons.find((l) => !done.has(l.id)) ?? lessons[0];
+  const open = firstOpenIndex(lessons, done);
+  const openUpTo = open === -1 ? lessons.length - 1 : open;
+  const quizLessons = quizCounts.size;
   const bestScore = attempts.reduce((m, a) => Math.max(m, a.score), 0);
   const coursePath = `/courses/${course.slug}`;
 
@@ -95,7 +98,7 @@ export default async function CoursePage({ params, searchParams }: { params: Pro
               <h2 className="t-h2">Lessons · {total}</h2>
               {session && <span className="text-xs font-semibold text-muted">{doneCount} done</span>}
             </div>
-            <LessonList slug={course.slug} lessons={lessons} done={done} locked={!session} />
+            <LessonList slug={course.slug} lessons={lessons} done={done} locked={!session} openUpTo={openUpTo} quizCounts={quizCounts} />
             {!session && total > 0 && <p className="mt-3 text-xs text-muted">Sign in to open lessons and track your progress.</p>}
           </section>
         </div>
@@ -114,15 +117,22 @@ export default async function CoursePage({ params, searchParams }: { params: Pro
           ) : null}
 
           <Card className="flex flex-col gap-3">
+            <Label tone="orange">How this course works</Label>
+            <ul className="flex flex-col gap-2 t-small text-deep">
+              <li>1. Watch each lesson in order.</li>
+              {quizLessons > 0 && <li>2. Answer the short quiz after it. Score {course.pass_mark}% to unlock the next lesson. Retry as often as you like.</li>}
+              <li>{quizLessons > 0 ? "3." : "2."} Finish every lesson{quiz ? " and pass the final quiz" : ""} to receive your certificate.</li>
+            </ul>
+          </Card>
+          {quiz && (
+          <Card className="flex flex-col gap-3">
             <Label tone="orange">Final quiz</Label>
-            <div className="text-xl font-extrabold">{quiz?.title ?? "Final quiz"}</div>
-            <p className="text-sm text-muted">{quiz?.instructions ?? "Finish every lesson to unlock the quiz."} Pass mark <span className="font-bold text-deep">{course.pass_mark}%</span>.</p>
+            <div className="text-xl font-extrabold">{quiz.title}</div>
+            <p className="text-sm text-muted">{quiz.instructions ?? "Finish every lesson to unlock the final quiz."} Pass mark <span className="font-bold text-deep">{course.pass_mark}%</span>.</p>
             {attempts.length > 0 && (
               <div className="text-xs text-muted">{attempts.length} {attempts.length === 1 ? "attempt" : "attempts"} · best score <span className="font-bold text-deep">{bestScore}%</span></div>
             )}
-            {!quiz ? (
-              <Notice tone="ice">No quiz for this course yet.</Notice>
-            ) : !session ? (
+            {!session ? (
               <ButtonLink href={`/login?next=${encodeURIComponent(`${coursePath}/quiz`)}`} variant="outline-blue" size="sm" className="self-start">Sign in to take the quiz</ButtonLink>
             ) : allDone ? (
               <ButtonLink href={`${coursePath}/quiz`} variant="blue" size="sm" className="self-start">{certificate ? "Retake quiz" : attempts.length ? "Try again" : "Take the quiz"}</ButtonLink>
@@ -130,6 +140,7 @@ export default async function CoursePage({ params, searchParams }: { params: Pro
               <Notice tone="peach">Locked · {total - doneCount} {total - doneCount === 1 ? "lesson" : "lessons"} to go.</Notice>
             )}
           </Card>
+          )}
         </aside>
       </div>
     </SiteShell>

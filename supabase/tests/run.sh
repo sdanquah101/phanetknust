@@ -9,3 +9,4 @@ psql -v ON_ERROR_STOP=1 -q -d "$DB" -f supabase/tests/local-stubs.sql
 for f in supabase/migrations/*.sql; do psql -v ON_ERROR_STOP=1 -q -d "$DB" -f "$f"; done
 psql -v ON_ERROR_STOP=1 -q -d "$DB" -f supabase/seed.sql
 psql -v ON_ERROR_STOP=1 -q -d "$DB" -f supabase/tests/rls.sql
+psql -v ON_ERROR_STOP=1 -q -d "$DB" -f supabase/tests/lesson-quizzes.sql

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Badge, ProgressRing } from "@phanet/ui";
+import { Badge, Crest, ProgressRing } from "@phanet/ui";
 import { youtubeThumb } from "@phanet/supabase/types";
 import { firstLesson, type CourseCard as CourseCardData } from "@/lib/queries";
 
@@ -15,7 +15,7 @@ export function CourseCover({ course, className = "" }: { course: CourseCardData
         <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" />
       ) : (
         <div className="ground-blue h-full w-full grid place-items-center">
-          <span className="dot-orange" style={{ width: 44, height: 44 }} />
+          <Crest size={39} className="opacity-90" />
         </div>
       )}
       <span className="badge badge-white absolute left-3 top-3">{course.level}</span>

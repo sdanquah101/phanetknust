@@ -7,8 +7,8 @@ export default function NotFound() {
       <Blobs />
       <div className="text-center flex flex-col items-center gap-6 px-6">
         <Logo />
-        <h1 className="h3d text-[56px]">Lost, but <Script peach>found</Script></h1>
-        <p className="text-white/85 max-w-sm">That page isn't here. Let's get you back to the altar.</p>
+        <h1 className="h3d t-h1">Lost, but <Script peach>found</Script></h1>
+        <p className="text-white max-w-sm">That page isn't here. Let's get you back to the altar.</p>
         <Link href="/" className="btn btn-white">Go home</Link>
       </div>
     </main>

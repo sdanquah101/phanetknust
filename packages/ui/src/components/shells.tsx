@@ -1,19 +1,39 @@
 import * as React from "react";
 import { cn } from "../cn";
 import { Blobs, Logo, Label } from "./primitives";
-import { PillNav, SidebarNav, TabBar, type NavItem } from "./nav";
+import { MobileMenu, PillNav, SidebarNav, TabBar, type NavItem } from "./nav";
 
-/** Public shell: blue ground, glass pill nav, orange CTA slot on the right. */
+/** Public header: crest + wordmark, glass pill nav on desktop, menu button on phones. */
 export function PublicHeader({ items, cta, brand = "PHANET KNUST", home = "/" }: { items: NavItem[]; cta?: React.ReactNode; brand?: string; home?: string }) {
   return (
-    <header className="container-page pt-6 relative z-10">
+    <header className="container-page pt-5 md:pt-6 relative z-30">
       <div className="flex items-center justify-between gap-4">
         <Logo text={brand} href={home} />
         <div className="hidden md:block"><PillNav items={items} /></div>
-        <div className="flex items-center gap-2">{cta}</div>
+        <div className="flex items-center gap-2">
+          {cta}
+          <MobileMenu items={items} />
+        </div>
       </div>
-      <div className="md:hidden mt-4"><PillNav items={items} /></div>
     </header>
+  );
+}
+
+/** Soft curve from a blue hero into the ice page, with a thin tangerine rim: the "stage" edge. */
+export function HeroCurve({ fill = "#eaf1ff", rim = true }: { fill?: string; rim?: boolean }) {
+  return (
+    <svg className="hero-curve" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden>
+      <defs>
+        <linearGradient id="hc-rim" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stopColor="#fe7711" stopOpacity="0" />
+          <stop offset=".25" stopColor="#fe7711" />
+          <stop offset=".75" stopColor="#fcbd6b" />
+          <stop offset="1" stopColor="#fcbd6b" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path d="M0 90 L0 60 Q720 -20 1440 60 L1440 90 Z" fill={fill} />
+      {rim && <path d="M0 60 Q720 -20 1440 60" fill="none" stroke="url(#hc-rim)" strokeWidth="4" />}
+    </svg>
   );
 }
 
@@ -65,7 +85,7 @@ export function SidebarPromo({ label, children, href }: { label: string; childre
 export function SidebarUser({ name, role, action }: { name: string; role?: string; action?: React.ReactNode }) {
   return (
     <div className="px-3 text-xs">
-      <div className="text-white/70">Signed in as</div>
+      <div className="text-white">Signed in as</div>
       <div className="font-bold text-white truncate">{name}{role ? ` · ${role}` : ""}</div>
       {action && <div className="mt-2">{action}</div>}
     </div>
@@ -86,10 +106,10 @@ export function BlueHero({ children, className, nav }: { children: React.ReactNo
 export function Footer({ brand = "PHANET KNUST", links = [], note }: { brand?: string; links?: { href: string; label: string }[]; note?: string }) {
   return (
     <footer className="ground-blue">
-      <div className="container-page py-8 flex flex-wrap items-center justify-between gap-4 text-xs text-white/85 border-t border-white/15">
-        <span className="wordmark text-white">{brand}</span>
+      <div className="container-page py-10 flex flex-wrap items-center justify-between gap-6 text-sm text-white">
+        <Logo text={brand} />
         <div className="flex flex-wrap gap-5">
-          {links.map((l) => <a key={l.href} href={l.href} className="hover:text-white">{l.label}</a>)}
+          {links.map((l) => <a key={l.href} href={l.href} className="hover:underline">{l.label}</a>)}
         </div>
         <span>{note ?? `Kumasi, Ghana · ${new Date().getFullYear()}`}</span>
       </div>

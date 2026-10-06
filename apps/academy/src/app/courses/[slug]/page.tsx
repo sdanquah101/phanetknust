@@ -46,16 +46,16 @@ export default async function CoursePage({ params, searchParams }: { params: Pro
               <Badge tone="glass">{FORMAT_LABEL[course.format] ?? course.format}</Badge>
               {course.duration_label && <Badge tone="glass">{course.duration_label}</Badge>}
             </div>
-            <h1 className="h3d mt-5 text-[36px] leading-[1] md:text-[56px]">{course.title}</h1>
-            {course.summary && <p className="mt-5 max-w-xl text-white/85 md:text-lg">{course.summary}</p>}
-            {course.instructor && <p className="mt-4 text-sm text-white/80">Taught by <span className="font-bold text-white">{course.instructor}</span></p>}
+            <h1 className="h3d mt-5 t-h2 leading-[1] ">{course.title}</h1>
+            {course.summary && <p className="mt-5 max-w-xl text-white md:text-lg">{course.summary}</p>}
+            {course.instructor && <p className="mt-4 text-sm text-white">Taught by <span className="font-bold text-white">{course.instructor}</span></p>}
           </div>
           {session && (
             <div className="glass p-5 flex items-center gap-4 lg:justify-self-end">
               <ProgressRing pct={pct} size={76} />
               <div>
                 <Label tone="peach">Your progress</Label>
-                <div className="text-sm text-white/90 mt-1">{doneCount} of {total} lessons</div>
+                <div className="text-sm text-white mt-1">{doneCount} of {total} lessons</div>
               </div>
             </div>
           )}
@@ -92,7 +92,7 @@ export default async function CoursePage({ params, searchParams }: { params: Pro
 
           <section>
             <div className="flex items-end justify-between gap-4 mb-4">
-              <h2 className="text-[26px] md:text-[30px]">Lessons <span className="script text-royal text-[1.15em]">{total}</span></h2>
+              <h2 className="t-h2">Lessons · {total}</h2>
               {session && <span className="text-xs font-semibold text-muted">{doneCount} done</span>}
             </div>
             <LessonList slug={course.slug} lessons={lessons} done={done} locked={!session} />
@@ -105,7 +105,7 @@ export default async function CoursePage({ params, searchParams }: { params: Pro
             <Card tone="blue" className="flex flex-col gap-3">
               <Label tone="peach">Certificate earned</Label>
               <div className="text-2xl font-extrabold">Well done, {certificate.recipient_name.split(/\s+/)[0]}.</div>
-              <div className="text-sm text-white/85">Issued {fmtDate(certificate.issued_at)} · Code {certificate.code}</div>
+              <div className="text-sm text-white">Issued {fmtDate(certificate.issued_at)} · Code {certificate.code}</div>
               <div className="flex flex-wrap gap-2 mt-2">
                 <ButtonLink href={`/certificates/${certificate.code}/pdf`} variant="white" size="sm">Download PDF</ButtonLink>
                 <ButtonLink href={`/certificates/${certificate.code}`} variant="ghost" size="sm">Verify</ButtonLink>

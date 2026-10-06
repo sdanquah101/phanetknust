@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Badge, Blobs, EmptyState, Label, Script, StageDisc, Ticker } from "@phanet/ui";
+import { Badge, Blobs, EmptyState, HeroCurve, Label, Script } from "@phanet/ui";
 import { fmtDateTime } from "@phanet/supabase/format";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -17,12 +17,11 @@ export default async function ProgramsPage() {
         <SiteHeader />
         <div className="container-page relative pt-14 pb-6">
           <Label tone="peach" className="mb-3">Programs</Label>
-          <h1 className="h3d text-[48px] md:text-[72px]">Where we <Script peach className="text-[1.2em]">gather</Script></h1>
-          <p className="mt-6 text-white/90 max-w-xl">Every week, all semester. Come as you are. {live.label.replace("·", "at")} is our main night.</p>
+          <h1 className="h3d t-h1">Where we <Script peach className="text-[1.2em]">gather</Script></h1>
+          <p className="mt-6 text-white max-w-xl">Every week, all semester. Come as you are. {live.label.replace("·", "at")} is our main night.</p>
         </div>
-        <StageDisc className="mt-10" />
+        <div className="mt-8"><HeroCurve /></div>
       </section>
-      <div className="stage"><Ticker items={[`${theme.title} · ${theme.reference}`, `${theme.title} · ${theme.reference}`]} /></div>
 
       <section className="ground-ice -mt-px">
         <div className="container-page py-16 flex flex-col gap-12">
@@ -35,7 +34,7 @@ export default async function ProgramsPage() {
                 )}
                 <div className="flex items-center justify-between">
                   <Badge tone="good">{p.schedule_label}</Badge>
-                  <span className="dot-orange" style={{ width: 20, height: 20 }} />
+                  
                 </div>
                 <h2 className="text-2xl text-royal">{p.name}</h2>
                 {p.tagline && <p className="font-semibold text-deep/80 text-sm">{p.tagline}</p>}
@@ -48,7 +47,7 @@ export default async function ProgramsPage() {
 
           <div>
             <div className="flex items-end justify-between mb-6">
-              <h2 className="text-[32px] md:text-[40px] text-deep">Coming <span className="script text-royal text-[1.15em]">up</span></h2>
+              <h2 className="t-h2 text-deep">Coming up</h2>
             </div>
             {events.length === 0 ? (
               <EmptyState title="No special events yet" body="Our weekly programs run as usual. Special events will be listed here." />
@@ -57,7 +56,7 @@ export default async function ProgramsPage() {
                 {events.map((e) => (
                   <li key={e.id} className="card p-6 flex gap-5 items-start">
                     <div className="card-blue rounded-[18px] px-4 py-3 text-center min-w-[72px]">
-                      <div className="label-caps text-white/80">{new Date(e.starts_at).toLocaleDateString("en-GB", { month: "short" })}</div>
+                      <div className="label-caps text-white">{new Date(e.starts_at).toLocaleDateString("en-GB", { month: "short" })}</div>
                       <div className="num-lg">{new Date(e.starts_at).getDate()}</div>
                     </div>
                     <div className="flex-1">

@@ -38,7 +38,7 @@ export default async function QuizPage({ params, searchParams }: { params: Promi
       hero={
         <div className="max-w-2xl">
           <Link href={`/courses/${course.slug}`} className="label-caps-peach no-underline hover:text-white">← {course.title}</Link>
-          <h1 className="h3d mt-4 text-[36px] leading-[1] md:text-[54px]">{quiz?.title ?? "Final"} <Script peach className="text-[1.15em]">quiz</Script></h1>
+          <h1 className="h3d mt-4 t-h2 leading-[1] ">{quiz?.title ?? "Final"} <Script peach className="text-[1.15em]">quiz</Script></h1>
           <div className="mt-5 flex flex-wrap gap-2">
             <Badge tone="white">Pass mark {course.pass_mark}%</Badge>
             <Badge tone="glass">{questions.length} {questions.length === 1 ? "question" : "questions"}</Badge>
@@ -57,10 +57,10 @@ export default async function QuizPage({ params, searchParams }: { params: Promi
             <Card tone={attempt.passed ? "blue" : "white"} className="flex flex-col gap-4 p-8">
               <Label tone={attempt.passed ? "peach" : "orange"}>{attempt.passed ? "Passed" : "Not yet"}</Label>
               <div className="flex items-end gap-4">
-                <div className="num-xl md:text-[64px]">{attempt.score}%</div>
-                <div className={`pb-1 text-sm ${attempt.passed ? "text-white/85" : "text-muted"}`}>pass mark {course.pass_mark}%</div>
+                <div className="num-xl ">{attempt.score}%</div>
+                <div className={`pb-1 text-sm ${attempt.passed ? "text-white" : "text-muted"}`}>pass mark {course.pass_mark}%</div>
               </div>
-              <p className={`text-base ${attempt.passed ? "text-white/90" : "text-deep"}`}>
+              <p className={`text-base ${attempt.passed ? "text-white" : "text-deep"}`}>
                 {attempt.passed
                   ? certificate
                     ? "Excellent. Your certificate is ready to download and share."

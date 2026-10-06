@@ -1,4 +1,4 @@
-import { Blobs, Script, StageDisc } from "@phanet/ui";
+import { Blobs, HeroCurve, Script } from "@phanet/ui";
 import { WelfareHeader } from "@/components/public-header";
 import { WelfareFooter } from "@/components/public-footer";
 import { listActiveItems } from "@/lib/queries";
@@ -15,10 +15,10 @@ export default async function CheckoutPage() {
         <Blobs />
         <WelfareHeader />
         <div className="container-page relative pt-12 pb-6 md:pt-16">
-          <h1 className="h3d text-[40px] md:text-[60px] leading-[0.98]">Almost <Script peach className="text-[1.2em]">there</Script></h1>
-          <p className="mt-4 text-white/85 max-w-md">Tell us who to pack for. You&apos;ll get a code to track your request.</p>
+          <h1 className="h3d t-h2 leading-[0.98]">Almost <Script peach className="text-[1.2em]">there</Script></h1>
+          <p className="mt-4 text-white max-w-md">Tell us who to pack for. You&apos;ll get a code to track your request.</p>
         </div>
-        <StageDisc className="mt-8" />
+        <div className="mt-8"><HeroCurve /></div>
       </section>
       <section className="container-page py-10 md:py-14">
         <CheckoutForm items={items} />

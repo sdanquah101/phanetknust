@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Blobs, ButtonLink, Label, Script, StageDisc, VerseBadge } from "@phanet/ui";
+import { Blobs, ButtonLink, HeroCurve, Label, Script } from "@phanet/ui";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { getSettings } from "@/lib/queries";
@@ -22,30 +22,28 @@ export default async function AboutPage() {
           <div>
             <Label tone="peach" className="mb-3">About PHANET KNUST</Label>
             <h1 className="leading-none">
-              <span className="h3d block text-[44px] md:text-[64px]">We intercede.</span>
-              <span className="h3d block text-[44px] md:text-[64px]">We avail <span className="script-puffy text-peach text-[1.15em]">ourselves</span>.</span>
+              <span className="h3d block t-h1">We intercede.</span>
+              <span className="h3d block t-h1">We avail <span className="script-puffy text-peach text-[1.15em]">ourselves</span>.</span>
             </h1>
-            <p className="mt-8 text-white/95 text-lg md:text-xl max-w-2xl font-medium">{about.intro}</p>
-            <div className="mt-8"><VerseBadge>{theme.reference}</VerseBadge></div>
+            <p className="mt-8 text-white text-lg md:text-xl max-w-2xl font-medium">{about.intro}</p>
           </div>
           <div className="card card-lg tilt-2 p-8 md:p-9 max-w-md w-full lg:justify-self-end">
             <Label tone="orange" className="mb-3">On intercession</Label>
-            <p className="script text-royal text-[21px] md:text-[23px] leading-snug">{about.scripture_text}</p>
+            <blockquote className="t-lead italic font-semibold text-deep">{about.scripture_text}</blockquote>
             <div className="mt-4 text-xs font-bold tracking-wide uppercase text-muted">{about.scripture_reference}</div>
           </div>
         </div>
-        <StageDisc className="mt-10" />
+        <div className="mt-8"><HeroCurve /></div>
       </section>
-      <div className="stage h-4" />
 
       <section className="ground-ice">
         <div className="container-page py-16 flex flex-col gap-14">
           {/* The idea + our story */}
-          <div className="grid gap-6 lg:grid-cols-[1.1fr_.9fr]">
+          <div className="grid gap-6 lg:grid-cols-[1.1fr_.9fr] items-start">
             <div className="card-blue p-8 md:p-10 flex flex-col gap-4">
               <Label tone="peach">The idea</Label>
               <p className="text-2xl md:text-[28px] font-bold leading-snug">{about.idea}</p>
-              {about.idea_reference && <div className="text-xs font-bold tracking-wide uppercase text-peach mt-2">{about.idea_reference}</div>}
+              {about.idea_reference && <div className="text-xs font-bold tracking-wide uppercase text-white mt-2">{about.idea_reference}</div>}
             </div>
             <div className="card p-8 md:p-10 flex flex-col gap-4">
               <Label tone="orange">Our story</Label>
@@ -55,7 +53,7 @@ export default async function AboutPage() {
 
           {/* Mandate, vision, mission */}
           <div>
-            <h2 className="text-[32px] md:text-[40px] text-deep mb-6">What we are here for</h2>
+            <h2 className="t-h2 text-deep mb-6">What we are here for</h2>
             <div className="grid gap-5 md:grid-cols-3">
               <div className="card-orange p-7 flex flex-col gap-3">
                 <Label tone="white">Our mandate</Label>
@@ -75,12 +73,12 @@ export default async function AboutPage() {
 
           {/* Four streams */}
           <div>
-            <h2 className="text-[32px] md:text-[40px] text-deep mb-2">How we do it</h2>
+            <h2 className="t-h2 text-deep mb-2">How we do it</h2>
             <p className="text-muted mb-6 max-w-2xl">Four things, always together. Take one away and it stops being PHANET.</p>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {streams.map((s, i) => (
                 <div key={s.title} className="card p-6 flex flex-col gap-3">
-                  <span className="dot-orange" />
+                  
                   <div className="label-caps text-muted">0{i + 1}</div>
                   <div className="text-lg font-extrabold text-royal">{s.title}</div>
                   <p className="text-sm text-muted">{s.body}</p>
@@ -92,7 +90,7 @@ export default async function AboutPage() {
 
           {/* Values */}
           <div>
-            <h2 className="text-[32px] md:text-[40px] text-deep mb-6">What we hold to</h2>
+            <h2 className="t-h2 text-deep mb-6">What we hold to</h2>
             <ul className="grid gap-4 md:grid-cols-2">
               {values.map((v) => (
                 <li key={v.title} className="card p-6 flex gap-4 items-start">

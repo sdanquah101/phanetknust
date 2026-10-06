@@ -31,9 +31,7 @@ export default async function ItemsPage({ searchParams }: { searchParams: Promis
                           {i.image_url ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img src={i.image_url} alt="" className="w-full h-full object-cover" />
-                          ) : (
-                            <span className="dot-orange" style={{ width: 16, height: 16 }} />
-                          )}
+                          ) : null}
                         </span>
                         <span className="font-bold">{i.name}</span>
                       </Link>

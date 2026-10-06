@@ -1,4 +1,4 @@
-import { Blobs, Field, Input, Notice, Script, StageDisc, SubmitButton } from "@phanet/ui";
+import { Blobs, Field, HeroCurve, Input, Notice, Script, SubmitButton } from "@phanet/ui";
 import { WelfareHeader } from "@/components/public-header";
 import { WelfareFooter } from "@/components/public-footer";
 import { trackAction } from "./actions";
@@ -13,10 +13,10 @@ export default async function TrackPage({ searchParams }: { searchParams: Promis
         <Blobs />
         <WelfareHeader />
         <div className="container-page relative pt-12 pb-6 md:pt-16">
-          <h1 className="h3d text-[40px] md:text-[60px] leading-[0.98]">Where&apos;s my <Script peach className="text-[1.2em]">pack?</Script></h1>
-          <p className="mt-4 text-white/85 max-w-md">Enter the code you got when you sent your request.</p>
+          <h1 className="h3d t-h2 leading-[0.98]">Where&apos;s my <Script peach className="text-[1.2em]">pack?</Script></h1>
+          <p className="mt-4 text-white max-w-md">Enter the code you got when you sent your request.</p>
         </div>
-        <StageDisc className="mt-8" />
+        <div className="mt-8"><HeroCurve /></div>
       </section>
       <section className="container-page py-10 md:py-14">
         <form action={trackAction} className="card p-6 md:p-8 max-w-md flex flex-col gap-4">

@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import Link from "next/link";
-import { Badge, Label, cn } from "@phanet/ui";
+import { Badge, cn, Crest, Label } from "@phanet/ui";
 import type { WelfareItem } from "@phanet/supabase/types";
 import { basketCount, readBasket, writeBasket, type Basket } from "@/lib/basket";
 
@@ -90,7 +90,7 @@ function ItemCard({ item, qty, onChange, disabled }: { item: WelfareItem; qty: n
           // eslint-disable-next-line @next/next/no-img-element
           <img src={item.image_url} alt={item.name} className="w-full h-full object-cover" />
         ) : (
-          <span className="dot-orange" style={{ width: 44, height: 44 }} />
+          <Crest size={39} className="opacity-90" />
         )}
       </div>
       <div className="flex items-start justify-between gap-2">

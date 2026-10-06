@@ -35,8 +35,8 @@ export default async function ThanksPage({ searchParams }: { searchParams: Promi
         <SiteHeader />
         <div className="container-page relative pt-12 pb-20 max-w-3xl">
           {paid && <ClearBag />}
-          <h1 className="h3d text-[44px] md:text-[64px]">{paid ? <>Medaase, <Script peach className="text-[1.2em]">{order?.buyer_name.split(" ")[0]}</Script></> : <>Almost <Script peach className="text-[1.2em]">there</Script></>}</h1>
-          <p className="mt-4 text-white/90">{paid ? "Your payment went through. Collect at Midweek Altar, Great Hall foyer. We've emailed your receipt." : "We haven't confirmed your payment yet. If you approved the prompt, refresh this page in a moment."}</p>
+          <h1 className="h3d t-h1">{paid ? <>Medaase, <Script peach className="text-[1.2em]">{order?.buyer_name.split(" ")[0]}</Script></> : <>Almost <Script peach className="text-[1.2em]">there</Script></>}</h1>
+          <p className="mt-4 text-white">{paid ? "Your payment went through. Collect at Midweek Altar, Great Hall foyer. We've emailed your receipt." : "We haven't confirmed your payment yet. If you approved the prompt, refresh this page in a moment."}</p>
           {order && (
             <div className="card card-lg p-7 mt-8">
               <div className="flex items-center justify-between">

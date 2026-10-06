@@ -42,11 +42,11 @@ export default async function LessonPage({ params, searchParams }: { params: Pro
               <Badge tone="white">{KIND_LABEL[lesson.kind]}</Badge>
               {lesson.duration_minutes ? <Badge tone="glass">{lesson.duration_minutes} min</Badge> : null}
             </div>
-            <h1 className="h3d mt-4 text-[30px] leading-[1.02] md:text-[44px]">{lesson.title}</h1>
+            <h1 className="h3d mt-4 t-h2 leading-[1.02] ">{lesson.title}</h1>
           </div>
           <div className="glass p-4 flex items-center gap-3">
             <ProgressRing pct={progressPct(doneCount, lessons.length)} size={64} />
-            <div className="text-sm text-white/90"><Label tone="peach">Progress</Label>{doneCount}/{lessons.length} done</div>
+            <div className="text-sm text-white"><Label tone="peach">Progress</Label>{doneCount}/{lessons.length} done</div>
           </div>
         </div>
       }

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useActionState } from "react";
-import { Button, Field, Input, Notice, Script, Textarea } from "@phanet/ui";
+import { Button, Crest, Field, Input, Notice, Script, Textarea } from "@phanet/ui";
 import { money } from "@phanet/supabase/format";
 import { useCart } from "@/lib/cart";
 import { checkoutAction } from "../actions";
@@ -13,7 +13,7 @@ export function BagClient() {
   if (lines.length === 0) {
     return (
       <div className="card card-lg p-10 text-center max-w-lg mx-auto flex flex-col items-center gap-4">
-        <span className="dot-orange" style={{ width: 48, height: 48 }} />
+        <Crest size={43} className="opacity-90" />
         <h1 className="text-2xl">Your bag is empty</h1>
         <Link href="/shop" className="btn btn-blue">Browse the shop</Link>
       </div>
@@ -22,7 +22,7 @@ export function BagClient() {
   return (
     <div className="grid gap-8 lg:grid-cols-[1.1fr_.9fr] items-start">
       <div>
-        <h1 className="h3d text-[44px] md:text-[64px] mb-8">Your <Script peach className="text-[1.2em]">bag</Script></h1>
+        <h1 className="h3d t-h1 mb-8">Your <Script peach className="text-[1.2em]">bag</Script></h1>
         <div className="glass p-4 flex flex-col divide-y divide-white/15">
           {lines.map((l) => (
             <div key={l.product_id + (l.option ?? "")} className="flex items-center gap-4 py-4">
@@ -30,11 +30,11 @@ export function BagClient() {
                 {l.image_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={l.image_url} alt="" className="w-full h-full object-cover" />
-                ) : <span className="dot-orange" />}
+                ) : <Crest size={36} />}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="font-bold truncate">{l.name}{l.option ? ` · ${l.option}` : ""}</div>
-                <div className="text-sm text-white/80">{money(l.unit_price)}</div>
+                <div className="text-sm text-white">{money(l.unit_price)}</div>
               </div>
               <div className="flex items-center gap-2">
                 <button type="button" className="btn btn-ghost btn-sm !px-3" onClick={() => setQty(l.product_id, l.option, l.qty - 1)} aria-label="Decrease">−</button>

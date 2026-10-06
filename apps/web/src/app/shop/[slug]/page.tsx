@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Badge, Blobs } from "@phanet/ui";
+import { Badge, Blobs, Crest } from "@phanet/ui";
 import { money } from "@phanet/supabase/format";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -27,7 +27,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
               ) : (
-                <span className="dot-orange" style={{ width: 120, height: 120 }} />
+                <Crest size={108} className="opacity-90" />
               )}
             </div>
             <div className="card card-lg p-8 flex flex-col gap-5">
@@ -35,7 +35,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 <Badge tone="good">{theme.year} collection</Badge>
                 {product.stock > 0 && product.stock <= 5 && <Badge tone="warn">Only {product.stock} left</Badge>}
               </div>
-              <h1 className="text-[36px] text-deep">{product.name}</h1>
+              <h1 className="t-h2 text-deep">{product.name}</h1>
               <div className="num-xl text-royal">{money(product.price)}</div>
               {product.description && <p className="text-muted">{product.description}</p>}
               <AddToBag product={product} />

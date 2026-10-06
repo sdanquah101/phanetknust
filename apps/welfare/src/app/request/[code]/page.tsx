@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Blobs, Card, EmptyState, Label, Notice, Script, StageDisc, cn } from "@phanet/ui";
+import { Blobs, Card, cn, EmptyState, HeroCurve, Label, Notice, Script } from "@phanet/ui";
 import { fmtDateTime } from "@phanet/supabase/format";
 import { WelfareHeader } from "@/components/public-header";
 import { WelfareFooter } from "@/components/public-footer";
@@ -22,12 +22,12 @@ export default async function RequestPage({ params }: { params: Promise<{ code: 
         <Blobs />
         <WelfareHeader />
         <div className="container-page relative pt-12 pb-6 md:pt-16">
-          <h1 className="h3d text-[40px] md:text-[60px] leading-[0.98]">
+          <h1 className="h3d t-h2 leading-[0.98]">
             {req ? <>We&apos;ve got <Script peach className="text-[1.2em]">you</Script></> : <>Hmm, not <Script peach className="text-[1.2em]">found</Script></>}
           </h1>
-          <p className="mt-4 text-white/85 max-w-md">{req ? `Thanks, ${req.requester_name.split(/\s+/)[0]}. Here's where your request is.` : "We couldn't find a request with that code."}</p>
+          <p className="mt-4 text-white max-w-md">{req ? `Thanks, ${req.requester_name.split(/\s+/)[0]}. Here's where your request is.` : "We couldn't find a request with that code."}</p>
         </div>
-        <StageDisc className="mt-8" />
+        <div className="mt-8"><HeroCurve /></div>
       </section>
 
       <section className="container-page py-10 md:py-14">
@@ -41,8 +41,8 @@ export default async function RequestPage({ params }: { params: Promise<{ code: 
           <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] items-start">
             <Card tone="blue" className="flex flex-col gap-4">
               <Label tone="peach">Save this code</Label>
-              <div className="num-xl md:text-[52px] tracking-tight font-mono break-all">{req.code}</div>
-              <p className="text-sm text-white/85">Show it at the welfare desk, or use it to check back on your request any time.</p>
+              <div className="num-xl  tracking-tight font-mono break-all">{req.code}</div>
+              <p className="text-sm text-white">Show it at the welfare desk, or use it to check back on your request any time.</p>
               <div className="flex flex-wrap gap-2">
                 <CopyCode code={req.code} />
                 <Link href={`/request/${encodeURIComponent(req.code)}`} className="btn btn-ghost btn-sm">Check again</Link>

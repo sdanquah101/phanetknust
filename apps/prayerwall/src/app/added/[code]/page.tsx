@@ -38,19 +38,19 @@ export default async function AddedPage({ params }: { params: Promise<{ code: st
       <section className="flex flex-col gap-10">
         <div className="fade-up">
           <Label tone="peach">Added to the wall</Label>
-          <h1 className="h3d text-[36px] md:text-[56px] mt-3">
+          <h1 className="h3d t-h2 mt-3">
             We&apos;re praying <Script peach className="text-[1.15em]">with you</Script>
           </h1>
-          <p className="mt-4 text-white/85 text-lg max-w-xl">Your request is on the wall. This code is yours alone — it is how you come back with the testimony.</p>
+          <p className="mt-4 text-white text-lg max-w-xl">Your request is on the wall. This code is yours alone — it is how you come back with the testimony.</p>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2 items-start">
           <Card tone="blue" className="card-lg p-7 md:p-10 flex flex-col gap-5 tilt-n2">
             <Label tone="peach">Your code</Label>
-            <div className="font-extrabold text-[44px] md:text-[60px] leading-none tracking-[.08em] break-all select-all" aria-label={`Your code ${code.split("").join(" ")}`}>
+            <div className="font-extrabold t-h1 leading-none tracking-[.08em] break-all select-all" aria-label={`Your code ${code.split("").join(" ")}`}>
               {code}
             </div>
-            <p className="text-white/90 text-sm md:text-base font-medium">Save this code — it is the only way to add your testimony later.</p>
+            <p className="text-white text-sm md:text-base font-medium">Save this code — it is the only way to add your testimony later.</p>
             <div className="flex flex-wrap gap-3">
               <CopyButton text={code} />
               <a href={waHref} target="_blank" rel="noreferrer" className="btn btn-ghost">

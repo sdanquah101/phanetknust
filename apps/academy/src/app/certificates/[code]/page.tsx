@@ -17,7 +17,7 @@ export default async function CertificatePage({ params }: { params: Promise<{ co
       hero={
         <div className="max-w-2xl">
           <Label tone="peach">Certificate verification</Label>
-          <h1 className="h3d mt-3 text-[36px] leading-[1] md:text-[56px]">{cert ? <>Verified and <Script peach className="text-[1.15em]">genuine</Script></> : <>Not <Script peach className="text-[1.15em]">found</Script></>}</h1>
+          <h1 className="h3d mt-3 t-h2 leading-[1] ">{cert ? <>Verified and <Script peach className="text-[1.15em]">genuine</Script></> : <>Not <Script peach className="text-[1.15em]">found</Script></>}</h1>
         </div>
       }
     >
@@ -30,7 +30,7 @@ export default async function CertificatePage({ params }: { params: Promise<{ co
             </div>
             <div>
               <Label tone="orange">Certificate of completion</Label>
-              <div className="mt-2 text-[32px] md:text-[40px] leading-tight">{cert.recipient_name}</div>
+              <div className="mt-2 t-h2 leading-tight">{cert.recipient_name}</div>
               <p className="mt-3 text-muted">completed the course</p>
               <div className="mt-1 text-xl font-extrabold text-royal">{cert.course_title}</div>
             </div>

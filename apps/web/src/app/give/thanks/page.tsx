@@ -24,8 +24,8 @@ export default async function GiveThanks({ searchParams }: { searchParams: Promi
         <Blobs />
         <SiteHeader />
         <div className="container-page relative pt-12 pb-20 max-w-3xl">
-          <h1 className="h3d text-[44px] md:text-[64px]">{ok ? <>Medaase <Script peach className="text-[1.2em]">paa</Script></> : <>Hold <Script peach className="text-[1.2em]">on</Script></>}</h1>
-          <p className="mt-4 text-white/90">{ok ? "Your gift went through. A receipt is on its way to your email." : "We couldn't confirm the payment yet. If you approved the prompt, refresh in a moment."}</p>
+          <h1 className="h3d t-h1">{ok ? <>Medaase <Script peach className="text-[1.2em]">paa</Script></> : <>Hold <Script peach className="text-[1.2em]">on</Script></>}</h1>
+          <p className="mt-4 text-white">{ok ? "Your gift went through. A receipt is on its way to your email." : "We couldn't confirm the payment yet. If you approved the prompt, refresh in a moment."}</p>
           {data && (
             <div className="card card-lg p-7 mt-8">
               <div className="flex items-center justify-between">
@@ -37,7 +37,7 @@ export default async function GiveThanks({ searchParams }: { searchParams: Promi
           )}
           <div className="card card-lg tilt-n2 p-7 mt-10 max-w-md">
             <div className="label-caps-orange mb-2">Verse of the day</div>
-            <p className="script text-royal text-[24px] leading-snug">{verse.text}</p>
+            <blockquote className="t-quote text-deep">{verse.text}</blockquote>
             <div className="text-xs text-muted mt-3">{verse.reference}</div>
           </div>
           <div className="mt-8 flex gap-3">

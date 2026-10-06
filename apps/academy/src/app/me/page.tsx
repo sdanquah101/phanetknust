@@ -31,7 +31,7 @@ export default async function MePage() {
             <Avatar name={name} src={session.profile?.avatar_url} peach className="!h-16 !w-16 !text-xl" />
             <div>
               <Label tone="peach">My learning</Label>
-              <h1 className="h3d mt-2 text-[36px] leading-[1] md:text-[52px]">Akwaaba, <Script peach className="text-[1.15em]">{first}</Script></h1>
+              <h1 className="h3d mt-2 t-h2 leading-[1] ">Akwaaba, <Script peach className="text-[1.15em]">{first}</Script></h1>
             </div>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -44,7 +44,7 @@ export default async function MePage() {
     >
       <section className="pt-12">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <h2 className="text-[28px] md:text-[34px]">Continue <span className="script text-royal text-[1.15em]">learning</span></h2>
+          <h2 className="t-h2">Continue <span className="script text-royal text-[1.15em]">learning</span></h2>
           <Link href="/courses" className="btn btn-ice btn-sm">Find a course</Link>
         </div>
         {inProgress.length ? (

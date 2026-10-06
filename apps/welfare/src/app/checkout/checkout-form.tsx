@@ -73,9 +73,7 @@ export function CheckoutForm({ items }: { items: WelfareItem[] }) {
                 {item.image_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={item.image_url} alt="" className="w-full h-full object-cover" />
-                ) : (
-                  <span className="dot-orange" style={{ width: 20, height: 20 }} />
-                )}
+                ) : null}
               </div>
               <div className="min-w-0 flex-1">
                 <div className="font-bold truncate">{item.name}</div>

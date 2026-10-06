@@ -27,7 +27,7 @@ export default async function ItemPage({ params, searchParams }: { params: Promi
       <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
         <Card tone="blue" className="flex flex-col gap-2">
           <Label tone="peach">In stock</Label>
-          <div className="num-lg">{item.qty_available} <span className="text-base font-semibold text-white/80">{item.unit}</span></div>
+          <div className="num-lg">{item.qty_available} <span className="text-base font-semibold text-white">{item.unit}</span></div>
         </Card>
         <Card className="flex flex-col gap-2">
           <Label tone="orange">Max per request</Label>
@@ -85,7 +85,7 @@ export default async function ItemPage({ params, searchParams }: { params: Promi
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={item.image_url} alt={item.name} className="w-16 h-16 rounded-[14px] object-cover bg-row" />
               ) : (
-                <span className="w-16 h-16 rounded-[14px] bg-row grid place-items-center"><span className="dot-orange" /></span>
+                <span className="w-16 h-16 rounded-[14px] bg-row grid place-items-center"></span>
               )}
               <Field label="Replace photo" className="flex-1"><Input name="image" type="file" accept="image/*" className="!py-2.5" /></Field>
             </div>

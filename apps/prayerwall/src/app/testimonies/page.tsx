@@ -22,10 +22,10 @@ export default async function TestimoniesPage({ searchParams }: { searchParams: 
       <section className="grid gap-8 lg:grid-cols-[1.4fr_1fr] items-end">
         <div className="fade-up">
           <Label tone="peach">Testimonies</Label>
-          <h1 className="h3d text-[40px] md:text-[64px] mt-3">
+          <h1 className="h3d t-h2 mt-3">
             God <Script peach className="text-[1.15em]">answers</Script>
           </h1>
-          <p className="mt-5 text-white/85 text-lg max-w-xl">
+          <p className="mt-5 text-white text-lg max-w-xl">
             {total > 0
               ? `${total.toLocaleString("en-GH")} ${total === 1 ? "testimony" : "testimonies"} from the wall so far — each one once a request someone carried here.`
               : "When God answers your request, come back with your code and tell the fellowship."}
@@ -36,8 +36,8 @@ export default async function TestimoniesPage({ searchParams }: { searchParams: 
         </div>
         <div className="card-orange p-6 md:p-8 flex flex-col gap-2 w-full max-w-xs lg:ml-auto tilt-2">
           <Label tone="white">Answered so far</Label>
-          <div className="num-xl md:text-[56px]">{total.toLocaleString("en-GH")}</div>
-          <div className="text-xs text-white/85 font-medium">Testimonies shared anonymously</div>
+          <div className="num-xl ">{total.toLocaleString("en-GH")}</div>
+          <div className="text-xs text-white font-medium">Testimonies shared anonymously</div>
         </div>
       </section>
 

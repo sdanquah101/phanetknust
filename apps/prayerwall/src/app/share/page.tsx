@@ -22,10 +22,10 @@ export default async function SharePage({ searchParams }: { searchParams: Promis
     <Shell>
       <section className="fade-up">
         <Label tone="peach">Share a testimony</Label>
-        <h1 className="h3d text-[40px] md:text-[64px] mt-3">
+        <h1 className="h3d t-h2 mt-3">
           Come back <Script peach className="text-[1.15em]">rejoicing</Script>
         </h1>
-        <p className="mt-5 text-white/85 text-lg max-w-xl">Enter the code you received when you added your request. Your testimony shows on the wall anonymously.</p>
+        <p className="mt-5 text-white text-lg max-w-xl">Enter the code you received when you added your request. Your testimony shows on the wall anonymously.</p>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[1fr_1.6fr] items-start">

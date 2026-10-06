@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Avatar, Blobs, ButtonLink, Footer, PublicHeader, StageDisc, type NavItem } from "@phanet/ui";
+import { Avatar, Blobs, ButtonLink, Footer, HeroCurve, PublicHeader, type NavItem } from "@phanet/ui";
 import { getSession, type Session } from "@phanet/supabase/server";
 import { BRAND } from "@/lib/brand";
 
@@ -44,8 +44,8 @@ export function SiteFooter() {
 }
 
 /**
- * Public page frame: blue ground with header + hero slot, orange stage-lip, then ice content.
- * `lipChildren` sits on the orange lip (e.g. the 3-step strip on the home page).
+ * Public page frame: blue hero with header, a curved edge into the ice page, then content.
+ * `lipChildren` overlaps the curve (e.g. the 3-step strip on the home page).
  */
 export async function SiteShell({
   hero, children, next, lipChildren, heroClassName = "py-10 md:py-14",
@@ -59,11 +59,9 @@ export async function SiteShell({
         <Blobs />
         <PublicHeader brand={BRAND} items={NAV} cta={<HeaderCta session={session} next={next} />} />
         <div className={`container-page relative ${heroClassName}`}>{hero}</div>
+        <HeroCurve />
       </section>
-      <div className="relative">
-        <StageDisc className="mt-8" />
-        {lipChildren && <div className="container-page relative z-10 -mt-24 md:-mt-28">{lipChildren}</div>}
-      </div>
+      {lipChildren && <div className="ground-ice"><div className="container-page relative z-10 -mt-10 md:-mt-14">{lipChildren}</div></div>}
       <main className="ground-ice flex-1 pb-16">
         <div className="container-page">{children}</div>
       </main>

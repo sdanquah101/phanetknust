@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Badge, Blobs, ButtonLink, Label, Script, StageDisc, Ticker, VerseBadge } from "@phanet/ui";
+import { Badge, ButtonLink, HeroCurve, Label } from "@phanet/ui";
 import { fmtDateTime } from "@phanet/supabase/format";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -8,163 +8,163 @@ import { ACADEMY_URL, PRAYERWALL_URL } from "@/lib/links";
 
 export const revalidate = 60;
 
+const PILLARS = [
+  { n: "01", title: "We intercede", body: "We stand before God for our campus, our nation and people who do not yet know Christ.", ref: "1 Timothy 2:1" },
+  { n: "02", title: "We avail ourselves", body: "When God wants someone to solve what we pray about, we want to be ready and willing.", ref: "Isaiah 6:8" },
+  { n: "03", title: "We grow together", body: "We study the Word, fellowship like family and look out for one another.", ref: "Acts 2:42" },
+];
+
 export default async function Home() {
   const [settings, programs, events, prayer] = await Promise.all([getSettings(), getPrograms(), getUpcomingEvents(3), getPrayerTeaser()]);
-  const { theme, verse_of_day: verse, live, socials, about } = settings;
-  // "Let No Man Despise Thy Youth" → Poppins "Let No Man", bubbly script "Despise Thy" + "Youth"
-  const words = theme.title.split(" ");
-  const last = words.at(-1) ?? "";
-  const middle = words.slice(Math.max(0, words.length - 3), -1).join(" ");
-  const headlineLead = words.slice(0, Math.max(0, words.length - 3)).join(" ");
+  const { theme, verse_of_day: verse, live, socials } = settings;
 
   return (
     <>
-      <section className="ground-blue">
-        <Blobs />
+      {/* HERO — the flyer's world: a blurred copy of the artwork is the backdrop, the crisp artwork dissolves into it */}
+      <section className="relative isolate overflow-hidden text-white bg-[#1a6cf0]">
+        <div className="absolute inset-0 -z-10" aria-hidden>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/flyer.webp" alt="" className="absolute inset-0 w-full h-full object-cover scale-125 blur-[60px] saturate-[1.15] opacity-90" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,58,200,.78)_0%,rgba(8,58,200,.45)_45%,rgba(8,58,200,0)_75%)]" />
+        </div>
         <SiteHeader />
-        <div className="container-page relative z-10 grid gap-10 lg:grid-cols-[1.05fr_.95fr] items-center pt-10 pb-8 lg:pt-14 lg:pb-0">
-          <div className="fade-up">
-            <span className="pill pill-glass mb-7"><Badge tone="orange">New</Badge> {theme.year} theme of the year</span>
-            <h1 className="leading-none">
-              <span className="h3d block text-[46px] md:text-[68px] lg:text-[78px] tracking-[-0.03em] leading-[1]">{headlineLead}</span>
-              <span className="script-puffy block text-white text-[52px] md:text-[80px] lg:text-[92px] leading-[1.15] mt-1 pl-1">{middle}</span>
-              <span className="script-puffy block text-white text-[66px] md:text-[100px] lg:text-[118px] leading-[1.1] -mt-2 pl-1">{last}</span>
+        <div className="container-page grid gap-6 lg:gap-10 lg:grid-cols-[1fr_1fr] items-end pt-10 lg:pt-6">
+          <div className="lg:self-center lg:pb-24 fade-up">
+            <span className="pill pill-glass mb-6">Theme {theme.year} · {theme.reference}</span>
+            <h1 className="t-display h3d">
+              We intercede for our <span className="script-puffy text-peach text-[1.12em] whitespace-nowrap">generation</span>.
             </h1>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <VerseBadge>{theme.reference}</VerseBadge>
-              <p className="text-white/95 max-w-sm text-sm md:text-base font-medium">{theme.tagline}</p>
-            </div>
+            <p className="t-lead mt-6 max-w-[34ch]">And we avail ourselves to be the solutions to the things we pray about.</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <ButtonLink href="/programs" size="lg">Join a prayer cell</ButtonLink>
+              <ButtonLink href="/programs" size="lg">Join us on Wednesday</ButtonLink>
               <a href={live.url} target="_blank" rel="noreferrer" className="btn btn-white btn-lg">Watch {live.title} ▶</a>
             </div>
           </div>
-          <div className="relative max-w-[460px] w-full mx-auto lg:ml-auto lg:-mb-20 floaty">
-            <div className="rounded-[44px] overflow-hidden shadow-[0_40px_90px_rgba(0,44,154,.55)] ring-1 ring-white/30">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/flyer.webp" alt={`${theme.year} theme flyer: ${theme.title}`} className="block w-full h-auto" width={1200} height={1200} />
-            </div>
-            <a href={live.url} target="_blank" rel="noreferrer" className="card tilt-n2 absolute -left-4 md:-left-8 bottom-24 flex items-center gap-3 px-4 py-3 no-underline">
-              <span className="dot-orange" />
+          <div className="relative w-full max-w-[600px] mx-auto lg:mr-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/flyer.webp"
+              alt={`${theme.year} theme: ${theme.title}, ${theme.reference}`}
+              width={1200}
+              height={1200}
+              className="block w-full h-auto [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent),linear-gradient(to_bottom,transparent,#000_10%)] [mask-composite:intersect] [-webkit-mask-composite:source-in]"
+            />
+            <a href={live.url} target="_blank" rel="noreferrer" className="card tilt-n2 absolute left-0 sm:-left-4 bottom-[30%] hidden sm:flex items-center gap-3 px-4 py-3 no-underline">
+              <span className="relative flex w-3 h-3"><span className="absolute inline-flex h-full w-full rounded-full bg-[#e5484d] opacity-60 animate-ping" /><span className="relative inline-flex w-3 h-3 rounded-full bg-[#e5484d]" /></span>
               <span>
                 <span className="label-caps-orange block">{live.label}</span>
-                <span className="font-bold text-royal">{live.title}</span>
+                <span className="font-bold text-deep">{live.title}</span>
               </span>
             </a>
           </div>
         </div>
-        <StageDisc className="mt-6 lg:mt-0" />
+        <div className="-mt-10 relative"><HeroCurve /></div>
       </section>
 
-      {/* the stage */}
-      <section className="stage">
-        <Ticker items={[`${theme.title} · ${theme.reference}`, `${theme.title} · ${theme.reference}`]} className="relative pt-6" />
-        <div className="container-page relative pt-8 pb-16">
-          <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
-            <div>
-              <Label tone="white" className="mb-2">This week</Label>
-              <h2 className="text-[40px] md:text-[56px] text-white">Where we <Script className="text-[1.2em]" >gather</Script></h2>
-            </div>
-            <ButtonLink href="/programs" variant="white" size="sm">All programs →</ButtonLink>
+      {/* WHO WE ARE */}
+      <section className="ground-ice section !pt-10">
+        <div className="container-page">
+          <div className="max-w-2xl">
+            <Label tone="orange" className="mb-3">Who we are</Label>
+            <h2 className="t-h2 text-deep">A Christian youth movement on the KNUST campus.</h2>
+            <p className="t-lead text-muted mt-4">We pray about the problems of our generation, and we make ourselves available for God to use us in solving them.</p>
           </div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {programs.slice(0, 3).map((p) => (
-              <Link key={p.id} href={`/programs#${p.slug}`} className="card p-6 no-underline flex flex-col gap-3 hover:-translate-y-1 transition-transform">
-                <div className="flex items-center justify-between">
-                  <Badge tone="good">{p.schedule_label}</Badge>
-                  <span className="w-5 h-5 rounded-full bg-royal" />
-                </div>
-                <div className="text-2xl font-extrabold text-royal mt-2">{p.name}</div>
-                <p className="text-sm text-muted">{p.tagline ?? p.description}</p>
-                {p.location && <div className="text-xs font-semibold text-deep/70">{p.location}</div>}
-              </Link>
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {PILLARS.map((p) => (
+              <div key={p.n} className="card p-7 flex flex-col gap-3">
+                <div className="text-royal font-extrabold text-[15px] tracking-wider">{p.n}</div>
+                <h3 className="t-h3 text-deep">{p.title}</h3>
+                <p className="t-body text-muted">{p.body}</p>
+                <div className="t-ref mt-auto pt-2">{p.ref}</div>
+              </div>
             ))}
-            {programs.length === 0 && (
-              <div className="card p-6 md:col-span-3 text-center text-muted">Programs will appear here once the admin adds them.</div>
+          </div>
+          <figure className="mt-10 card p-7 md:p-9 border-l-[6px] border-royal grid gap-3 md:grid-cols-[1fr_auto] md:items-end">
+            <blockquote className="t-quote text-deep">“I exhort therefore, that, first of all, supplications, prayers, intercessions, and giving of thanks, be made for all men.”</blockquote>
+            <figcaption className="t-ref">1 Timothy 2:1 · KJV</figcaption>
+          </figure>
+          <div className="mt-8"><Link href="/about" className="btn btn-outline-blue">More about PHANET</Link></div>
+        </div>
+      </section>
+
+      {/* WHERE WE GATHER — only when there is something to show */}
+      {(programs.length > 0 || events.length > 0) && (
+        <section className="ground-ice section !pt-0">
+          <div className="container-page">
+            <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
+              <div>
+                <Label tone="orange" className="mb-3">Every week</Label>
+                <h2 className="t-h2 text-deep">Where we gather</h2>
+              </div>
+              <ButtonLink href="/programs" variant="outline-blue" size="sm">All programs</ButtonLink>
+            </div>
+            {programs.length > 0 && (
+              <div className="grid gap-5 md:grid-cols-3">
+                {programs.slice(0, 3).map((p) => (
+                  <Link key={p.id} href={`/programs#${p.slug}`} className="card p-7 no-underline flex flex-col gap-3 hover:-translate-y-1 transition-transform">
+                    {p.schedule_label && <Badge tone="good" className="self-start">{p.schedule_label}</Badge>}
+                    <h3 className="t-h3 text-deep mt-1">{p.name}</h3>
+                    <p className="t-body text-muted">{p.tagline ?? p.description}</p>
+                    {p.location && <div className="t-small text-deep mt-auto pt-2">{p.location}</div>}
+                  </Link>
+                ))}
+              </div>
+            )}
+            {events.length > 0 && (
+              <ul className="mt-6 grid gap-3 md:grid-cols-3">
+                {events.map((e) => (
+                  <li key={e.id} className="card-ice p-5 flex flex-col gap-1">
+                    <div className="label-caps text-muted">Coming up</div>
+                    <div className="font-bold text-deep">{e.title}</div>
+                    <div className="t-small text-muted">{fmtDateTime(e.starts_at)}{e.location ? ` · ${e.location}` : ""}</div>
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
-          {events.length > 0 && (
-            <div className="mt-8 glass p-5 flex flex-wrap gap-4 items-center">
-              <Label tone="white">Coming up</Label>
-              {events.map((e) => (
-                <span key={e.id} className="pill pill-white">{e.title} · {fmtDateTime(e.starts_at)}</span>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* who we are */}
-      <section className="ground-ice">
-        <div className="container-page py-16 flex flex-col gap-10">
-          <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr] items-start">
+      {/* PRAYER WALL — an inset blue panel rather than a full-bleed slab */}
+      <section className="ground-ice section !pt-0">
+        <div className="container-page">
+          <div className="card-blue rounded-[36px] p-8 md:p-12 grid gap-10 lg:grid-cols-[1.15fr_.85fr] items-center">
             <div>
-              <Label tone="orange" className="mb-3">Who we are</Label>
-              <h2 className="text-[34px] md:text-[44px] text-deep leading-[1.02]">We intercede. We avail <span className="script text-royal text-[1.15em]">ourselves</span>.</h2>
-              <p className="mt-5 text-muted text-base md:text-lg max-w-md">{about.intro}</p>
-              <Link href="/about" className="btn btn-outline-blue mt-6">More about PHANET</Link>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {[
-                ["Intercede", "We stand before God for our campus, our nation and people who do not yet know Christ.", "1 Timothy 2:1"],
-                ["Avail ourselves", "If God wants to use someone to solve what we pray about, we want to be available.", "Isaiah 6:8"],
-                ["Grow together", "We learn the Word and look out for one another like family.", "Acts 2:42"],
-              ].map(([t, b, r]) => (
-                <div key={t} className="card p-6 flex flex-col gap-3">
-                  <span className="dot-orange" />
-                  <div className="text-2xl font-extrabold text-royal leading-tight">{t}</div>
-                  <p className="text-sm text-muted">{b}</p>
-                  <div className="mt-auto pt-2 text-[11px] font-bold tracking-wide uppercase text-tangerine">{r}</div>
+              <Label tone="peach" className="mb-3">Prayer wall</Label>
+              <h2 className="t-h2">
+                {prayer.count > 0 ? `${prayer.count.toLocaleString()} people are praying` : "We are praying"} <span className="script-puffy text-peach text-[1.12em]">with you</span>
+              </h2>
+              <p className="t-lead mt-4 max-w-[40ch]">Share what you are carrying, without your name. Keep your code, and come back to tell us how God answered.</p>
+              {prayer.topics.length > 0 && (
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {prayer.topics.map((t) => <span key={t.id} className="pill pill-glass">{t.topic}</span>)}
                 </div>
-              ))}
+              )}
+              <a href={PRAYERWALL_URL} className="btn btn-white mt-8">Add a prayer request</a>
             </div>
-          </div>
-          <div className="card-blue p-7 md:p-9 grid gap-4 md:grid-cols-[auto_1fr] items-center">
-            <Label tone="peach">1 Timothy 2:1</Label>
-            <p className="script text-[22px] md:text-[26px] leading-snug">“I exhort therefore, that, first of all, supplications, prayers, intercessions, and giving of thanks, be made for all men.”</p>
+            <figure className="card p-8 tilt-2 max-w-md w-full lg:justify-self-end">
+              <Label tone="orange" className="mb-3">Verse of the day</Label>
+              <blockquote className="t-quote text-deep">{verse.text}</blockquote>
+              <figcaption className="t-ref mt-4 !text-muted">{verse.reference}</figcaption>
+            </figure>
           </div>
         </div>
       </section>
 
-      {/* prayer wall + verse */}
-      <section className="ground-blue">
-        <div className="container-page relative py-20 grid gap-10 lg:grid-cols-[1.2fr_.8fr] items-center">
-          <div>
-            <Label tone="peach" className="mb-3">Prayer wall</Label>
-            <h2 className="text-[40px] md:text-[56px] leading-[1]">
-              <span className="h3d">{prayer.count > 0 ? `${prayer.count.toLocaleString()} people are` : "We are"} praying</span>{" "}
-              <span className="script-puffy text-peach text-[1.15em]">with you</span>
-            </h2>
-            <div className="mt-8 flex flex-wrap gap-2">
-              {prayer.topics.map((t) => (
-                <span key={t.id} className="pill pill-glass">{t.topic}</span>
-              ))}
-              <a href={PRAYERWALL_URL} className="pill pill-orange no-underline">+ Add a request</a>
-            </div>
-            <p className="mt-6 text-sm text-white/80 max-w-md">Share a burden anonymously, keep your code, and come back with the testimony.</p>
-          </div>
-          <div className="card card-lg tilt-3 p-8 lg:justify-self-end max-w-sm w-full">
-            <Label tone="orange" className="mb-3">Verse of the day</Label>
-            <p className="script text-royal text-[26px] leading-snug">{verse.text}</p>
-            <div className="mt-4 text-xs font-semibold text-muted">{verse.reference}</div>
-          </div>
-        </div>
-      </section>
-
-      {/* academy + give */}
-      <section className="ground-ice">
-        <div className="container-page py-20 grid gap-6 md:grid-cols-2">
-          <a href={ACADEMY_URL} className="card-blue p-8 no-underline flex flex-col gap-4 min-h-[260px]">
-            <Label tone="peach">PHANET Academy</Label>
-            <h3 className="text-[32px] text-white">Learn, take the quiz, <Script peach>earn</Script> your certificate.</h3>
-            <p className="text-sm text-white/85 max-w-sm">Video and audio courses, books and messages, free for everyone.</p>
-            <span className="btn btn-white btn-sm mt-auto self-start">Open the Academy →</span>
+      {/* ACADEMY + GIVE — Give is the one orange block on this screen */}
+      <section className="ground-ice section !pt-0">
+        <div className="container-page grid gap-6 md:grid-cols-2">
+          <a href={ACADEMY_URL} className="card p-8 md:p-10 no-underline flex flex-col gap-4 min-h-[280px] hover:-translate-y-1 transition-transform">
+            <Label tone="orange">PHANET Academy</Label>
+            <h3 className="t-h2 text-deep">Learn, take the quiz, get your certificate.</h3>
+            <p className="t-body text-muted max-w-sm">Free video and audio courses, plus books and messages to download.</p>
+            <span className="btn btn-blue btn-sm mt-auto self-start">Open the Academy</span>
           </a>
-          <Link href="/give" className="card-orange p-8 no-underline flex flex-col gap-4 min-h-[260px]">
+          <Link href="/give" className="card-orange p-8 md:p-10 no-underline flex flex-col gap-4 min-h-[280px] hover:-translate-y-1 transition-transform">
             <Label tone="white">Give</Label>
-            <h3 className="text-[32px] text-white">Sow where you're <Script>planted</Script>.</h3>
-            <p className="text-sm text-white/90 max-w-sm">Offering, tithe, the Sending fund and welfare. MTN MoMo, Telecel Cash or card. Receipt is instant.</p>
-            <span className="btn btn-white btn-sm mt-auto self-start">Give now →</span>
+            <h3 className="t-h2">Sow where you're <span className="script text-[1.12em]">planted</span>.</h3>
+            <p className="t-body max-w-sm">Offering, tithe, the Sending fund and welfare. MTN MoMo, Telecel Cash or card, with an instant receipt.</p>
+            <span className="btn btn-white btn-sm mt-auto self-start">Give now</span>
           </Link>
         </div>
       </section>

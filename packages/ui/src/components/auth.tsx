@@ -32,7 +32,7 @@ export function LoginScreen({
           <h1 className="h3d text-[44px] md:text-[64px] leading-[0.98]">
             {title} {scriptWord && <Script peach className="text-[1.2em]">{scriptWord}</Script>}
           </h1>
-          {subtitle && <p className="mt-6 text-white/85 text-base md:text-lg max-w-md">{subtitle}</p>}
+          {subtitle && <p className="mt-6 text-white text-base md:text-lg max-w-md">{subtitle}</p>}
         </div>
         <div className="card card-lg p-7 md:p-9 w-full max-w-md lg:justify-self-end fade-up">
           <div className="flex gap-2 mb-6 flex-wrap">
@@ -105,7 +105,7 @@ export function SetPasswordScreen({ brand, action, next = "/", email }: { brand:
       <div className="container-page flex-1 grid lg:grid-cols-2 gap-10 items-center py-10">
         <div className="max-w-xl">
           <h1 className="h3d text-[44px] md:text-[64px] leading-[0.98]">Choose a <Script peach className="text-[1.2em]">password</Script></h1>
-          <p className="mt-6 text-white/85 text-base md:text-lg max-w-md">{email ? `You're signed in as ${email}. ` : ""}Pick a password you'll use for every PHANET portal.</p>
+          <p className="mt-6 text-white text-base md:text-lg max-w-md">{email ? `You're signed in as ${email}. ` : ""}Pick a password you'll use for every PHANET portal.</p>
         </div>
         <form action={formAction} className="card card-lg p-7 md:p-9 w-full max-w-md lg:justify-self-end flex flex-col gap-4 fade-up">
           <input type="hidden" name="next" value={next} />

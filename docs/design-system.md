@@ -5,6 +5,14 @@ The flyer's world turned into a product: a royal‑blue fluid atmosphere, a glos
 Everything below is implemented in `packages/ui/src/theme.css` (tokens + CSS classes) and `packages/ui/src/components/*` (React).
 
 ## Rules
+- **Hero = the flyer's world.** On the home page a blurred copy of the flyer is the backdrop and the crisp artwork dissolves into it (CSS mask). The theme words appear once, in the artwork; the HTML headline says something else.
+- **Contrast first.** Body text on blue is pure white. Small labels on blue are white, never peach/orange. Small orange text on white uses `ember-ink` (#C2410C). Orange buttons use the deep gradient `#E0530A → #BF3C00` so white text passes AA.
+- **Type scale (7 sizes):** `.t-display`, `.t-h1`, `.t-h2`, `.t-h3`, `.t-lead`, `.t-body`, `.t-small` (+ `.label-caps` 12px, `.t-ref` for scripture references, `.t-quote` for verses). No arbitrary `text-[NNpx]` headings.
+- **Script is an accent.** At most one Pacifico word per section, flat with soft depth (`.script-puffy` / `.script`). Never for verses or paragraphs: those use `.t-quote` (Poppins italic).
+- **One orange block per screen.** Hero edges use `<HeroCurve />` (ice curve with a thin tangerine rim), not a full orange band.
+- **Logo** is the PHANET crest (`<Crest />`, lifted from the flyer; swap `CREST_SRC` for a high-res file). The orange dot is no longer a logo or a bullet.
+- **No empty showcases.** Hide sections and stats that have no data instead of showing zeros or "coming soon" bars.
+- **Rhythm:** only the hero and footer are full-bleed blue. Other blue panels are inset rounded cards on the ice page.
 - **Public site** = blue ground (`.ground-blue`), orange accent. **Portals** = ice ground (`.ground-ice`), white cards, blue + orange as paint.
 - Never more than **one orange gradient block per viewport**.
 - Pacifico (`.script` / `<Script>`) for **one word or phrase per headline**, always white or peach, ~1.1–1.5× the Poppins size. Never a whole sentence.

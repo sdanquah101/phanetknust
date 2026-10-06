@@ -19,14 +19,14 @@ export default async function GivePage() {
         <div className="container-page relative grid gap-10 lg:grid-cols-[1fr_.95fr] items-start pt-12 pb-24">
           <div className="lg:sticky lg:top-8">
             <Label tone="peach" className="mb-3">Give</Label>
-            <h1 className="h3d text-[52px] md:text-[76px] leading-[0.95]">Sow where<br />you're <Script peach className="text-[1.2em]">planted</Script></h1>
-            <p className="mt-6 text-white/90 max-w-md">Every gift keeps the altar lit: dawn prayers, Midweek Altar, outreach and welfare for members in need. MTN MoMo, Telecel Cash or card.</p>
+            <h1 className="h3d t-h1 leading-[0.95]">Sow where<br />you're <Script peach className="text-[1.2em]">planted</Script></h1>
+            <p className="mt-8 text-white max-w-md">Every gift keeps the altar lit: dawn prayers, Midweek Altar, outreach and welfare for members in need. MTN MoMo, Telecel Cash or card.</p>
             <div className="mt-8 flex flex-wrap gap-2">
               {list.map((f) => <span key={f.id} className="pill pill-glass">{f.name}</span>)}
             </div>
             <div className="mt-10 glass p-5 max-w-md">
               <div className="label-caps-peach mb-2">Prefer to give in person?</div>
-              <p className="text-sm text-white/85">Offering baskets go round at Midweek Altar. Cash is counted by two people and recorded the same night.</p>
+              <p className="text-sm text-white">Offering baskets go round at Midweek Altar. Cash is counted by two people and recorded the same night.</p>
             </div>
           </div>
           <GiveForm funds={list} />

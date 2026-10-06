@@ -21,7 +21,7 @@ export function AudioPlayer({ src, title }: { src: string; title?: string }) {
   return (
     <div className="card-blue p-6 flex flex-col gap-4">
       <div className="flex items-center gap-3">
-        <span className="dot-orange" aria-hidden />
+        
         <div className="font-bold">{title ?? "Audio"}</div>
       </div>
       <audio controls preload="none" src={src} className="w-full">

@@ -9,7 +9,6 @@ export function SiteHeader() {
         { href: "/about", label: "About" },
         { href: "/programs", label: "Programs" },
         { href: "/shop", label: "Shop" },
-        { href: "/give", label: "Give" },
         { href: ACADEMY_URL, label: "Academy", external: true },
       ]}
       cta={<ButtonLink href="/give" size="sm">Give</ButtonLink>}

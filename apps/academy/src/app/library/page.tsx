@@ -1,4 +1,4 @@
-import { ButtonLink, Card, EmptyState, Label, Script } from "@phanet/ui";
+import { ButtonLink, Card, Crest, EmptyState, Label, Script } from "@phanet/ui";
 import { youtubeId, type Resource } from "@phanet/supabase/types";
 import { SiteShell } from "@/components/site-shell";
 import { YouTubeEmbed } from "@/components/lesson-media";
@@ -14,7 +14,7 @@ function Cover({ r }: { r: Resource }) {
         // eslint-disable-next-line @next/next/no-img-element
         <img src={r.cover_url} alt="" className="h-full w-full object-cover" loading="lazy" />
       ) : (
-        <div className="h-full w-full grid place-items-center bg-row"><span className="dot-orange" style={{ width: 44, height: 44 }} /></div>
+        <div className="h-full w-full grid place-items-center bg-row"><Crest size={39} className="opacity-90" /></div>
       )}
     </div>
   );
@@ -46,7 +46,7 @@ function MessageCard({ r }: { r: Resource }) {
         <YouTubeEmbed url={r.youtube_url} title={r.title} />
       ) : r.file_url ? (
         <div className="card-ice p-4 flex flex-col gap-3">
-          <div className="flex items-center gap-3"><span className="dot-orange" aria-hidden /><span className="text-sm font-bold">Listen</span></div>
+          <div className="flex items-center gap-3"><span className="text-sm font-bold">Listen</span></div>
           <audio controls preload="none" src={r.file_url} className="w-full">
             <a href={r.file_url}>Download audio</a>
           </audio>
@@ -68,7 +68,7 @@ function Section({ id, label, title, script, items, render, empty }: { id: strin
   return (
     <section id={id} className="pt-12">
       <Label tone="orange">{label}</Label>
-      <h2 className="mt-2 text-[28px] md:text-[34px]">{title} <span className="script text-royal text-[1.15em]">{script}</span></h2>
+      <h2 className="mt-2 t-h2">{title} <span className="script text-royal text-[1.15em]">{script}</span></h2>
       {items.length ? (
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{items.map(render)}</div>
       ) : (
@@ -90,8 +90,8 @@ export default async function LibraryPage() {
       hero={
         <div className="max-w-2xl">
           <Label tone="peach">Library</Label>
-          <h1 className="h3d mt-3 text-[40px] leading-[0.98] md:text-[60px]">Take the Word <Script peach className="text-[1.15em]">with you</Script></h1>
-          <p className="mt-5 max-w-lg text-white/85">Books to download, messages to listen to, and study documents from PHANET KNUST. All free.</p>
+          <h1 className="h3d mt-3 t-h2 leading-[0.98] ">Take the Word <Script peach className="text-[1.15em]">with you</Script></h1>
+          <p className="mt-5 max-w-lg text-white">Books to download, messages to listen to, and study documents from PHANET KNUST. All free.</p>
           <div className="mt-6 flex flex-wrap gap-2">
             <a href="#books" className="pill pill-glass no-underline">{books.length} books</a>
             <a href="#messages" className="pill pill-glass no-underline">{messages.length} messages</a>

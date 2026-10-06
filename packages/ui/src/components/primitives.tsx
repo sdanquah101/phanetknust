@@ -2,12 +2,13 @@ import * as React from "react";
 import Link from "next/link";
 import { cn } from "../cn";
 import { Fluid } from "./atmosphere";
+import { Crest } from "./crest";
 
 /* ---------- Logo / wordmark ---------- */
 export function Logo({ text = "PHANET KNUST", className, href, light = true }: { text?: string; className?: string; href?: string; light?: boolean }) {
   const inner = (
     <span className={cn("inline-flex items-center gap-3", className)}>
-      <span className="dot-orange" aria-hidden />
+      <Crest size={34} />
       <span className={cn("wordmark", light ? "text-white" : "text-deep")}>{text}</span>
     </span>
   );
@@ -41,7 +42,7 @@ export function Badge({ tone = "good", className, children }: { tone?: BadgeTone
   return <span className={cn("badge", `badge-${tone}`, className)}>{children}</span>;
 }
 export function Label({ children, tone = "muted", className }: { children: React.ReactNode; tone?: "muted" | "orange" | "peach" | "white"; className?: string }) {
-  const t = tone === "orange" ? "label-caps-orange" : tone === "peach" ? "label-caps-peach" : tone === "white" ? "label-caps text-white/80" : "label-caps text-muted";
+  const t = tone === "orange" ? "label-caps-orange" : tone === "peach" ? "label-caps-peach" : tone === "white" ? "label-caps text-white" : "label-caps text-muted";
   return <div className={cn(t, className)}>{children}</div>;
 }
 export function VerseBadge({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -59,7 +60,7 @@ export function StatCard({ label, value, sub, tone = "white", className }: { lab
     <Card tone={tone} className={cn("flex flex-col gap-3", className)}>
       <Label tone={tone === "white" ? "orange" : "peach"}>{label}</Label>
       <div className="num-lg md:text-[34px]">{value}</div>
-      {sub && <div className={cn("text-xs font-medium", tone === "white" ? "text-muted" : "text-white/85")}>{sub}</div>}
+      {sub && <div className={cn("text-xs font-medium", tone === "white" ? "text-muted" : "text-white")}>{sub}</div>}
     </Card>
   );
 }
@@ -137,7 +138,6 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTML
 export function EmptyState({ title, body, action, className }: { title: string; body?: string; action?: React.ReactNode; className?: string }) {
   return (
     <div className={cn("card-ice p-10 text-center flex flex-col items-center gap-3", className)}>
-      <span className="dot-orange" style={{ width: 40, height: 40 }} />
       <div className="font-bold text-lg">{title}</div>
       {body && <p className="text-sm text-muted max-w-sm">{body}</p>}
       {action}

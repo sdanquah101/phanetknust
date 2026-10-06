@@ -40,10 +40,10 @@ insert into public.members (first_name,last_name,phone,hall,programme,year_of_st
 select member_code ~ '^PHA-\d{4}-\d{4}$' as code_ok from public.members where id = :'sheep1';
 select member_id = :'leader_member' as profile_linked from public.profiles where id = :'leader_id';
 select full_name, phone from public.search_members('owu');
-insert into public.events (title, starts_at) values ('Midweek Altar', now()) returning id as ev \gset
+insert into public.events (title, starts_at) values ('Gathering of the Adelphos', now()) returning id as ev \gset
 
 \echo '--- finance ladder'
-insert into public.transactions (kind,category,amount,channel,status,payee_name,description) values ('expense','Sound hire',1500,'cash','pending','DJ Kay','Midweek Altar') returning id as e1, approver_role \gset
+insert into public.transactions (kind,category,amount,channel,status,payee_name,description) values ('expense','Sound hire',1500,'cash','pending','DJ Kay','Gathering of the Adelphos') returning id as e1, approver_role \gset
 insert into public.transactions (kind,category,amount,channel,status,payee_name) values ('expense','Retreat venue',3000,'bank','pending','Hotel') returning id as e2, approver_role \gset
 insert into public.transactions (kind,category,amount,channel,status,payee_name) values ('expense','Missions bus',6000,'bank','pending','STC') returning id as e3, approver_role \gset
 select approver_role, amount from public.transactions where kind='expense' order by amount;

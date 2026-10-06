@@ -126,7 +126,7 @@ export default async function AboutPage() {
               <p className="text-xl md:text-2xl font-bold leading-snug max-w-3xl">{about.emissary}</p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <ButtonLink href="/programs" variant="white">Come on Wednesday</ButtonLink>
+              <ButtonLink href="/programs" variant="white">Join us on Saturday</ButtonLink>
               <a href={ACADEMY_URL} className="btn btn-ghost">Start a course</a>
             </div>
           </div>

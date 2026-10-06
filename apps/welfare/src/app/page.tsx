@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 const STEPS = [
   { title: "Pick", body: "Choose what you need this week. Small limits per item so there's enough for everyone." },
   { title: "We pack", body: "The welfare team checks stock and packs your items. You'll get a code to track it." },
-  { title: "You collect", body: "Collect from the welfare desk after Midweek Altar. Just show your code." },
+  { title: "You collect", body: "Collect from the welfare desk after the Saturday gathering. Just show your code." },
 ];
 
 export default async function HomePage() {
@@ -52,7 +52,7 @@ export default async function HomePage() {
           <h2 className="t-h2 text-deep mt-1">Shop</h2>
         </div>
         {items.length === 0 ? (
-          <EmptyState title="The shelf is empty right now" body="The welfare team is restocking. Check back after Midweek Altar, or speak to any executive if it's urgent." />
+          <EmptyState title="The shelf is empty right now" body="The welfare team is restocking. Check back after the Saturday gathering, or speak to any executive if it's urgent." />
         ) : (
           <Shop items={items} />
         )}
@@ -72,7 +72,7 @@ export default async function HomePage() {
               </Card>
             ))}
           </div>
-          <p className="mt-8 text-sm text-muted">Pickup point: <span className="font-bold text-deep">the welfare desk after Midweek Altar</span>. Bring your code or your phone.</p>
+          <p className="mt-8 text-sm text-muted">Pickup point: <span className="font-bold text-deep">the welfare desk after the Saturday gathering</span>. Bring your code or your phone.</p>
         </div>
       </section>
       <WelfareFooter />

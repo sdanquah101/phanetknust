@@ -43,7 +43,7 @@ export async function recordPaystackPayment(c: PaystackCharge): Promise<{ record
       description: `Shop order ${order?.order_no ?? meta.order_no ?? ""}`.trim(), occurred_at: c.paid_at ?? new Date().toISOString(), metadata: { paystack: true, order_id: orderId },
     });
     if (email) {
-      void sendEmail({ to: email, subject: `Your PHANET order ${order?.order_no ?? ""} is confirmed`, html: `<p>Akwaaba! We received ${money(amount)} for order <b>${order?.order_no ?? ""}</b>.</p><p>Collect at Midweek Altar, Great Hall foyer. Show this email.</p><p>— PHANET KNUST</p>` });
+      void sendEmail({ to: email, subject: `Your PHANET order ${order?.order_no ?? ""} is confirmed`, html: `<p>Akwaaba! We received ${money(amount)} for order <b>${order?.order_no ?? ""}</b>.</p><p>Collect at the Gathering of the Adelphos on Saturday. Show this email.</p><p>— PHANET KNUST</p>` });
     }
     return { recorded: true, kind };
   }

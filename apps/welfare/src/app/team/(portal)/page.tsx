@@ -31,7 +31,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
       <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
         <StatCard label="Pending requests" value={pendingCount} tone="orange" sub="waiting on you" />
-        <StatCard label="Ready for pickup" value={readyCount} tone="blue" sub="after Midweek Altar" />
+        <StatCard label="Ready for pickup" value={readyCount} tone="blue" sub="after Saturday’s gathering" />
         <StatCard label="Items low" value={low.length} sub="3 or fewer left" />
         <StatCard label="Issued this month" value={issuedThisMonth} sub="units given out" />
       </div>

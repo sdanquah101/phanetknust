@@ -39,7 +39,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <div className="num-xl text-royal">{money(product.price)}</div>
               {product.description && <p className="text-muted">{product.description}</p>}
               <AddToBag product={product} />
-              <p className="text-xs text-muted">Pay with MTN MoMo, Telecel Cash or card. Collect at Midweek Altar, Great Hall foyer.</p>
+              <p className="text-xs text-muted">Pay with MTN MoMo, Telecel Cash or card. Collect at the Gathering of the Adelphos on Saturday.</p>
             </div>
           </div>
         </div>

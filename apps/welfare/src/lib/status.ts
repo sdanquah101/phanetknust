@@ -12,7 +12,7 @@ export const STATUS_LABEL: Record<RequestStatus, string> = {
 export const STATUS_HELP: Record<RequestStatus, string> = {
   pending: "The welfare team has your request and will look at it soon.",
   approved: "Approved! We're packing your items.",
-  ready: "Your pack is ready. Collect it from the welfare desk after Midweek Altar.",
+  ready: "Your pack is ready. Collect it from the welfare desk after the Saturday gathering.",
   collected: "Collected. We're glad we could help.",
   declined: "We couldn't fulfil this one. Read the note below or speak to the welfare team.",
 };

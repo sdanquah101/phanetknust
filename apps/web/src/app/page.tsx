@@ -4,7 +4,8 @@ import { fmtDateTime } from "@phanet/supabase/format";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { PhotoMosaic } from "@/components/PhotoMosaic";
-import { getPrayerTeaser, getPrograms, getSettings, getUpcomingEvents } from "@/lib/queries";
+import { getPrayerTeaser, getProgramViews, getSettings, getUpcomingEvents } from "@/lib/queries";
+import { ProgramArt } from "@/components/ProgramArt";
 import { ACADEMY_URL, PRAYERWALL_URL } from "@/lib/links";
 
 export const revalidate = 60;
@@ -16,7 +17,7 @@ const PILLARS = [
 ];
 
 export default async function Home() {
-  const [settings, programs, events, prayer] = await Promise.all([getSettings(), getPrograms(), getUpcomingEvents(3), getPrayerTeaser()]);
+  const [settings, programs, events, prayer] = await Promise.all([getSettings(), getProgramViews(), getUpcomingEvents(3), getPrayerTeaser()]);
   const { theme, verse_of_day: verse, live, socials } = settings;
 
   return (
@@ -37,8 +38,8 @@ export default async function Home() {
             </h1>
             <p className="t-lead mt-6 max-w-[34ch]">And we avail ourselves to be the solutions to the things we pray about.</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <ButtonLink href="/programs" size="lg">Join us on Wednesday</ButtonLink>
-              <a href={live.url} target="_blank" rel="noreferrer" className="btn btn-white btn-lg">Watch {live.title} ▶</a>
+              <ButtonLink href="/programs" size="lg">Join us on Saturday</ButtonLink>
+              <a href={live.url} target="_blank" rel="noreferrer" className="btn btn-white btn-lg">Watch live ▶</a>
             </div>
           </div>
           <div className="relative w-full max-w-[600px] mx-auto lg:mr-0">
@@ -101,18 +102,18 @@ export default async function Home() {
               </div>
               <ButtonLink href="/programs" variant="outline-blue" size="sm">All programs</ButtonLink>
             </div>
-            {programs.length > 0 && (
-              <div className="grid gap-5 md:grid-cols-3">
-                {programs.slice(0, 3).map((p) => (
-                  <Link key={p.id} href={`/programs#${p.slug}`} className="card p-7 no-underline flex flex-col gap-3 hover:-translate-y-1 transition-transform">
-                    {p.schedule_label && <Badge tone="good" className="self-start">{p.schedule_label}</Badge>}
-                    <h3 className="t-h3 text-deep mt-1">{p.name}</h3>
-                    <p className="t-body text-muted">{p.tagline ?? p.description}</p>
-                    {p.location && <div className="t-small text-deep mt-auto pt-2">{p.location}</div>}
-                  </Link>
-                ))}
-              </div>
-            )}
+            <div className="grid gap-5 md:grid-cols-3">
+              {programs.slice(0, 3).map((p) => (
+                <Link key={p.slug} href={`/programs#${p.slug}`} className="card p-4 no-underline flex flex-col gap-3 hover:-translate-y-1 transition-transform">
+                  <ProgramArt name={p.name} illustration={p.illustration} icon={p.icon} sizes="(min-width: 768px) 30vw, 100vw" />
+                  <div className="px-2 pb-2 flex flex-col gap-2">
+                    <Badge tone={p.main ? "orange" : "good"} className="self-start">{p.schedule_label}</Badge>
+                    <h3 className="t-h3 text-deep">{p.name}</h3>
+                    <p className="t-small text-muted">{p.tagline}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
             {events.length > 0 && (
               <ul className="mt-6 grid gap-3 md:grid-cols-3">
                 {events.map((e) => (

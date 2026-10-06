@@ -61,7 +61,7 @@ export function BagClient() {
         <Field label="Phone" hint="The MoMo number you'll pay with, ideally."><Input name="phone" type="tel" autoComplete="tel" required placeholder="024 000 0000" /></Field>
         <Field label="Note (optional)"><Textarea name="note" placeholder="Hall and room, or anything we should know" className="!min-h-[80px]" /></Field>
         <Button type="submit" size="lg" disabled={pending} className="mt-2">{pending ? "Starting payment…" : `Pay ${money(subtotal)} →`}</Button>
-        <p className="text-xs text-muted">You'll be taken to Paystack to approve the MoMo prompt or enter your card. Collect at Midweek Altar.</p>
+        <p className="text-xs text-muted">You'll be taken to Paystack to approve the MoMo prompt or enter your card. Collect at the Gathering of the Adelphos on Saturday.</p>
       </form>
     </div>
   );

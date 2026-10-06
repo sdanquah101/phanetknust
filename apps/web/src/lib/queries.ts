@@ -1,6 +1,7 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { createPublicClient } from "@phanet/supabase/public";
+import { PROGRAMS, programContent, type ProgramContent } from "@/content/programs";
 import type { Event, GivingFund, PrayerPublic, Product, Program } from "@phanet/supabase/types";
 
 export type Theme = { year: string; title: string; reference: string; tagline: string };
@@ -12,7 +13,7 @@ export type About = { intro: string; idea: string; idea_reference: string; scrip
 const DEFAULTS = {
   theme: { year: "2026/2027", title: "Let No Man Despise Thy Youth", reference: "1 Timothy 4:12", tagline: "We intercede for our generation, and we avail ourselves to be the solutions to what we pray about." } as Theme,
   verse_of_day: { text: "Be thou an example of the believers, in word, in conversation, in charity, in spirit, in faith, in purity.", reference: "1 Timothy 4:12 · KJV" } as Verse,
-  live: { label: "LIVE · WED 7PM", title: "Midweek Altar", url: "https://youtube.com/@phanetknust" } as Live,
+  live: { label: "SATURDAYS · 2:30PM", title: "Gathering of the Adelphos", url: "https://youtube.com/@phanetknust" } as Live,
   socials: {} as Socials,
   about: {
       "intro": "PHANET KNUST is a Christian youth movement on the KNUST campus. We intercede for our generation, and we avail ourselves to be the solutions to the things we pray about.",
@@ -104,3 +105,21 @@ export const getPrayerTeaser = unstable_cache(async (): Promise<{ count: number;
     return { count, topics: (topics ?? []) as PrayerPublic[] };
   } catch { return { count: 0, topics: [] }; }
 }, ["prayer-teaser"], { revalidate: REVALIDATE, tags: ["prayerwall"] });
+
+
+export type ProgramView = ProgramContent & { location: string | null };
+
+/** Programs from the database, falling back to the built-in list, with illustrations matched by slug. */
+export async function getProgramViews(): Promise<ProgramView[]> {
+  const rows = await getPrograms();
+  if (rows.length === 0) return PROGRAMS.map((p) => ({ ...p, location: null }));
+  return rows.map((r) => {
+    const c = programContent(r.slug);
+    return {
+      slug: r.slug, name: r.name, main: c?.main,
+      schedule_label: r.schedule_label ?? c?.schedule_label ?? "",
+      tagline: r.tagline ?? c?.tagline ?? "", description: r.description ?? c?.description ?? "",
+      illustration: r.cover_url ?? c?.illustration ?? null, icon: c?.icon ?? "people", location: r.location,
+    };
+  });
+}

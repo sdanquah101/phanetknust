@@ -18,7 +18,7 @@ export default async function NewBudgetPage({ searchParams }: { searchParams: Pr
       {!canWrite(roles) && <Notice tone="peach">Only the finance team can create budgets.</Notice>}
       <Card className="max-w-2xl">
         <form action={createBudgetAction} className="grid gap-4 md:grid-cols-2">
-          <Field label="Title" className="md:col-span-2"><Input name="title" placeholder="Midweek Altar · Semester 1" required /></Field>
+          <Field label="Title" className="md:col-span-2"><Input name="title" placeholder="Gathering of the Adelphos · Semester 1" required /></Field>
           <Field label="Academic year">
             <Select name="academic_year" defaultValue={period.year}>{yearOptions(period.year).map((y) => <option key={y} value={y}>{y}</option>)}</Select>
           </Field>

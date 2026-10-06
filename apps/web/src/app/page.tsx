@@ -10,7 +10,7 @@ export const revalidate = 60;
 
 export default async function Home() {
   const [settings, programs, events, prayer] = await Promise.all([getSettings(), getPrograms(), getUpcomingEvents(3), getPrayerTeaser()]);
-  const { theme, verse_of_day: verse, live, socials } = settings;
+  const { theme, verse_of_day: verse, live, socials, about } = settings;
   // "Let No Man Despise Thy Youth" → Poppins "Let No Man", bubbly script "Despise Thy" + "Youth"
   const words = theme.title.split(" ");
   const last = words.at(-1) ?? "";
@@ -91,6 +91,31 @@ export default async function Home() {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* who we are */}
+      <section className="ground-ice">
+        <div className="container-page py-16 grid gap-8 lg:grid-cols-[1fr_1.2fr] items-start">
+          <div>
+            <Label tone="orange" className="mb-3">Who we are</Label>
+            <h2 className="text-[36px] md:text-[48px] text-deep leading-[1]">We pray. Then we <span className="script text-royal text-[1.15em]">go</span>.</h2>
+            <p className="mt-5 text-muted text-base md:text-lg max-w-md">{about.intro}</p>
+            <Link href="/about" className="btn btn-outline-blue mt-6">More about PHANET</Link>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {[
+              ["Pray", "We stand in the gap for our campus, our nation and people who do not yet know Christ."],
+              ["Grow", "We learn the Word together and look out for one another like family."],
+              ["Go", "We make ourselves available, in church and in our careers, to be part of the answer."],
+            ].map(([t, b]) => (
+              <div key={t} className="card p-6 flex flex-col gap-3">
+                <span className="dot-orange" />
+                <div className="text-2xl font-extrabold text-royal">{t}</div>
+                <p className="text-sm text-muted">{b}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

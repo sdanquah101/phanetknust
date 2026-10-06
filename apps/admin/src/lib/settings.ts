@@ -47,11 +47,17 @@ export const SETTINGS: SettingDef[] = [
   {
     key: "about",
     title: "About PHANET",
-    blurb: "Mission, vision and values on the About page.",
+    blurb: "Everything on the About page, plus the short 'who we are' block on the home page.",
     fields: [
-      { name: "mission", label: "Mission", type: "textarea" },
+      { name: "intro", label: "Who we are (one short paragraph)", type: "textarea" },
+      { name: "idea", label: "The idea: pray, then be available", type: "textarea" },
+      { name: "story", label: "Our story", type: "textarea" },
+      { name: "mandate", label: "Kingdom mandate", type: "textarea" },
       { name: "vision", label: "Vision", type: "textarea" },
-      { name: "values", label: "Values", type: "lines", hint: "One value per line." },
+      { name: "mission", label: "Mission", type: "textarea" },
+      { name: "streams", label: "How we do it (four streams)", type: "lines", hint: "One per line, as 'Title: description'." },
+      { name: "values", label: "Core values", type: "lines", hint: "One per line, as 'Title: description'." },
+      { name: "emissary", label: "Who can be an emissary", type: "textarea" },
     ],
   },
   {

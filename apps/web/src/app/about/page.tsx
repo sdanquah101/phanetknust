@@ -1,62 +1,116 @@
 import type { Metadata } from "next";
-import { Blobs, ButtonLink, Label, Script, StageDisc, Ticker, VerseBadge } from "@phanet/ui";
+import { Blobs, ButtonLink, Label, Script, StageDisc, VerseBadge } from "@phanet/ui";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { getSettings } from "@/lib/queries";
-import { PRAYERWALL_URL } from "@/lib/links";
+import { splitLine } from "@/lib/copy";
+import { ACADEMY_URL, PRAYERWALL_URL } from "@/lib/links";
 
 export const metadata: Metadata = { title: "About" };
 export const revalidate = 60;
 
 export default async function AboutPage() {
   const { theme, about, socials } = await getSettings();
+  const streams = (about.streams ?? []).map(splitLine);
+  const values = (about.values ?? []).map(splitLine);
   return (
     <>
       <section className="ground-blue">
         <Blobs />
         <SiteHeader />
-        <div className="container-page relative pt-14 pb-6 max-w-4xl">
+        <div className="container-page relative pt-14 pb-6"><div className="max-w-4xl">
           <Label tone="peach" className="mb-3">About PHANET KNUST</Label>
-          <h1 className="h3d text-[48px] md:text-[72px]">Young, <Script peach className="text-[1.2em]">planted</Script>, and praying.</h1>
-          <p className="mt-6 text-white/90 text-base md:text-lg max-w-2xl">{about.mission}</p>
+          <h1 className="leading-none">
+            <span className="h3d block text-[46px] md:text-[72px]">We pray.</span>
+            <span className="h3d block text-[46px] md:text-[72px]">Then we <span className="script-puffy text-peach text-[1.15em]">go</span>.</span>
+          </h1>
+          <p className="mt-8 text-white/95 text-lg md:text-xl max-w-2xl font-medium">{about.intro}</p>
           <div className="mt-8"><VerseBadge>{theme.reference}</VerseBadge></div>
-        </div>
+        </div></div>
         <StageDisc className="mt-10" />
       </section>
-      <div className="stage"><Ticker items={[`${theme.title} · ${theme.reference}`, `${theme.title} · ${theme.reference}`]} /></div>
+      <div className="stage h-4" />
 
-      <section className="ground-ice -mt-px">
-        <div className="container-page py-16 grid gap-6 md:grid-cols-3">
-          <div className="card-blue p-7 md:col-span-2">
-            <Label tone="peach" className="mb-2">Our vision</Label>
-            <p className="text-2xl font-bold leading-snug">{about.vision}</p>
+      <section className="ground-ice">
+        <div className="container-page py-16 flex flex-col gap-14">
+          {/* The idea + our story */}
+          <div className="grid gap-6 lg:grid-cols-[1.1fr_.9fr]">
+            <div className="card-blue p-8 md:p-10 flex flex-col gap-4">
+              <Label tone="peach">The idea</Label>
+              <p className="text-2xl md:text-[28px] font-bold leading-snug">{about.idea}</p>
+            </div>
+            <div className="card p-8 md:p-10 flex flex-col gap-4">
+              <Label tone="orange">Our story</Label>
+              <p className="text-muted leading-relaxed">{about.story}</p>
+            </div>
           </div>
-          <div className="card p-7">
-            <Label tone="orange" className="mb-3">What we value</Label>
-            <ul className="flex flex-wrap gap-2">
-              {about.values.map((v) => <li key={v} className="pill pill-ice">{v}</li>)}
+
+          {/* Mandate, vision, mission */}
+          <div>
+            <h2 className="text-[32px] md:text-[40px] text-deep mb-6">What we are <span className="script text-royal text-[1.15em]">here</span> for</h2>
+            <div className="grid gap-5 md:grid-cols-3">
+              <div className="card-orange p-7 flex flex-col gap-3">
+                <Label tone="white">Our mandate</Label>
+                <p className="text-xl font-bold leading-snug">{about.mandate}</p>
+              </div>
+              <div className="card p-7 flex flex-col gap-3">
+                <Label tone="orange">Our vision</Label>
+                <p className="text-xl font-bold leading-snug text-royal">{about.vision}</p>
+                <p className="text-sm text-muted">Not one big congregation. Many people who know how to stand in the gap, wherever they are.</p>
+              </div>
+              <div className="card p-7 flex flex-col gap-3">
+                <Label tone="orange">Our mission</Label>
+                <p className="text-xl font-bold leading-snug text-royal">{about.mission}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Four streams */}
+          <div>
+            <h2 className="text-[32px] md:text-[40px] text-deep mb-2">How we do it</h2>
+            <p className="text-muted mb-6 max-w-2xl">Four things, always together. Take one away and it stops being PHANET.</p>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {streams.map((s, i) => (
+                <div key={s.title} className="card p-6 flex flex-col gap-3">
+                  <span className="dot-orange" />
+                  <div className="label-caps text-muted">0{i + 1}</div>
+                  <div className="text-lg font-extrabold text-royal">{s.title}</div>
+                  <p className="text-sm text-muted">{s.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Values */}
+          <div>
+            <h2 className="text-[32px] md:text-[40px] text-deep mb-6">What we hold to</h2>
+            <ul className="grid gap-4 md:grid-cols-2">
+              {values.map((v) => (
+                <li key={v.title} className="card p-6 flex gap-4 items-start">
+                  <span className="w-3 h-3 rounded-full bg-royal mt-2 flex-none" />
+                  <div>
+                    <div className="font-extrabold text-deep">{v.title}</div>
+                    <p className="text-sm text-muted mt-1">{v.body}</p>
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
-          <div className="card p-7 md:col-span-3 grid gap-6 md:grid-cols-3">
+
+          {/* Who can be an emissary */}
+          <div className="card-blue p-8 md:p-10 grid gap-6 lg:grid-cols-[1fr_auto] items-center">
             <div>
-              <Label tone="orange" className="mb-2">Theme {theme.year}</Label>
-              <div className="text-xl font-extrabold text-royal">{theme.title}</div>
-              <p className="text-sm text-muted mt-1">{theme.tagline}</p>
+              <Label tone="peach" className="mb-3">Who this is for</Label>
+              <p className="text-xl md:text-2xl font-bold leading-snug max-w-3xl">{about.emissary}</p>
             </div>
-            <div>
-              <Label tone="orange" className="mb-2">Where</Label>
-              <div className="text-xl font-extrabold text-royal">KNUST, Kumasi</div>
-              <p className="text-sm text-muted mt-1">Great Hall foyer on Wednesdays, Unity Hall at dawn, and wherever you are online.</p>
-            </div>
-            <div>
-              <Label tone="orange" className="mb-2">Who</Label>
-              <div className="text-xl font-extrabold text-royal">Students, for students</div>
-              <p className="text-sm text-muted mt-1">Led by student executives who shepherd small groups across every college and hall.</p>
+            <div className="flex flex-wrap gap-3">
+              <ButtonLink href="/programs" variant="white">Come on Wednesday</ButtonLink>
+              <a href={ACADEMY_URL} className="btn btn-ghost">Start a course</a>
             </div>
           </div>
-          <div className="md:col-span-3 flex flex-wrap gap-3 justify-center pt-4">
-            <ButtonLink href="/programs">See our programs</ButtonLink>
-            <a href={PRAYERWALL_URL} className="btn btn-outline-blue">Visit the prayer wall</a>
+
+          <div className="text-center text-sm text-muted">
+            Carrying something heavy? <a href={PRAYERWALL_URL} className="font-bold text-royal">Put it on the prayer wall</a>. We will pray with you.
           </div>
         </div>
       </section>

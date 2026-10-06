@@ -7,3 +7,4 @@ export * from "./components/auth";
 export * from "./components/atmosphere";
 export * from "./components/skeletons";
 export * from "./components/crest";
+export * from "./components/route-error";

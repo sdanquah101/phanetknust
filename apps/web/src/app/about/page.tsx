@@ -4,6 +4,8 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { getSettings } from "@/lib/queries";
 import { splitLine } from "@/lib/copy";
+import { Leadership } from "@/components/Leadership";
+import { LEADERS } from "@/content/leaders";
 import { ACADEMY_URL, PRAYERWALL_URL } from "@/lib/links";
 
 export const metadata: Metadata = { title: "About" };
@@ -29,7 +31,7 @@ export default async function AboutPage() {
           </div>
           <div className="card card-lg tilt-2 p-8 md:p-9 max-w-md w-full lg:justify-self-end">
             <Label tone="orange" className="mb-3">On intercession</Label>
-            <blockquote className="t-lead italic font-semibold text-deep">{about.scripture_text}</blockquote>
+            <blockquote className="t-lead font-medium text-deep">{about.scripture_text}</blockquote>
             <div className="mt-4 text-xs font-bold tracking-wide uppercase text-muted">{about.scripture_reference}</div>
           </div>
         </div>
@@ -104,6 +106,9 @@ export default async function AboutPage() {
               ))}
             </ul>
           </div>
+
+          {/* Leadership */}
+          <Leadership leaders={LEADERS} />
 
           {/* Who can be an emissary */}
           <div className="card-blue p-8 md:p-10 grid gap-6 lg:grid-cols-[1fr_auto] items-center">

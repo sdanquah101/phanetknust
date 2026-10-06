@@ -1,9 +1,9 @@
-import { Pacifico, Poppins } from "next/font/google";
+import { Outfit, Pacifico } from "next/font/google";
 
-export const poppins = Poppins({
+export const outfit = Outfit({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-poppins",
+  variable: "--font-outfit",
   display: "swap",
 });
 
@@ -15,4 +15,4 @@ export const pacifico = Pacifico({
 });
 
 /** Put on <html> so both font variables are available everywhere. */
-export const fontClassName = `${poppins.variable} ${pacifico.variable}`;
+export const fontClassName = `${outfit.variable} ${pacifico.variable}`;

@@ -347,3 +347,14 @@
   .crest { display: inline-block; flex: none; border-radius: 50%; background: white; box-shadow: 0 4px 14px rgba(0, 30, 120, 0.25); }
   .hero-curve { display: block; width: 100%; height: auto; margin-top: -1px; }
 }
+
+/* ---------- Photos: black and white, colour on hover / focus / tap ---------- */
+@layer components {
+  .photo-bw { overflow: hidden; }
+  .photo-bw img { filter: grayscale(1) contrast(1.06) brightness(1.02); transition: filter .5s ease, transform .7s ease; }
+  .photo-bw:hover img, .photo-bw:focus-within img, .photo-bw:active img, a.photo-bw:focus-visible img { filter: none; transform: scale(1.03); }
+  @media (prefers-reduced-motion: reduce) {
+    .photo-bw img { transition: filter .2s linear; }
+    .photo-bw:hover img, .photo-bw:focus-within img, .photo-bw:active img, a.photo-bw:focus-visible img { transform: none; }
+  }
+}

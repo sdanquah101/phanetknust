@@ -28,7 +28,7 @@ export default async function GalleryPage() {
           <ul className="columns-2 md:columns-3 lg:columns-4 gap-3 md:gap-4">
             {PHOTOS.map((p, i) => (
               <li key={p.src} className="mb-3 md:mb-4 break-inside-avoid">
-                <a href={p.src} target="_blank" rel="noreferrer" className="block rounded-[20px] overflow-hidden bg-row shadow-card hover:opacity-95 transition-opacity">
+                <a href={p.src} target="_blank" rel="noreferrer" className="photo-bw block rounded-[20px] bg-row shadow-card">
                   <Image src={p.src} alt={p.alt} width={p.width} height={p.height} sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw" className="w-full h-auto" priority={i < 4} />
                 </a>
               </li>

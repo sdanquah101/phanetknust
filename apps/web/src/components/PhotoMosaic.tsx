@@ -24,11 +24,11 @@ export function PhotoMosaic() {
           <Link href="/gallery" className="btn btn-outline-blue btn-sm">See the gallery</Link>
         </div>
         <div className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-4 md:grid-rows-2 md:h-[560px]">
-          <figure className="col-span-2 md:row-span-2 relative rounded-[28px] overflow-hidden aspect-[4/3] md:aspect-auto">
+          <figure className="photo-bw col-span-2 md:row-span-2 relative rounded-[28px] aspect-[4/3] md:aspect-auto">
             <Image src={big.src} alt={big.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" priority={false} />
           </figure>
           {small.map((p) => (
-            <figure key={p.src} className="relative rounded-[22px] overflow-hidden aspect-square md:aspect-auto">
+            <figure key={p.src} className="photo-bw relative rounded-[22px] aspect-square md:aspect-auto">
               <Image src={p.src} alt={p.alt} fill sizes="(min-width: 768px) 25vw, 50vw" className="object-cover" style={{ objectPosition: p.pos }} />
             </figure>
           ))}

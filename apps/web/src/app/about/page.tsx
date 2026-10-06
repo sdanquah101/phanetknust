@@ -52,7 +52,7 @@ export default async function AboutPage() {
               {about.idea_reference && <div className="text-xs font-bold tracking-wide uppercase text-white mt-2">{about.idea_reference}</div>}
             </div>
             <div className="card overflow-hidden flex flex-col">
-              <div className="relative aspect-[16/9]">
+              <div className="photo-bw relative aspect-[16/9]">
                 <Image src={storyPhoto.src} alt={storyPhoto.alt} fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
               </div>
               <div className="p-8 md:p-10 flex flex-col gap-4">

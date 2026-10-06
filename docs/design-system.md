@@ -13,6 +13,7 @@ Everything below is implemented in `packages/ui/src/theme.css` (tokens + CSS cla
 - **One orange block per screen.** Hero edges use `<HeroCurve />` (ice curve with a thin tangerine rim), not a full orange band.
 - **Logo** is the PHANET crest (`<Crest />`, lifted from the flyer; swap `CREST_SRC` for a high-res file). The orange dot is no longer a logo or a bullet.
 - **No empty showcases.** Hide sections and stats that have no data instead of showing zeros or "coming soon" bars.
+- **Event photos** are black and white (`.photo-bw` on the wrapper) and colour in on hover, keyboard focus or tap. Leader portraits stay in colour.
 - **Rhythm:** only the hero and footer are full-bleed blue. Other blue panels are inset rounded cards on the ice page.
 - **Public site** = blue ground (`.ground-blue`), orange accent. **Portals** = ice ground (`.ground-ice`), white cards, blue + orange as paint.
 - Never more than **one orange gradient block per viewport**.

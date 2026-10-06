@@ -94,3 +94,27 @@ export function NoAccess({ brand, home = "/", signOut }: { brand: string; home?:
     </div>
   );
 }
+
+/** Set or change password, used after an invite / recovery link lands. */
+export function SetPasswordScreen({ brand, action, next = "/", email }: { brand: string; action: Action; next?: string; email?: string | null }) {
+  const [state, formAction, pending] = useActionState(action, undefined);
+  return (
+    <div className="ground-blue min-h-dvh flex flex-col">
+      <Blobs />
+      <div className="container-page pt-6"><Logo text={brand} href="/" /></div>
+      <div className="container-page flex-1 grid lg:grid-cols-2 gap-10 items-center py-10">
+        <div className="max-w-xl">
+          <h1 className="h3d text-[44px] md:text-[64px] leading-[0.98]">Choose a <Script peach className="text-[1.2em]">password</Script></h1>
+          <p className="mt-6 text-white/85 text-base md:text-lg max-w-md">{email ? `You're signed in as ${email}. ` : ""}Pick a password you'll use for every PHANET portal.</p>
+        </div>
+        <form action={formAction} className="card card-lg p-7 md:p-9 w-full max-w-md lg:justify-self-end flex flex-col gap-4 fade-up">
+          <input type="hidden" name="next" value={next} />
+          {state?.error && <Notice tone="peach">{state.error}</Notice>}
+          <Field label="New password" hint="At least 8 characters."><Input name="password" type="password" autoComplete="new-password" minLength={8} required /></Field>
+          <Field label="Confirm password"><Input name="confirm" type="password" autoComplete="new-password" minLength={8} required /></Field>
+          <Button type="submit" size="lg" disabled={pending} className="mt-2">{pending ? "Saving…" : "Save password →"}</Button>
+        </form>
+      </div>
+    </div>
+  );
+}

@@ -75,6 +75,17 @@ language sql stable security definer set search_path = public as $$
   order by m.last_name, m.first_name;
 $$;
 
+-- Owner of a follow-up without going through RLS (avoids policy recursion between followups and followup_shares)
+create or replace function public.followup_leader(f uuid) returns uuid
+language sql stable security definer set search_path = public as $$
+  select leader_id from public.followups where id = f;
+$$;
+
+create or replace function public.is_shared_with_me(f uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.followup_shares s where s.followup_id = f and s.shared_with = public.my_member_id());
+$$;
+
 alter table public.followups enable row level security;
 alter table public.followup_shares enable row level security;
 alter table public.sheep_reports enable row level security;
@@ -82,8 +93,7 @@ alter table public.transfer_requests enable row level security;
 
 create policy "followups: own, shared, admin" on public.followups for select using (
   public.has_any_role('admin','database') or leader_id = public.my_member_id()
-  or exists (select 1 from public.followup_shares s where s.followup_id = id and s.shared_with = public.my_member_id())
-  or exists (select 1 from public.members m where m.id = sheep_id and m.leader_id = public.my_member_id())
+  or public.is_shared_with_me(id)
 );
 create policy "followups: leader insert for own sheep" on public.followups for insert with check (
   public.is_admin() or (public.has_role('leader') and leader_id = public.my_member_id()
@@ -93,13 +103,13 @@ create policy "followups: own update" on public.followups for update using (lead
 create policy "followups: own delete" on public.followups for delete using (leader_id = public.my_member_id() or public.is_admin());
 
 create policy "shares: visible to parties" on public.followup_shares for select using (
-  public.is_admin() or shared_with = public.my_member_id() or exists (select 1 from public.followups f where f.id = followup_id and f.leader_id = public.my_member_id())
+  public.is_admin() or shared_with = public.my_member_id() or public.followup_leader(followup_id) = public.my_member_id()
 );
 create policy "shares: owner shares" on public.followup_shares for insert with check (
-  public.is_admin() or exists (select 1 from public.followups f where f.id = followup_id and f.leader_id = public.my_member_id())
+  public.is_admin() or public.followup_leader(followup_id) = public.my_member_id()
 );
 create policy "shares: owner removes" on public.followup_shares for delete using (
-  public.is_admin() or exists (select 1 from public.followups f where f.id = followup_id and f.leader_id = public.my_member_id())
+  public.is_admin() or public.followup_leader(followup_id) = public.my_member_id()
 );
 
 create policy "reports: own or admin read" on public.sheep_reports for select using (public.has_any_role('admin','database') or leader_id = public.my_member_id());

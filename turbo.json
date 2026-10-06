@@ -10,15 +10,34 @@
     "PAYSTACK_SECRET_KEY",
     "NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY",
     "RESEND_API_KEY",
-    "NODE_ENV"
+    "NODE_ENV",
+    "NEXT_PUBLIC_LEADERS_URL",
+    "NEXT_PUBLIC_FINANCE_URL",
+    "NEXT_PUBLIC_WELFARE_URL",
+    "NEXT_PUBLIC_DATABASE_URL",
+    "NEXT_PUBLIC_PRAYERWALL_URL",
+    "NEXT_PUBLIC_ADMIN_URL",
+    "EMAIL_FROM"
   ],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**"
+      ]
     },
-    "dev": { "cache": false, "persistent": true },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
     "lint": {},
-    "typecheck": { "dependsOn": ["^typecheck"] }
+    "typecheck": {
+      "dependsOn": [
+        "^typecheck"
+      ]
+    }
   }
 }

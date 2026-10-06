@@ -51,3 +51,17 @@ export async function signOutAction() {
   await supabase.auth.signOut();
   redirect("/login");
 }
+
+export async function updatePasswordAction(_prev: AuthState, formData: FormData): Promise<AuthState> {
+  const password = String(formData.get("password") ?? "");
+  const confirm = String(formData.get("confirm") ?? "");
+  const next = safeNext(formData.get("next"));
+  if (password.length < 8) return { error: "Password must be at least 8 characters." };
+  if (password !== confirm) return { error: "The two passwords don't match." };
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Your sign-in link has expired. Ask the admin to send a new one." };
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) return { error: error.message };
+  redirect(next);
+}

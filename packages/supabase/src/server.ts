@@ -3,7 +3,7 @@ import { createServerClient } from "@supabase/ssr";
 import { createClient as createBareClient, type SupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { cookieDomain, supabaseAnonKey, supabaseUrl } from "./env";
+import { cookieDomain, supabaseAnonKey, supabaseSecretKey, supabaseUrl } from "./env";
 import { canAccess, type Role } from "./roles";
 import type { Profile } from "./types";
 
@@ -30,8 +30,8 @@ export async function createClient(): Promise<Db> {
 
 /** Service-role client. Server only. Bypasses RLS — use for admin tasks and webhooks. */
 export function createAdminClient(): Db {
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!key) throw new Error("SUPABASE_SERVICE_ROLE_KEY is not set");
+  const key = supabaseSecretKey();
+  if (!key) throw new Error("SUPABASE_SECRET_KEY (or SUPABASE_SERVICE_ROLE_KEY) is not set");
   return createBareClient(supabaseUrl(), key, { auth: { persistSession: false, autoRefreshToken: false } });
 }
 

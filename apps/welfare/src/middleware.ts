@@ -2,7 +2,7 @@ import { updateSession } from "@phanet/supabase/middleware";
 import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  return updateSession(request);
+  return updateSession(request, { protect: ["/team"], publicPaths: ["/login", "/no-access", "/auth"] });
 }
 
 export const config = {

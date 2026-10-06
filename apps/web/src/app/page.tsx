@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { Badge, Blobs, ButtonLink, Label, Script, Ticker, VerseBadge } from "@phanet/ui";
+import { Badge, Blobs, ButtonLink, Label, Script, StageDisc, Ticker, VerseBadge } from "@phanet/ui";
 import { fmtDateTime } from "@phanet/supabase/format";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { ThemePoster } from "@/components/ThemePoster";
 import { getPrayerTeaser, getPrograms, getSettings, getUpcomingEvents } from "@/lib/queries";
 import { ACADEMY_URL, PRAYERWALL_URL } from "@/lib/links";
 
@@ -12,7 +11,7 @@ export const dynamic = "force-dynamic";
 export default async function Home() {
   const [settings, programs, events, prayer] = await Promise.all([getSettings(), getPrograms(), getUpcomingEvents(3), getPrayerTeaser()]);
   const { theme, verse_of_day: verse, live, socials } = settings;
-  // "Let No Man Despise Thy Youth" → Poppins "Let No Man", script "Despise Thy", peach script "Youth"
+  // "Let No Man Despise Thy Youth" → Poppins "Let No Man", bubbly script "Despise Thy" + "Youth"
   const words = theme.title.split(" ");
   const last = words.at(-1) ?? "";
   const middle = words.slice(Math.max(0, words.length - 3), -1).join(" ");
@@ -23,28 +22,29 @@ export default async function Home() {
       <section className="ground-blue">
         <Blobs />
         <SiteHeader />
-        <div className="container-page relative z-10 grid gap-10 lg:grid-cols-[1.1fr_.9fr] items-center pt-12 pb-10 lg:pt-16 lg:pb-0">
+        <div className="container-page relative z-10 grid gap-10 lg:grid-cols-[1.05fr_.95fr] items-center pt-10 pb-8 lg:pt-14 lg:pb-0">
           <div className="fade-up">
-            <span className="pill pill-glass mb-6"><Badge tone="orange">New</Badge> {theme.year} theme of the year</span>
-            <h1 className="h3d text-[52px] md:text-[80px] lg:text-[92px] leading-[0.95]">
-              {headlineLead}
-              <br />
-              <Script className="text-[1.15em]">{middle}</Script>
-              <br />
-              <Script peach className="text-[1.25em]">{last}</Script>
+            <span className="pill pill-glass mb-7"><Badge tone="orange">New</Badge> {theme.year} theme of the year</span>
+            <h1 className="leading-none">
+              <span className="h3d block text-[46px] md:text-[68px] lg:text-[78px] tracking-[-0.03em] leading-[1]">{headlineLead}</span>
+              <span className="script-puffy block text-white text-[52px] md:text-[80px] lg:text-[92px] leading-[1.15] mt-1 pl-1">{middle}</span>
+              <span className="script-puffy block text-white text-[66px] md:text-[100px] lg:text-[118px] leading-[1.1] -mt-2 pl-1">{last}</span>
             </h1>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <VerseBadge>{theme.reference}</VerseBadge>
-              <p className="text-white/90 max-w-sm text-sm md:text-base">{theme.tagline}</p>
+              <p className="text-white/95 max-w-sm text-sm md:text-base font-medium">{theme.tagline}</p>
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
               <ButtonLink href="/programs" size="lg">Join a prayer cell</ButtonLink>
               <a href={live.url} target="_blank" rel="noreferrer" className="btn btn-white btn-lg">Watch {live.title} ▶</a>
             </div>
           </div>
-          <div className="relative max-w-[420px] w-full mx-auto lg:ml-auto lg:-mb-16 floaty">
-            <ThemePoster year={theme.year} reference={theme.reference} />
-            <a href={live.url} target="_blank" rel="noreferrer" className="card tilt-n2 absolute -left-6 bottom-16 flex items-center gap-3 px-4 py-3 no-underline">
+          <div className="relative max-w-[460px] w-full mx-auto lg:ml-auto lg:-mb-20 floaty">
+            <div className="rounded-[44px] overflow-hidden shadow-[0_40px_90px_rgba(0,44,154,.55)] ring-1 ring-white/30">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/flyer.webp" alt={`${theme.year} theme flyer: ${theme.title}`} className="block w-full h-auto" width={1200} height={1200} />
+            </div>
+            <a href={live.url} target="_blank" rel="noreferrer" className="card tilt-n2 absolute -left-4 md:-left-8 bottom-24 flex items-center gap-3 px-4 py-3 no-underline">
               <span className="dot-orange" />
               <span>
                 <span className="label-caps-orange block">{live.label}</span>
@@ -53,17 +53,17 @@ export default async function Home() {
             </a>
           </div>
         </div>
-        <div className="stage-lip -mt-6 lg:-mt-2" />
+        <StageDisc className="mt-6 lg:mt-0" />
       </section>
 
       {/* the stage */}
       <section className="stage">
-        <Ticker items={[`${theme.title} · ${theme.reference}`, `${theme.title} · ${theme.reference}`]} className="relative" />
-        <div className="container-page relative pt-10 pb-16">
+        <Ticker items={[`${theme.title} · ${theme.reference}`, `${theme.title} · ${theme.reference}`]} className="relative pt-6" />
+        <div className="container-page relative pt-8 pb-16">
           <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
             <div>
               <Label tone="white" className="mb-2">This week</Label>
-              <h2 className="text-[40px] md:text-[56px] text-white">Where we <Script className="text-[1.2em]">gather</Script></h2>
+              <h2 className="text-[40px] md:text-[56px] text-white">Where we <Script className="text-[1.2em]" >gather</Script></h2>
             </div>
             <ButtonLink href="/programs" variant="white" size="sm">All programs →</ButtonLink>
           </div>
@@ -100,8 +100,9 @@ export default async function Home() {
         <div className="container-page relative py-20 grid gap-10 lg:grid-cols-[1.2fr_.8fr] items-center">
           <div>
             <Label tone="peach" className="mb-3">Prayer wall</Label>
-            <h2 className="h3d text-[40px] md:text-[56px]">
-              {prayer.count > 0 ? `${prayer.count.toLocaleString()} people are` : "We are"} praying <Script peach className="text-[1.2em]">with you</Script>
+            <h2 className="text-[40px] md:text-[56px] leading-[1]">
+              <span className="h3d">{prayer.count > 0 ? `${prayer.count.toLocaleString()} people are` : "We are"} praying</span>{" "}
+              <span className="script-puffy text-peach text-[1.15em]">with you</span>
             </h2>
             <div className="mt-8 flex flex-wrap gap-2">
               {prayer.topics.map((t) => (

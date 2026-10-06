@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Badge, Blobs, EmptyState, Label, Script, Ticker } from "@phanet/ui";
+import { Badge, Blobs, EmptyState, Label, Script, StageDisc, Ticker } from "@phanet/ui";
 import { fmtDateTime } from "@phanet/supabase/format";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -20,7 +20,7 @@ export default async function ProgramsPage() {
           <h1 className="h3d text-[48px] md:text-[72px]">Where we <Script peach className="text-[1.2em]">gather</Script></h1>
           <p className="mt-6 text-white/90 max-w-xl">Every week, all semester. Come as you are. {live.label.replace("·", "at")} is our main night.</p>
         </div>
-        <div className="stage-lip" />
+        <StageDisc className="mt-10" />
       </section>
       <div className="stage"><Ticker items={[`${theme.title} · ${theme.reference}`, `${theme.title} · ${theme.reference}`]} /></div>
 

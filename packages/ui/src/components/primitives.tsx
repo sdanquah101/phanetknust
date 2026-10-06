@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { cn } from "../cn";
+import { Fluid } from "./atmosphere";
 
 /* ---------- Logo / wordmark ---------- */
 export function Logo({ text = "PHANET KNUST", className, href, light = true }: { text?: string; className?: string; href?: string; light?: boolean }) {
@@ -83,13 +84,7 @@ export function Blobs({ variant = "blue" }: { variant?: "blue" | "ice" }) {
       </>
     );
   }
-  return (
-    <>
-      <div className="blob blob-sky blob-drift" style={{ width: 620, height: 620, top: -220, left: -160 }} />
-      <div className="blob blob-deep" style={{ width: 520, height: 520, bottom: -200, right: -100 }} />
-      <div className="blob blob-orange" style={{ width: 420, height: 420, bottom: -260, left: "35%" }} />
-    </>
-  );
+  return <Fluid />;
 }
 
 export function Ticker({ items, className }: { items: string[]; className?: string }) {

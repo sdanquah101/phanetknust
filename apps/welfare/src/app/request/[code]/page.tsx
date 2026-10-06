@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Blobs, Card, EmptyState, Label, Notice, Script, cn } from "@phanet/ui";
+import { Blobs, Card, EmptyState, Label, Notice, Script, StageDisc, cn } from "@phanet/ui";
 import { fmtDateTime } from "@phanet/supabase/format";
 import { WelfareHeader } from "@/components/public-header";
 import { WelfareFooter } from "@/components/public-footer";
@@ -27,7 +27,7 @@ export default async function RequestPage({ params }: { params: Promise<{ code: 
           </h1>
           <p className="mt-4 text-white/85 max-w-md">{req ? `Thanks, ${req.requester_name.split(/\s+/)[0]}. Here's where your request is.` : "We couldn't find a request with that code."}</p>
         </div>
-        <div className="stage-lip" />
+        <StageDisc className="mt-8" />
       </section>
 
       <section className="container-page py-10 md:py-14">

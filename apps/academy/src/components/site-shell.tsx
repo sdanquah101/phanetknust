@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Avatar, Blobs, ButtonLink, Footer, PublicHeader, type NavItem } from "@phanet/ui";
+import { Avatar, Blobs, ButtonLink, Footer, PublicHeader, StageDisc, type NavItem } from "@phanet/ui";
 import { getSession, type Session } from "@phanet/supabase/server";
 import { BRAND } from "@/lib/brand";
 
@@ -61,7 +61,7 @@ export async function SiteShell({
         <div className={`container-page relative ${heroClassName}`}>{hero}</div>
       </section>
       <div className="relative">
-        <div className="stage-lip" aria-hidden />
+        <StageDisc className="mt-8" />
         {lipChildren && <div className="container-page relative z-10 -mt-24 md:-mt-28">{lipChildren}</div>}
       </div>
       <main className="ground-ice flex-1 pb-16">

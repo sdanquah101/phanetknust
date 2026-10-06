@@ -1,4 +1,4 @@
-import { Blobs, ButtonLink, Card, EmptyState, Label, Script } from "@phanet/ui";
+import { Blobs, ButtonLink, Card, EmptyState, Label, Script, StageDisc } from "@phanet/ui";
 import { WelfareHeader } from "@/components/public-header";
 import { WelfareFooter } from "@/components/public-footer";
 import { Shop } from "@/components/shop";
@@ -41,7 +41,7 @@ export default async function HomePage() {
             <p className="text-xs text-white/80">No account needed. Two requests per phone per week, up to 6 different items each.</p>
           </div>
         </div>
-        <div className="stage-lip" />
+        <StageDisc className="mt-8" />
       </section>
 
       <section id="shop" className="container-page py-12 md:py-16 scroll-mt-6">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Blobs, ButtonLink, Label, Script, Ticker, VerseBadge } from "@phanet/ui";
+import { Blobs, ButtonLink, Label, Script, StageDisc, Ticker, VerseBadge } from "@phanet/ui";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { getSettings } from "@/lib/queries";
@@ -21,7 +21,7 @@ export default async function AboutPage() {
           <p className="mt-6 text-white/90 text-base md:text-lg max-w-2xl">{about.mission}</p>
           <div className="mt-8"><VerseBadge>{theme.reference}</VerseBadge></div>
         </div>
-        <div className="stage-lip" />
+        <StageDisc className="mt-10" />
       </section>
       <div className="stage"><Ticker items={[`${theme.title} · ${theme.reference}`, `${theme.title} · ${theme.reference}`]} /></div>
 

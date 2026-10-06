@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Badge, Blobs, EmptyState, Label, Script, Ticker } from "@phanet/ui";
+import { Badge, Blobs, EmptyState, Label, Script, StageDisc, Ticker } from "@phanet/ui";
 import { money } from "@phanet/supabase/format";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -22,7 +22,7 @@ export default async function ShopPage() {
           <h1 className="h3d text-[48px] md:text-[72px]">Wear the <Script peach className="text-[1.2em]">theme</Script></h1>
           <p className="mt-6 text-white/90 max-w-xl">Tees, hoodies and more from the {theme.year} collection. Pay with MTN MoMo, Telecel Cash or card, pick up on campus.</p>
         </div>
-        <div className="stage-lip" />
+        <StageDisc className="mt-10" />
       </section>
       <div className="stage"><Ticker items={[`${theme.title} · ${theme.reference}`, `${theme.title} · ${theme.reference}`]} /></div>
       <section className="ground-ice -mt-px">

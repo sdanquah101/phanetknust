@@ -3,6 +3,7 @@ import { Badge, ButtonLink, HeroCurve, Label } from "@phanet/ui";
 import { fmtDateTime } from "@phanet/supabase/format";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { PhotoMosaic } from "@/components/PhotoMosaic";
 import { getPrayerTeaser, getPrograms, getSettings, getUpcomingEvents } from "@/lib/queries";
 import { ACADEMY_URL, PRAYERWALL_URL } from "@/lib/links";
 
@@ -86,6 +87,8 @@ export default async function Home() {
           <div className="mt-8"><Link href="/about" className="btn btn-outline-blue">More about PHANET</Link></div>
         </div>
       </section>
+
+      <PhotoMosaic />
 
       {/* WHERE WE GATHER — only when there is something to show */}
       {(programs.length > 0 || events.length > 0) && (

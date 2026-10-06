@@ -8,6 +8,7 @@ export function SiteHeader() {
         { href: "/", label: "Home", exact: true },
         { href: "/about", label: "About" },
         { href: "/programs", label: "Programs" },
+        { href: "/gallery", label: "Gallery" },
         { href: "/shop", label: "Shop" },
         { href: ACADEMY_URL, label: "Academy", external: true },
       ]}

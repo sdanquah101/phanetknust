@@ -20,6 +20,7 @@ export function SiteFooter({ socials, year }: { socials: Socials; year: string }
             <ul className="flex flex-col gap-2 t-small">
               <li><Link href="/about" className="hover:underline">About</Link></li>
               <li><Link href="/programs" className="hover:underline">Programs</Link></li>
+              <li><Link href="/gallery" className="hover:underline">Gallery</Link></li>
               <li><Link href="/shop" className="hover:underline">Shop</Link></li>
               <li><Link href="/give" className="hover:underline">Give</Link></li>
             </ul>

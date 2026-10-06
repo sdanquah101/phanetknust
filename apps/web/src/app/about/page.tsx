@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Blobs, ButtonLink, HeroCurve, Label, Script } from "@phanet/ui";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -6,6 +7,9 @@ import { getSettings } from "@/lib/queries";
 import { splitLine } from "@/lib/copy";
 import { Leadership } from "@/components/Leadership";
 import { LEADERS } from "@/content/leaders";
+import { photo } from "@/content/photos";
+
+const storyPhoto = photo("group-night");
 import { ACADEMY_URL, PRAYERWALL_URL } from "@/lib/links";
 
 export const metadata: Metadata = { title: "About" };
@@ -47,9 +51,14 @@ export default async function AboutPage() {
               <p className="text-2xl md:text-[28px] font-bold leading-snug">{about.idea}</p>
               {about.idea_reference && <div className="text-xs font-bold tracking-wide uppercase text-white mt-2">{about.idea_reference}</div>}
             </div>
-            <div className="card p-8 md:p-10 flex flex-col gap-4">
+            <div className="card overflow-hidden flex flex-col">
+              <div className="relative aspect-[16/9]">
+                <Image src={storyPhoto.src} alt={storyPhoto.alt} fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+              </div>
+              <div className="p-8 md:p-10 flex flex-col gap-4">
               <Label tone="orange">Our story</Label>
               <p className="text-muted leading-relaxed">{about.story}</p>
+              </div>
             </div>
           </div>
 

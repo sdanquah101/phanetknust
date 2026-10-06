@@ -30,7 +30,7 @@ export default async function ProgramsPage() {
         <div className="container-page flex flex-col gap-12">
           {main && (
             <article id={main.slug} className="card p-5 md:p-6 grid gap-6 lg:grid-cols-[1.15fr_1fr] items-center scroll-mt-24">
-              <ProgramArt name={main.name} illustration={main.illustration} icon={main.icon} sizes="(min-width: 1024px) 55vw, 100vw" priority />
+              <ProgramArt slug={main.slug} name={main.name} cover={main.cover} icon={main.icon} sizes="(min-width: 1024px) 55vw, 100vw" priority />
               <div className="flex flex-col gap-3 lg:pr-4">
                 <div className="flex flex-wrap gap-2"><Badge tone="orange">Main meeting</Badge><Badge tone="good">{main.schedule_label}</Badge></div>
                 <h2 className="t-h2 text-deep">{main.name}</h2>
@@ -44,7 +44,7 @@ export default async function ProgramsPage() {
           <div className="grid gap-5 md:grid-cols-2">
             {rest.map((p) => (
               <article key={p.slug} id={p.slug} className="card p-5 flex flex-col gap-4 scroll-mt-24">
-                <ProgramArt name={p.name} illustration={p.illustration} icon={p.icon} sizes="(min-width: 768px) 45vw, 100vw" />
+                <ProgramArt slug={p.slug} name={p.name} cover={p.cover} icon={p.icon} sizes="(min-width: 768px) 45vw, 100vw" />
                 <div className="flex flex-col gap-2 px-1 pb-1">
                   <Badge tone="good" className="self-start">{p.schedule_label}</Badge>
                   <h3 className="t-h3 text-deep">{p.name}</h3>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { ProgramIcon } from "@/content/programs";
+import { SCENES } from "@/components/program-art/scenes";
 
 const ICONS: Record<ProgramIcon, React.ReactNode> = {
   moon: <path d="M42 12a22 22 0 1 0 22 30A18 18 0 0 1 42 12z" />,
@@ -9,14 +10,21 @@ const ICONS: Record<ProgramIcon, React.ReactNode> = {
   briefcase: <><rect x="12" y="22" width="48" height="32" rx="6" /><path d="M28 22v-6h16v6M12 36h48" /></>,
 };
 
-/** Program illustration: the cartoon if we have one, otherwise a branded icon tile in the same frame. */
-export function ProgramArt({ name, illustration, icon, sizes, priority }: { name: string; illustration: string | null; icon: ProgramIcon; sizes: string; priority?: boolean }) {
-  if (illustration) {
+/**
+ * Program illustration: an uploaded cover image if the admin set one, otherwise the hand-built
+ * SVG cartoon for that program, otherwise a branded icon tile (for programs added later).
+ */
+export function ProgramArt({ slug, name, cover, icon, sizes, priority }: { slug: string; name: string; cover: string | null; icon: ProgramIcon; sizes: string; priority?: boolean }) {
+  if (cover) {
     return (
       <div className="relative aspect-[16/9] overflow-hidden rounded-[20px] bg-deep">
-        <Image src={illustration} alt={`Cartoon illustration of ${name}`} fill sizes={sizes} className="object-cover" priority={priority} />
+        <Image src={cover} alt={name} fill sizes={sizes} className="object-cover" priority={priority} />
       </div>
     );
+  }
+  const Scene = SCENES[slug];
+  if (Scene) {
+    return <div className="relative aspect-[16/9] overflow-hidden rounded-[20px] bg-royal"><Scene /></div>;
   }
   return (
     <div className="relative aspect-[16/9] overflow-hidden rounded-[20px] grid place-items-center bg-[radial-gradient(120%_100%_at_80%_0%,#2a7ffb_0%,#1766ec_45%,#0a46e8_100%)]" aria-hidden>

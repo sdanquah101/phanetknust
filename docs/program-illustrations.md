@@ -1,18 +1,16 @@
 # Program illustrations
 
-Cartoon illustrations shown on the Programs page and the home page. Files live in `apps/web/public/programs/<slug>.webp` (1280×720) and are matched by slug in `apps/web/src/content/programs.ts` (set `illustration: "/programs/<slug>.webp"`). Until a file exists, the card shows a branded icon tile.
+Each program has a hand-built cartoon drawn in SVG code (no generated images):
 
-Generated with gpt-image-2 (ElevenLabs), 16:9. Every prompt starts with the shared style block so the set stays consistent.
+- `apps/web/src/components/program-art/kit.tsx` — the cartoon kit: a `Person` with poses (`down`, `raised`, `praise`, `book`, `mic`, `micup`, `clasp`, `point`, `wave`, `write`, `lap`), seated/kneeling/standing, hair styles (`short`, `fade`, `afro`, `puff`, `braids`, `wrap`, `bob`), skin tones, outfits, glasses, back view; plus `StageDisc`, `Ribbon`, `Chair`, `Stars`.
+- `apps/web/src/components/program-art/scenes.tsx` — one scene per program (640×360), registered in `SCENES` by program slug.
 
-**Shared style block**
-> 3D cartoon illustration in a glossy, polished Pixar-like animation style, made for a Ghanaian campus youth church website. Young Ghanaian university students (men and women, varied natural hairstyles, casual-smart outfits in royal blue, white and denim). Electric royal-blue colour palette with flowing liquid ribbon shapes and light-blue highlights, glossy tangerine-orange accents, soft cinematic lighting. Wide landscape composition with clear space around the figures. No text, no letters, no words, no logos anywhere.
+| Slug | Scene |
+|---|---|
+| gathering-of-the-adelphos | Students on chairs in a circle on an orange rug, afternoon sun through the window, Bible open, speech bubbles |
+| night-of-solemnities | Night sky with moon and stars, a clock past midnight, preacher with mic on the stage, students kneeling and lifting hands, candles |
+| academic-excellence-retreat | Outdoor retreat table with books, graduation cap and laptop, one student praying over the books, a lightbulb idea |
+| prophetic-convocation | Light rays over a glowing stage, preacher with mic, worshippers on stage, crowd from behind with hands raised |
+| business-masterclass | Presenter pointing at a rising bar chart, students with laptops, briefcase, lightbulb |
 
-| Program | Status | Scene |
-|---|---|---|
-| Night of Solemnities | ✅ done | Inside a hall at night, students kneel and stand with hands lifted in prayer, some holding open Bibles; a friendly preacher in a dark maroon suit leads from a small round glossy orange stage with a microphone; big windows show a night sky with a bright moon and stars. |
-| Gathering of the Adelphos | to do | A bright Saturday afternoon gathering: students seated in a warm circle of chairs, laughing and talking, Bibles open on laps, one leading a discussion, two sharing a hug; golden afternoon sunlight through windows. |
-| Academic Excellence Retreat | to do | A retreat setting among green trees: students around tables with books, laptops and notebooks, one group praying with hands on a stack of books, a graduation cap resting on a table, calm focused mood. |
-| Prophetic Convocation | to do | A large worship gathering: students with hands raised, rays of soft light falling from above, a preacher with a microphone on a glossy orange stage, gentle flame-like glow in the light, expectant joyful mood. |
-| Business Masterclass | to do | A modern workshop room: students in smart business casual taking notes on laptops and notebooks, a young presenter beside a whiteboard showing a rising bar chart (no words), lightbulb and briefcase details, energetic entrepreneurial mood. |
-
-Do not try to depict real people's faces (e.g. Dr. Godfred Bonnah Nkansah); keep preacher figures generic.
+An uploaded cover image (Admin → Programs) replaces the cartoon for that program. A new program without a scene shows a branded icon tile. To add a scene, write a component in `scenes.tsx` and add it to `SCENES` under the program's slug.

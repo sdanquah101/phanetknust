@@ -107,19 +107,19 @@ export const getPrayerTeaser = unstable_cache(async (): Promise<{ count: number;
 }, ["prayer-teaser"], { revalidate: REVALIDATE, tags: ["prayerwall"] });
 
 
-export type ProgramView = ProgramContent & { location: string | null };
+export type ProgramView = ProgramContent & { location: string | null; cover: string | null };
 
-/** Programs from the database, falling back to the built-in list, with illustrations matched by slug. */
+/** Programs from the database, falling back to the built-in list. */
 export async function getProgramViews(): Promise<ProgramView[]> {
   const rows = await getPrograms();
-  if (rows.length === 0) return PROGRAMS.map((p) => ({ ...p, location: null }));
+  if (rows.length === 0) return PROGRAMS.map((p) => ({ ...p, location: null, cover: null }));
   return rows.map((r) => {
     const c = programContent(r.slug);
     return {
       slug: r.slug, name: r.name, main: c?.main,
       schedule_label: r.schedule_label ?? c?.schedule_label ?? "",
       tagline: r.tagline ?? c?.tagline ?? "", description: r.description ?? c?.description ?? "",
-      illustration: r.cover_url ?? c?.illustration ?? null, icon: c?.icon ?? "people", location: r.location,
+      cover: r.cover_url, icon: c?.icon ?? "people", location: r.location,
     };
   });
 }

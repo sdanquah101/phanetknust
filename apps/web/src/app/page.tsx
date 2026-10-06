@@ -105,7 +105,7 @@ export default async function Home() {
             <div className="grid gap-5 md:grid-cols-3">
               {programs.slice(0, 3).map((p) => (
                 <Link key={p.slug} href={`/programs#${p.slug}`} className="card p-4 no-underline flex flex-col gap-3 hover:-translate-y-1 transition-transform">
-                  <ProgramArt name={p.name} illustration={p.illustration} icon={p.icon} sizes="(min-width: 768px) 30vw, 100vw" />
+                  <ProgramArt slug={p.slug} name={p.name} cover={p.cover} icon={p.icon} sizes="(min-width: 768px) 30vw, 100vw" />
                   <div className="px-2 pb-2 flex flex-col gap-2">
                     <Badge tone={p.main ? "orange" : "good"} className="self-start">{p.schedule_label}</Badge>
                     <h3 className="t-h3 text-deep">{p.name}</h3>

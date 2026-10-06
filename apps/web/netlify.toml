@@ -1,0 +1,13 @@
+# Netlify site for web. Set "Base directory" to apps/web in the Netlify UI
+# (this file is picked up from there) and add the env vars from .env.example.
+[build]
+  base = "apps/web"
+  command = "cd ../.. && pnpm install --frozen-lockfile && pnpm turbo run build --filter=@phanet/web"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  PNPM_FLAGS = "--frozen-lockfile"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

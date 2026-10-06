@@ -1,0 +1,13 @@
+# Netlify site for academy. Set "Base directory" to apps/academy in the Netlify UI
+# (this file is picked up from there) and add the env vars from .env.example.
+[build]
+  base = "apps/academy"
+  command = "cd ../.. && pnpm install --frozen-lockfile && pnpm turbo run build --filter=@phanet/academy"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  PNPM_FLAGS = "--frozen-lockfile"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

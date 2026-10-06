@@ -6,10 +6,9 @@ import { GiveForm } from "./GiveForm";
 import { getFunds, getSettings } from "@/lib/queries";
 
 export const metadata: Metadata = { title: "Give" };
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
-export default async function GivePage({ searchParams }: { searchParams: Promise<{ fund?: string }> }) {
-  const sp = await searchParams;
+export default async function GivePage() {
   const [{ theme, socials }, funds] = await Promise.all([getSettings(), getFunds()]);
   const list = funds.length ? funds : [{ id: "offering", slug: "offering", name: "Offering", description: null, target_amount: null, is_active: true, sort_order: 0 }];
   return (
@@ -30,7 +29,7 @@ export default async function GivePage({ searchParams }: { searchParams: Promise
               <p className="text-sm text-white/85">Offering baskets go round at Midweek Altar. Cash is counted by two people and recorded the same night.</p>
             </div>
           </div>
-          <GiveForm funds={list} initialFund={sp.fund} />
+          <GiveForm funds={list} />
         </div>
       </section>
       <SiteFooter socials={socials} year={theme.year} />

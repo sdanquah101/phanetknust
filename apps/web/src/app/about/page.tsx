@@ -6,7 +6,7 @@ import { getSettings } from "@/lib/queries";
 import { PRAYERWALL_URL } from "@/lib/links";
 
 export const metadata: Metadata = { title: "About" };
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function AboutPage() {
   const { theme, about, socials } = await getSettings();

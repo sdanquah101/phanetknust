@@ -308,3 +308,17 @@
 @media (prefers-reduced-motion: reduce) {
   .blob-drift, .fluid-drift, .floaty, .ticker-track, .fade-up { animation: none !important; }
 }
+
+/* ---------- Loading skeletons ---------- */
+@layer components {
+  .skeleton { position: relative; overflow: hidden; border-radius: 16px; background: rgba(11, 59, 209, 0.08); }
+  .skeleton::after {
+    content: ""; position: absolute; inset: 0; transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    animation: shimmer 1.4s infinite;
+  }
+  .skeleton-light { background: rgba(255, 255, 255, 0.18); }
+  .skeleton-light::after { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent); }
+  @keyframes shimmer { 100% { transform: translateX(100%); } }
+  @media (prefers-reduced-motion: reduce) { .skeleton::after { animation: none; } }
+}

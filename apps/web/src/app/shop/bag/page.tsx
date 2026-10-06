@@ -6,7 +6,7 @@ import { BagClient } from "./BagClient";
 import { getSettings } from "@/lib/queries";
 
 export const metadata: Metadata = { title: "Your bag" };
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function BagPage() {
   const { theme, socials } = await getSettings();

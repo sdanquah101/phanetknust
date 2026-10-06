@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { getPrograms, getSettings, getUpcomingEvents } from "@/lib/queries";
 
 export const metadata: Metadata = { title: "Programs" };
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function ProgramsPage() {
   const [{ theme, socials, live }, programs, events] = await Promise.all([getSettings(), getPrograms(), getUpcomingEvents(12)]);

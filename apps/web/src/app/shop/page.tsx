@@ -8,7 +8,7 @@ import { CartBar } from "@/components/CartBar";
 import { getProducts, getSettings } from "@/lib/queries";
 
 export const metadata: Metadata = { title: "Shop" };
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function ShopPage() {
   const [{ theme, socials }, products] = await Promise.all([getSettings(), getProducts()]);

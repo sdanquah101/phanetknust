@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { getPrayerTeaser, getPrograms, getSettings, getUpcomingEvents } from "@/lib/queries";
 import { ACADEMY_URL, PRAYERWALL_URL } from "@/lib/links";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function Home() {
   const [settings, programs, events, prayer] = await Promise.all([getSettings(), getPrograms(), getUpcomingEvents(3), getPrayerTeaser()]);
@@ -96,7 +96,6 @@ export default async function Home() {
 
       {/* prayer wall + verse */}
       <section className="ground-blue">
-        <Blobs />
         <div className="container-page relative py-20 grid gap-10 lg:grid-cols-[1.2fr_.8fr] items-center">
           <div>
             <Label tone="peach" className="mb-3">Prayer wall</Label>

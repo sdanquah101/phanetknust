@@ -14,7 +14,8 @@
     "./email": "./src/email.ts",
     "./types": "./src/types.ts",
     "./actions": "./src/actions.ts",
-    "./callback": "./src/callback.ts"
+    "./callback": "./src/callback.ts",
+    "./public": "./src/public.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

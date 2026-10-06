@@ -1,5 +1,6 @@
 "use client";
-import { useActionState, useState } from "react";
+import { Suspense, useActionState, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Button, Field, Input, Notice } from "@phanet/ui";
 import { money } from "@phanet/supabase/format";
 import type { GivingFund } from "@phanet/supabase/types";
@@ -7,8 +8,18 @@ import { giveAction } from "./actions";
 
 const PRESETS = [20, 50, 100, 200];
 
-export function GiveForm({ funds, initialFund }: { funds: GivingFund[]; initialFund?: string }) {
+export function GiveForm(props: { funds: GivingFund[] }) {
+  return <Suspense fallback={<GiveFormInner {...props} />}><GiveFormWithQuery {...props} /></Suspense>;
+}
+
+function GiveFormWithQuery(props: { funds: GivingFund[] }) {
+  const params = useSearchParams();
+  return <GiveFormInner {...props} initialFund={params.get("fund") ?? undefined} />;
+}
+
+function GiveFormInner({ funds, initialFund }: { funds: GivingFund[]; initialFund?: string }) {
   const [fund, setFund] = useState(initialFund ?? funds[0]?.slug ?? "offering");
+  useEffect(() => { if (initialFund && funds.some((f) => f.slug === initialFund)) setFund(initialFund); }, [initialFund, funds]);
   const [amount, setAmount] = useState<number | "">(50);
   const [custom, setCustom] = useState(false);
   const [method, setMethod] = useState<"mobile_money" | "card">("mobile_money");

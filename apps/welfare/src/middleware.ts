@@ -5,6 +5,5 @@ export async function middleware(request: NextRequest) {
   return updateSession(request, { protect: ["/team"], publicPaths: ["/login", "/no-access", "/auth"] });
 }
 
-export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$).*)"],
-};
+// Only the team area and auth pages need a session; the public shop stays fast and cookie-free.
+export const config = { matcher: ["/team/:path*", "/login", "/no-access", "/auth/:path*", "/account/:path*"] };

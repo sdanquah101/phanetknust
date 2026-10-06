@@ -96,25 +96,32 @@ export default async function Home() {
 
       {/* who we are */}
       <section className="ground-ice">
-        <div className="container-page py-16 grid gap-8 lg:grid-cols-[1fr_1.2fr] items-start">
-          <div>
-            <Label tone="orange" className="mb-3">Who we are</Label>
-            <h2 className="text-[36px] md:text-[48px] text-deep leading-[1]">We pray. Then we <span className="script text-royal text-[1.15em]">go</span>.</h2>
-            <p className="mt-5 text-muted text-base md:text-lg max-w-md">{about.intro}</p>
-            <Link href="/about" className="btn btn-outline-blue mt-6">More about PHANET</Link>
+        <div className="container-page py-16 flex flex-col gap-10">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr] items-start">
+            <div>
+              <Label tone="orange" className="mb-3">Who we are</Label>
+              <h2 className="text-[34px] md:text-[44px] text-deep leading-[1.02]">We intercede. We avail <span className="script text-royal text-[1.15em]">ourselves</span>.</h2>
+              <p className="mt-5 text-muted text-base md:text-lg max-w-md">{about.intro}</p>
+              <Link href="/about" className="btn btn-outline-blue mt-6">More about PHANET</Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {[
+                ["Intercede", "We stand before God for our campus, our nation and people who do not yet know Christ.", "1 Timothy 2:1"],
+                ["Avail ourselves", "If God wants to use someone to solve what we pray about, we want to be available.", "Isaiah 6:8"],
+                ["Grow together", "We learn the Word and look out for one another like family.", "Acts 2:42"],
+              ].map(([t, b, r]) => (
+                <div key={t} className="card p-6 flex flex-col gap-3">
+                  <span className="dot-orange" />
+                  <div className="text-2xl font-extrabold text-royal leading-tight">{t}</div>
+                  <p className="text-sm text-muted">{b}</p>
+                  <div className="mt-auto pt-2 text-[11px] font-bold tracking-wide uppercase text-tangerine">{r}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {[
-              ["Pray", "We stand in the gap for our campus, our nation and people who do not yet know Christ."],
-              ["Grow", "We learn the Word together and look out for one another like family."],
-              ["Go", "We make ourselves available, in church and in our careers, to be part of the answer."],
-            ].map(([t, b]) => (
-              <div key={t} className="card p-6 flex flex-col gap-3">
-                <span className="dot-orange" />
-                <div className="text-2xl font-extrabold text-royal">{t}</div>
-                <p className="text-sm text-muted">{b}</p>
-              </div>
-            ))}
+          <div className="card-blue p-7 md:p-9 grid gap-4 md:grid-cols-[auto_1fr] items-center">
+            <Label tone="peach">1 Timothy 2:1</Label>
+            <p className="script text-[22px] md:text-[26px] leading-snug">“I exhort therefore, that, first of all, supplications, prayers, intercessions, and giving of thanks, be made for all men.”</p>
           </div>
         </div>
       </section>

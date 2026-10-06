@@ -18,15 +18,22 @@ export default async function AboutPage() {
       <section className="ground-blue">
         <Blobs />
         <SiteHeader />
-        <div className="container-page relative pt-14 pb-6"><div className="max-w-4xl">
-          <Label tone="peach" className="mb-3">About PHANET KNUST</Label>
-          <h1 className="leading-none">
-            <span className="h3d block text-[46px] md:text-[72px]">We pray.</span>
-            <span className="h3d block text-[46px] md:text-[72px]">Then we <span className="script-puffy text-peach text-[1.15em]">go</span>.</span>
-          </h1>
-          <p className="mt-8 text-white/95 text-lg md:text-xl max-w-2xl font-medium">{about.intro}</p>
-          <div className="mt-8"><VerseBadge>{theme.reference}</VerseBadge></div>
-        </div></div>
+        <div className="container-page relative pt-14 pb-6 grid gap-10 lg:grid-cols-[1.1fr_.9fr] items-center">
+          <div>
+            <Label tone="peach" className="mb-3">About PHANET KNUST</Label>
+            <h1 className="leading-none">
+              <span className="h3d block text-[44px] md:text-[64px]">We intercede.</span>
+              <span className="h3d block text-[44px] md:text-[64px]">We avail <span className="script-puffy text-peach text-[1.15em]">ourselves</span>.</span>
+            </h1>
+            <p className="mt-8 text-white/95 text-lg md:text-xl max-w-2xl font-medium">{about.intro}</p>
+            <div className="mt-8"><VerseBadge>{theme.reference}</VerseBadge></div>
+          </div>
+          <div className="card card-lg tilt-2 p-8 md:p-9 max-w-md w-full lg:justify-self-end">
+            <Label tone="orange" className="mb-3">On intercession</Label>
+            <p className="script text-royal text-[21px] md:text-[23px] leading-snug">{about.scripture_text}</p>
+            <div className="mt-4 text-xs font-bold tracking-wide uppercase text-muted">{about.scripture_reference}</div>
+          </div>
+        </div>
         <StageDisc className="mt-10" />
       </section>
       <div className="stage h-4" />
@@ -38,6 +45,7 @@ export default async function AboutPage() {
             <div className="card-blue p-8 md:p-10 flex flex-col gap-4">
               <Label tone="peach">The idea</Label>
               <p className="text-2xl md:text-[28px] font-bold leading-snug">{about.idea}</p>
+              {about.idea_reference && <div className="text-xs font-bold tracking-wide uppercase text-peach mt-2">{about.idea_reference}</div>}
             </div>
             <div className="card p-8 md:p-10 flex flex-col gap-4">
               <Label tone="orange">Our story</Label>
@@ -47,7 +55,7 @@ export default async function AboutPage() {
 
           {/* Mandate, vision, mission */}
           <div>
-            <h2 className="text-[32px] md:text-[40px] text-deep mb-6">What we are <span className="script text-royal text-[1.15em]">here</span> for</h2>
+            <h2 className="text-[32px] md:text-[40px] text-deep mb-6">What we are here for</h2>
             <div className="grid gap-5 md:grid-cols-3">
               <div className="card-orange p-7 flex flex-col gap-3">
                 <Label tone="white">Our mandate</Label>
@@ -76,6 +84,7 @@ export default async function AboutPage() {
                   <div className="label-caps text-muted">0{i + 1}</div>
                   <div className="text-lg font-extrabold text-royal">{s.title}</div>
                   <p className="text-sm text-muted">{s.body}</p>
+                  {s.ref && <div className="mt-auto pt-2 text-[11px] font-bold tracking-wide uppercase text-tangerine">{s.ref}</div>}
                 </div>
               ))}
             </div>
@@ -91,6 +100,7 @@ export default async function AboutPage() {
                   <div>
                     <div className="font-extrabold text-deep">{v.title}</div>
                     <p className="text-sm text-muted mt-1">{v.body}</p>
+                    {v.ref && <div className="mt-2 text-[11px] font-bold tracking-wide uppercase text-tangerine">{v.ref}</div>}
                   </div>
                 </li>
               ))}

@@ -13,7 +13,7 @@ export function SiteFooter({ socials, year }: { socials: Socials; year: string }
         <div className="grid gap-10 md:grid-cols-4">
           <div className="md:col-span-2">
             <Logo />
-            <p className="mt-4 text-sm text-white/80 max-w-sm">The KNUST chapter of Phanerosis Prayer Network International. We pray about the problems of our generation, and we make ourselves available to be part of the answer.</p>
+            <p className="mt-4 text-sm text-white/80 max-w-sm">The KNUST chapter of Phanerosis Prayer Network International. We intercede for our generation, and we avail ourselves to be the solutions to what we pray about.</p>
           </div>
           <div>
             <div className="label-caps-peach mb-3">Explore</div>

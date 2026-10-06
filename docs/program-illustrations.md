@@ -1,6 +1,6 @@
 # Program illustrations
 
-Each program has a hand-built cartoon drawn in SVG code (no generated images):
+Each program has a hand-built cartoon drawn in SVG code (no generated images), shaded to echo the 3D look of the theme flyer: gradient-lit skin, clothes and hair from an upper-left key light, glossy eyes, a blue rim light on clothing, soft drop and cast shadows, and a vignette (shared filters `pa-blur`, `pa-drop` in `Svg`).
 
 - `apps/web/src/components/program-art/kit.tsx` — the cartoon kit: a `Person` with poses (`down`, `raised`, `praise`, `book`, `mic`, `micup`, `clasp`, `point`, `wave`, `write`, `lap`), seated/kneeling/standing, hair styles (`short`, `fade`, `afro`, `puff`, `braids`, `wrap`, `bob`), skin tones, outfits, glasses, back view; plus `StageDisc`, `Ribbon`, `Chair`, `Stars`.
 - `apps/web/src/components/program-art/scenes.tsx` — one scene per program (640×360), registered in `SCENES` by program slug.

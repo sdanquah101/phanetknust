@@ -18,6 +18,30 @@ export type Lower = "stand" | "kneel" | "sit";
 export type HairStyle = "short" | "fade" | "afro" | "puff" | "braids" | "wrap" | "bob";
 
 type Pt = [number, number];
+
+/* ---------- colour helpers for 3D shading ---------- */
+const hx = (h: string) => h.replace("#", "").padEnd(6, "0").slice(0, 6);
+function mix(a: string, b: string, t: number) {
+  const A = hx(a), B = hx(b);
+  const c = [0, 2, 4].map((i) => Math.round(parseInt(A.slice(i, i + 2), 16) * (1 - t) + parseInt(B.slice(i, i + 2), 16) * t));
+  return "#" + c.map((v) => v.toString(16).padStart(2, "0")).join("");
+}
+export const lighten = (h: string, t: number) => mix(h, "#ffffff", t);
+export const darken = (h: string, t: number) => mix(h, "#000000", t);
+const gid = (kind: string, color: string) => `pa-${kind}-${hx(color)}`;
+
+/** Gradients for one colour, keyed by colour so repeated people share them. */
+function Shades({ skin, top, bottom, hair, shoes }: { skin: string; top: string; bottom: string; hair: string; shoes: string }) {
+  return (
+    <defs>
+      <radialGradient id={gid("skin", skin)} cx="0.36" cy="0.3" r="0.78"><stop offset="0" stopColor={lighten(skin, 0.28)} /><stop offset="0.55" stopColor={skin} /><stop offset="1" stopColor={darken(skin, 0.3)} /></radialGradient>
+      <linearGradient id={gid("cloth", top)} x1="0" y1="0" x2="1" y2="0.35"><stop offset="0" stopColor={lighten(top, 0.22)} /><stop offset="0.5" stopColor={top} /><stop offset="1" stopColor={darken(top, 0.32)} /></linearGradient>
+      <linearGradient id={gid("cloth", bottom)} x1="0" y1="0" x2="1" y2="0.35"><stop offset="0" stopColor={lighten(bottom, 0.2)} /><stop offset="0.5" stopColor={bottom} /><stop offset="1" stopColor={darken(bottom, 0.3)} /></linearGradient>
+      <radialGradient id={gid("hair", hair)} cx="0.35" cy="0.25" r="0.85"><stop offset="0" stopColor={lighten(hair, 0.22)} /><stop offset="0.6" stopColor={hair} /><stop offset="1" stopColor={darken(hair, 0.4)} /></radialGradient>
+      <radialGradient id={gid("shoe", shoes)} cx="0.35" cy="0.3" r="0.8"><stop offset="0" stopColor={lighten(shoes, 0.35)} /><stop offset="1" stopColor={darken(shoes, 0.25)} /></radialGradient>
+    </defs>
+  );
+}
 const SH_L: Pt = [-12, -64];
 const SH_R: Pt = [12, -64];
 
@@ -55,55 +79,73 @@ export function Person({
   const hip = -38 + dy;
   const arms = ARMS[pose];
   const legW = 9;
+  const hiL = lighten(skirt && lower === "stand" ? skin : bottom, 0.22);
+  const shoeFill = `url(#${gid("shoe", shoes)})`;
   // legs
   let legs: React.ReactNode;
   if (lower === "stand") {
     legs = (
       <>
         <path d={`M-6 ${hip} L-7 -3`} stroke={skirt ? skin : bottom} strokeWidth={legW} strokeLinecap="round" />
-        <path d={`M6 ${hip} L7 -3`} stroke={skirt ? skin : bottom} strokeWidth={legW} strokeLinecap="round" />
-        <ellipse cx={-9} cy={-1} rx={7} ry={3.5} fill={shoes} stroke="#00000022" />
-        <ellipse cx={9} cy={-1} rx={7} ry={3.5} fill={shoes} stroke="#00000022" />
+        <path d={`M6 ${hip} L7 -3`} stroke={skirt ? darken(skin, 0.12) : darken(bottom, 0.18)} strokeWidth={legW} strokeLinecap="round" />
+        <path d={`M-8 ${hip + 3} L-9 -6`} stroke={hiL} strokeWidth={2.6} strokeLinecap="round" opacity={0.7} />
+        <ellipse cx={-9} cy={-1} rx={7.5} ry={3.8} fill={shoeFill} />
+        <ellipse cx={9} cy={-1} rx={7.5} ry={3.8} fill={shoeFill} />
+        <ellipse cx={-11} cy={-2.6} rx={2.6} ry={1.1} fill="#fff" opacity={0.6} />
+        <ellipse cx={7} cy={-2.6} rx={2.6} ry={1.1} fill="#fff" opacity={0.6} />
       </>
     );
   } else if (lower === "kneel") {
     legs = (
       <>
-        <path d={`M-6 ${hip} L-4 -4 L-22 -3`} stroke={bottom} strokeWidth={legW} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        <path d={`M-6 ${hip} L-4 -4 L-22 -3`} stroke={darken(bottom, 0.15)} strokeWidth={legW} strokeLinecap="round" strokeLinejoin="round" fill="none" />
         <path d={`M6 ${hip} L8 -4 L-10 -3`} stroke={bottom} strokeWidth={legW} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        <ellipse cx={-25} cy={-2} rx={5} ry={3} fill={shoes} />
+        <path d={`M4 ${hip + 2} L6 -6`} stroke={hiL} strokeWidth={2.6} strokeLinecap="round" opacity={0.7} />
+        <ellipse cx={-25} cy={-2} rx={5.5} ry={3.2} fill={shoeFill} />
       </>
     );
   } else {
     legs = (
       <>
-        <path d={`M-6 ${hip} L10 ${hip} L10 -3`} stroke={bottom} strokeWidth={legW} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        <path d={`M-6 ${hip} L10 ${hip} L10 -3`} stroke={darken(bottom, 0.15)} strokeWidth={legW} strokeLinecap="round" strokeLinejoin="round" fill="none" />
         <path d={`M6 ${hip} L22 ${hip} L22 -3`} stroke={bottom} strokeWidth={legW} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        <ellipse cx={13} cy={-1} rx={6.5} ry={3.2} fill={shoes} />
-        <ellipse cx={25} cy={-1} rx={6.5} ry={3.2} fill={shoes} />
+        <path d={`M8 ${hip - 3} L20 ${hip - 3}`} stroke={hiL} strokeWidth={2.6} strokeLinecap="round" opacity={0.7} />
+        <ellipse cx={13} cy={-1} rx={7} ry={3.4} fill={shoeFill} />
+        <ellipse cx={25} cy={-1} rx={7} ry={3.4} fill={shoeFill} />
       </>
     );
   }
 
+  const hairFill = `url(#${gid("hair", hairColor)})`;
+  const skinFill = `url(#${gid("skin", skin)})`;
+  const topFill = `url(#${gid("cloth", top)})`;
   const hairBack = (() => {
     switch (hair) {
-      case "afro": return <circle cx={0} cy={-90} r={23} fill={hairColor} />;
-      case "puff": return <><ellipse cx={0} cy={-90} rx={16} ry={13} fill={hairColor} /><circle cx={0} cy={-106} r={9} fill={hairColor} /></>;
-      case "braids": return <><ellipse cx={0} cy={-90} rx={16.5} ry={13.5} fill={hairColor} /><rect x={-20} y={-92} width={8} height={40} rx={4} fill={hairColor} /><rect x={12} y={-92} width={8} height={40} rx={4} fill={hairColor} /></>;
-      case "bob": return <><ellipse cx={0} cy={-90} rx={17} ry={14} fill={hairColor} /><rect x={-18} y={-90} width={36} height={16} rx={7} fill={hairColor} /></>;
+      case "afro": return <circle cx={0} cy={-90} r={23} fill={hairFill} />;
+      case "puff": return <><ellipse cx={0} cy={-90} rx={16} ry={13} fill={hairFill} /><circle cx={0} cy={-106} r={9} fill={hairFill} /></>;
+      case "braids": return <><ellipse cx={0} cy={-90} rx={16.5} ry={13.5} fill={hairFill} /><rect x={-20} y={-92} width={8} height={40} rx={4} fill={hairFill} /><rect x={12} y={-92} width={8} height={40} rx={4} fill={hairFill} /></>;
+      case "bob": return <><ellipse cx={0} cy={-90} rx={17} ry={14} fill={hairFill} /><rect x={-18} y={-90} width={36} height={16} rx={7} fill={hairFill} /></>;
       case "wrap": return <><ellipse cx={0} cy={-92} rx={17} ry={14} fill={wrapColor} /><circle cx={10} cy={-104} r={6} fill={wrapColor} /></>;
-      case "fade": return <ellipse cx={0} cy={-89} rx={15} ry={11} fill={hairColor} />;
-      default: return <ellipse cx={0} cy={-90} rx={16} ry={12.5} fill={hairColor} />;
+      case "fade": return <ellipse cx={0} cy={-89} rx={15} ry={11} fill={hairFill} />;
+      default: return <ellipse cx={0} cy={-90} rx={16} ry={12.5} fill={hairFill} />;
     }
   })();
 
   const face = back ? null : (
     <>
-      {eyes === "open" && <><ellipse cx={-5} cy={-84} rx={1.9} ry={2.5} fill={HAIR} /><ellipse cx={5} cy={-84} rx={1.9} ry={2.5} fill={HAIR} /></>}
+      {eyes === "open" && [-5.2, 5.2].map((ex) => (
+        <g key={ex}>
+          <ellipse cx={ex} cy={-84} rx={3.4} ry={4} fill="#fff" />
+          <circle cx={ex + 0.4} cy={-83.4} r={2.5} fill="#3b2314" />
+          <circle cx={ex + 0.4} cy={-83.4} r={1.4} fill={HAIR} />
+          <circle cx={ex - 0.6} cy={-84.8} r={0.9} fill="#fff" />
+        </g>
+      ))}
       {eyes === "closed" && <path d="M-7.5 -84 q2.5 2.5 5 0 M2.5 -84 q2.5 2.5 5 0" stroke={HAIR} strokeWidth={1.6} fill="none" strokeLinecap="round" />}
       {eyes === "happy" && <path d="M-7.5 -83 q2.5 -3 5 0 M2.5 -83 q2.5 -3 5 0" stroke={HAIR} strokeWidth={1.6} fill="none" strokeLinecap="round" />}
-      {mouth === "smile" && <path d="M-4.5 -77 q4.5 4 9 0" stroke={HAIR} strokeWidth={1.6} fill="none" strokeLinecap="round" />}
-      {mouth === "open" && <path d="M-4.5 -77.5 q4.5 7 9 0 z" fill="#7a1f1f" />}
+      <ellipse cx={0} cy={-79.6} rx={1.7} ry={1.1} fill={darken(skin, 0.28)} opacity={0.7} />
+      {mouth === "smile" && <path d="M-4.5 -76.5 q4.5 4 9 0" stroke={darken(skin, 0.55)} strokeWidth={1.7} fill="none" strokeLinecap="round" />}
+      {mouth === "open" && <g><path d="M-4.5 -77 q4.5 7 9 0 z" fill="#5c1414" /><path d="M-3 -77 h6 v1.2 h-6z" fill="#fff" /></g>}
       {mouth === "flat" && <path d="M-3 -76.5 h6" stroke={HAIR} strokeWidth={1.6} strokeLinecap="round" />}
       <circle cx={-9.5} cy={-79} r={2.6} fill="#ff8a7a" opacity={0.35} />
       <circle cx={9.5} cy={-79} r={2.6} fill="#ff8a7a" opacity={0.35} />
@@ -114,37 +156,45 @@ export function Person({
   const handOrder = back ? ["l", "r"] : ["l", "r"];
   return (
     <g transform={`translate(${x} ${y}) scale(${flip ? -s : s} ${s})`}>
+      <Shades skin={skin} top={top} bottom={bottom} hair={hair === "wrap" ? wrapColor : hairColor} shoes={shoes} />
+      <ellipse cx={lower === "sit" ? 10 : lower === "kneel" ? -8 : 0} cy={0} rx={lower === "stand" ? 22 : 28} ry={5} fill="#001a5c" opacity={0.35} filter="url(#pa-blur)" />
+      <g filter="url(#pa-drop)">
       {legs}
       <g transform={`translate(0 ${dy})`}>
         {hairBack}
         {skirt && lower === "stand" && <path d={`M-14 ${-40} L14 ${-40} L19 -16 L-19 -16 Z`} fill={bottom} />}
-        <rect x={-4} y={-74} width={8} height={8} fill={skin} />
-        <rect x={-14} y={-68} width={28} height={33} rx={11} fill={top} />
+        <rect x={-4} y={-74} width={8} height={8} fill={darken(skin, 0.18)} />
+        <rect x={-14} y={-68} width={28} height={33} rx={11} fill={topFill} />
+        <ellipse cx={-5} cy={-58} rx={6} ry={8} fill="#fff" opacity={0.16} />
+        <path d="M12.5 -62 Q15.5 -51 12.5 -39" stroke={C.glow} strokeWidth={2.2} fill="none" strokeLinecap="round" opacity={0.75} />
         {collar && <path d="M-6 -68 L0 -60 L6 -68 Z" fill={collar} />}
         {handOrder.map((k) => {
           const [e, h] = arms[k as "l" | "r"];
           const sh = k === "l" ? SH_L : SH_R;
           return (
             <g key={k}>
-              <path d={path(sh, e, h)} stroke={top} strokeWidth={7.5} strokeLinecap="round" fill="none" />
-              <circle cx={h[0]} cy={h[1]} r={4.2} fill={skin} />
+              <path d={path(sh, e, h)} stroke={k === "l" ? top : darken(top, 0.16)} strokeWidth={7.5} strokeLinecap="round" fill="none" />
+              <path d={path([sh[0] - 1.5, sh[1] - 1], [e[0] - 1.5, e[1] - 1], [h[0] - 1, h[1] - 1])} stroke={lighten(top, 0.3)} strokeWidth={2.2} strokeLinecap="round" fill="none" opacity={0.6} />
+              <circle cx={h[0]} cy={h[1]} r={4.4} fill={skinFill} />
             </g>
           );
         })}
-        {pose === "book" && <g><path d="M-13 -56 L0 -52 L13 -56 L13 -45 L0 -41 L-13 -45 Z" fill={C.white} stroke="#0a2a7a33" /><path d="M0 -52 L0 -41" stroke="#0a2a7a55" /></g>}
+        {pose === "book" && <g><path d="M-14 -44 L0 -40 L14 -44 L14 -42 L0 -38 L-14 -42 Z" fill={C.maroon} /><path d="M-13 -56 L0 -52 L13 -56 L13 -45 L0 -41 L-13 -45 Z" fill="#fff" /><path d="M0 -52 L13 -56 L13 -45 L0 -41 Z" fill="#e3ebfb" /><path d="M0 -52 L0 -41" stroke="#0a2a7a55" /></g>}
         
-        <circle cx={0} cy={-83} r={14.5} fill={skin} />
-        {back ? <circle cx={0} cy={-85} r={15.5} fill={hair === "wrap" ? wrapColor : hairColor} /> : (
+        <circle cx={0} cy={-83} r={14.5} fill={skinFill} />
+        {back ? <circle cx={0} cy={-85} r={15.5} fill={hairFill} /> : (
           <>
-            <circle cx={-14.5} cy={-82} r={3} fill={skin} />
-            <circle cx={14.5} cy={-82} r={3} fill={skin} />
+            <circle cx={-14.5} cy={-82} r={3} fill={skinFill} />
+            <circle cx={14.5} cy={-82} r={3} fill={darken(skin, 0.15)} />
             {hair === "wrap"
-              ? <path d="M-15.5 -85 A15.5 15.5 0 0 1 15.5 -85 Q0 -95 -15.5 -85 Z" fill={wrapColor} />
-              : <path d={hair === "fade" ? "M-14.3 -87.5 A14.6 14.6 0 0 1 14.3 -87.5 Q2 -93.5 -14.3 -87.5 Z" : "M-14.6 -85 A14.8 14.8 0 0 1 14.6 -85 Q5 -94 -9 -89 Q-12 -87 -14.6 -85 Z"} fill={hairColor} />}
+              ? <path d="M-15.5 -85 A15.5 15.5 0 0 1 15.5 -85 Q0 -95 -15.5 -85 Z" fill={hairFill} />
+              : <path d={hair === "fade" ? "M-14.3 -87.5 A14.6 14.6 0 0 1 14.3 -87.5 Q2 -93.5 -14.3 -87.5 Z" : "M-14.6 -85 A14.8 14.8 0 0 1 14.6 -85 Q5 -94 -9 -89 Q-12 -87 -14.6 -85 Z"} fill={hairFill} />}
+            <path d="M-8 -95 Q-2 -99 5 -97" stroke="#fff" strokeWidth={1.8} fill="none" strokeLinecap="round" opacity={0.28} />
           </>
         )}
         {face}
-        {(pose === "mic" || pose === "micup") && <g><path d="M9 -66 L7.5 -73" stroke="#222" strokeWidth={4.5} strokeLinecap="round" /><circle cx={7} cy={-75.5} r={4.2} fill="#444" /><circle cx={7} cy={-75.5} r={4.2} fill="none" stroke="#777" strokeWidth={1} /></g>}
+        {(pose === "mic" || pose === "micup") && <g><path d="M9 -66 L7.5 -73" stroke="#222" strokeWidth={4.5} strokeLinecap="round" /><circle cx={7} cy={-75.5} r={4.2} fill="#444" /><circle cx={7} cy={-75.5} r={4.2} fill="none" stroke="#777" strokeWidth={1} /><circle cx={5.8} cy={-76.8} r={1.2} fill="#fff" opacity={0.7} /></g>}
+      </g>
       </g>
     </g>
   );
@@ -161,7 +211,9 @@ export function StageDisc({ id, cx, cy, rx, ry, depth = 12 }: { id: string; cx: 
       <ellipse cx={cx} cy={cy + depth} rx={rx} ry={ry} fill={`url(#${id}-side)`} />
       <rect x={cx - rx} y={cy} width={rx * 2} height={depth} fill={`url(#${id}-side)`} />
       <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill={`url(#${id}-top)`} />
-      <ellipse cx={cx - rx * 0.15} cy={cy - ry * 0.45} rx={rx * 0.55} ry={ry * 0.18} fill="#fff" opacity={0.45} />
+      <ellipse cx={cx} cy={cy} rx={rx - 2} ry={ry - 1.5} fill="none" stroke="#ffd9a0" strokeWidth={2.5} opacity={0.8} />
+      <ellipse cx={cx - rx * 0.15} cy={cy - ry * 0.45} rx={rx * 0.55} ry={ry * 0.18} fill="#fff" opacity={0.5} filter="url(#pa-blur-s)" />
+      <ellipse cx={cx} cy={cy + depth + ry * 0.9} rx={rx * 1.05} ry={ry * 0.35} fill="#001a5c" opacity={0.35} filter="url(#pa-blur)" />
     </g>
   );
 }
@@ -174,9 +226,11 @@ export function Ribbon({ d, color = C.sky, opacity = 0.35 }: { d: string; color?
 export function Chair({ x, y, s = 1, color = C.ice }: { x: number; y: number; s?: number; color?: string }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
-      <rect x={-18} y={-58} width={8} height={40} rx={3} fill={color} opacity={0.9} />
+      <rect x={-18} y={-58} width={8} height={40} rx={3} fill={darken(color, 0.12)} />
+      <rect x={-17} y={-57} width={3} height={36} rx={1.5} fill="#fff" opacity={0.6} />
       <rect x={-18} y={-22} width={44} height={7} rx={3} fill={color} />
-      <path d="M-14 -15 L-14 0 M22 -15 L22 0" stroke={color} strokeWidth={4} strokeLinecap="round" />
+      <rect x={-18} y={-17} width={44} height={2.5} rx={1} fill={darken(color, 0.2)} />
+      <path d="M-14 -15 L-14 0 M22 -15 L22 0" stroke={darken(color, 0.18)} strokeWidth={4} strokeLinecap="round" />
     </g>
   );
 }
@@ -189,7 +243,16 @@ export function Svg({ title, children }: { title: string; children: React.ReactN
   return (
     <svg viewBox="0 0 640 360" role="img" aria-label={title} className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
       <title>{title}</title>
+      <defs>
+        <filter id="pa-blur" x="-50%" y="-200%" width="200%" height="500%"><feGaussianBlur stdDeviation="3.5" /></filter>
+        <filter id="pa-blur-s" x="-20%" y="-100%" width="140%" height="300%"><feGaussianBlur stdDeviation="2" /></filter>
+        <filter id="pa-drop" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="1.5" dy="3" stdDeviation="2.5" floodColor="#001a5c" floodOpacity="0.35" /></filter>
+        <radialGradient id="pa-vignette" cx="0.5" cy="0.45" r="0.75"><stop offset="0.6" stopColor="#001a5c" stopOpacity="0" /><stop offset="1" stopColor="#001a5c" stopOpacity="0.45" /></radialGradient>
+        <radialGradient id="pa-key" cx="0.2" cy="0" r="0.8"><stop offset="0" stopColor="#ffffff" stopOpacity="0.18" /><stop offset="1" stopColor="#ffffff" stopOpacity="0" /></radialGradient>
+      </defs>
       {children}
+      <rect width="640" height="360" fill="url(#pa-key)" pointerEvents="none" />
+      <rect width="640" height="360" fill="url(#pa-vignette)" pointerEvents="none" />
     </svg>
   );
 }

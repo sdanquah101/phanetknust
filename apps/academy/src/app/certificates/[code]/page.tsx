@@ -2,7 +2,7 @@ import { Badge, ButtonLink, Card, EmptyState, Label, Script } from "@phanet/ui";
 import { fmtDate } from "@phanet/supabase/format";
 import { SiteShell } from "@/components/site-shell";
 import { verifyCertificate } from "@/lib/queries";
-import { ACADEMY_URL } from "@/lib/brand";
+import { ACADEMY_URL, CERTIFICATE_ISSUER } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Verify certificate" };
@@ -37,7 +37,7 @@ export default async function CertificatePage({ params }: { params: Promise<{ co
             <div className="grid gap-4 sm:grid-cols-3">
               <div><Label>Issued</Label><div className="mt-1 font-bold">{fmtDate(cert.issued_at, { day: "numeric", month: "long", year: "numeric" })}</div></div>
               <div><Label>Code</Label><div className="mt-1 font-bold tracking-wider">{cert.code}</div></div>
-              <div><Label>Issued by</Label><div className="mt-1 font-bold">PHANET KNUST</div></div>
+              <div><Label>Issued by</Label><div className="mt-1 font-bold">{CERTIFICATE_ISSUER.name}</div><div className="text-xs text-muted">PHANET Academy</div></div>
             </div>
             <div className="flex flex-wrap gap-2">
               <a href={`/certificates/${encodeURIComponent(cert.code)}/pdf`} className="btn btn-orange">Download PDF</a>

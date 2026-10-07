@@ -4,12 +4,12 @@ import { renderCertificatePdf } from "@/lib/certificate-pdf";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(_req: NextRequest, ctx: { params: Promise<{ code: string }> }) {
+export async function GET(req: NextRequest, ctx: { params: Promise<{ code: string }> }) {
   const { code } = await ctx.params;
   const cert = await verifyCertificate(decodeURIComponent(code));
   if (!cert) return new NextResponse("Certificate not found", { status: 404 });
 
-  const bytes = await renderCertificatePdf(cert);
+  const bytes = await renderCertificatePdf(cert, { origin: req.nextUrl.origin });
   const safe = cert.code.replace(/[^A-Za-z0-9-]/g, "");
   return new NextResponse(Buffer.from(bytes), {
     status: 200,

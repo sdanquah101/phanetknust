@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   transpilePackages: ["@phanet/ui", "@phanet/supabase"],
+  // The certificate PDF reads its fonts from disk at request time.
+  outputFileTracingIncludes: { "/certificates/[code]/pdf": ["./public/fonts/certificate/**/*"] },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "*.supabase.co" },

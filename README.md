@@ -28,7 +28,7 @@ pnpm --filter @phanet/web dev     # http://localhost:3000 (other apps on 3001–
 ```
 
 ## First deploy, in order
-1. Supabase → SQL editor → run `supabase/migrations/0001…0009` in order, then `supabase/seed.sql` (optional starter content).
+1. Supabase → SQL editor → run `supabase/migrations/0001…0012` in order, then `supabase/seed.sql` (optional starter content).
 2. Supabase → Authentication → add your own user, then run `select public.grant_role_by_email('you@example.com','admin');`.
 3. Netlify → one site per app, Base directory `apps/<app>`, env vars from `.env.example`.
 4. Paystack → webhook URL `https://phaneteers.com/api/paystack/webhook`.

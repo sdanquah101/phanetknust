@@ -31,12 +31,12 @@ export default async function ResourcesPage({ searchParams }: { searchParams: Pr
         <Card>
           <Table>
             <thead>
-              <tr><th>Resource</th><th>Type</th><th>Links</th><th>Added</th><th>Status</th><th /></tr>
+              <tr><th>Resource</th><th className="hidden xl:table-cell">Type</th><th>Links</th><th className="hidden 2xl:table-cell">Added</th><th>Status</th><th /></tr>
             </thead>
             <tbody>
               {resources.map((r) => (
                 <tr key={r.id}>
-                  <td>
+                  <td className="min-w-[16rem]">
                     <div className="flex items-center gap-3">
                       {r.cover_url ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -46,11 +46,11 @@ export default async function ResourcesPage({ searchParams }: { searchParams: Pr
                       )}
                       <div className="min-w-0">
                         <div className="font-bold truncate">{r.title}</div>
-                        <div className="text-xs text-muted truncate">{r.author ?? "—"}</div>
+                        <div className="text-xs text-muted truncate"><span className="capitalize xl:hidden">{r.kind} · </span>{r.author ?? "—"}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="capitalize">{r.kind}</td>
+                  <td className="hidden xl:table-cell capitalize">{r.kind}</td>
                   <td className="text-xs">
                     <div className="flex flex-wrap gap-1">
                       {r.file_url && <a href={r.file_url} target="_blank" rel="noreferrer" className="pill pill-ice !py-1 !px-2.5 no-underline">File</a>}
@@ -58,7 +58,7 @@ export default async function ResourcesPage({ searchParams }: { searchParams: Pr
                       {!r.file_url && !r.youtube_url && <span className="text-muted">—</span>}
                     </div>
                   </td>
-                  <td className="whitespace-nowrap">{fmtDate(r.created_at)}</td>
+                  <td className="hidden 2xl:table-cell whitespace-nowrap">{fmtDate(r.created_at)}</td>
                   <td>{r.is_published ? <Badge tone="mint">Published</Badge> : <Badge tone="warn">Hidden</Badge>}</td>
                   <td className="text-right whitespace-nowrap">
                     <div className="inline-flex gap-2">

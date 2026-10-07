@@ -101,7 +101,7 @@ async function orderedLessons(courseId: string) {
 export async function addLesson(formData: FormData) {
   const courseId = str(formData, "course_id");
   if (!isUuid(courseId)) fail("/academy", "Unknown course.");
-  const back = `${coursePath(courseId)}#lessons`;
+  const back = `${coursePath(courseId)}?open=add#add-lessons`;
   const title = str(formData, "title");
   if (!title) fail(back, "Give the lesson a title.");
   const kind = str(formData, "kind");
@@ -310,7 +310,7 @@ async function lessonQuizId(courseId: string, lessonId: string, title?: string):
 export async function bulkAddLessons(formData: FormData) {
   const courseId = str(formData, "course_id");
   if (!isUuid(courseId)) fail("/academy", "Unknown course.");
-  const back = `${coursePath(courseId)}#lessons`;
+  const back = `${coursePath(courseId)}?open=add#add-lessons`;
   const { lessons, errors } = parseLessonLines(String(formData.get("lines") ?? ""));
   if (errors.length) fail(back, errors.slice(0, 3).join(" "));
   if (!lessons.length) fail(back, "Paste at least one lesson.");
@@ -397,7 +397,7 @@ export async function removeLessonQuiz(formData: FormData) {
 export async function importQuestions(formData: FormData) {
   const courseId = str(formData, "course_id");
   if (!isUuid(courseId)) fail("/academy", "Unknown course.");
-  const back = `${coursePath(courseId)}#import`;
+  const back = `${coursePath(courseId)}?open=import#import`;
   const upload = file(formData, "csv");
   const text = upload ? await upload.text() : String(formData.get("text") ?? "");
   const replace = bool(formData, "replace");

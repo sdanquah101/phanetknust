@@ -45,12 +45,12 @@ export default async function AcademyPage({ searchParams }: { searchParams: Prom
         <Card>
           <Table>
             <thead>
-              <tr><th>Course</th><th>Level</th><th>Format</th><th>Lessons</th><th>Status</th><th /></tr>
+              <tr><th>Course</th><th className="hidden xl:table-cell">Level</th><th>Lessons</th><th>Status</th><th /></tr>
             </thead>
             <tbody>
               {courses.map((c) => (
                 <tr key={c.id}>
-                  <td>
+                  <td className="min-w-[16rem]">
                     <div className="flex items-center gap-3">
                       {c.cover_url ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -60,12 +60,11 @@ export default async function AcademyPage({ searchParams }: { searchParams: Prom
                       )}
                       <div className="min-w-0">
                         <div className="font-bold truncate">{c.title}</div>
-                        <div className="text-xs text-muted truncate">{c.instructor ?? "—"}{c.duration_label ? ` · ${c.duration_label}` : ""}</div>
+                        <div className="text-xs text-muted truncate">{[c.instructor, c.duration_label, c.format].filter(Boolean).join(" · ") || "—"}</div>
                       </div>
                     </div>
                   </td>
-                  <td>{c.level}</td>
-                  <td className="capitalize">{c.format}</td>
+                  <td className="hidden xl:table-cell capitalize">{c.level ?? "—"}</td>
                   <td>{lessonCount.get(c.id) ?? 0}</td>
                   <td>{c.is_published ? <Badge tone="mint">Published</Badge> : <Badge tone="warn">Draft</Badge>}</td>
                   <td className="text-right whitespace-nowrap">

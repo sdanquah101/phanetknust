@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Badge, Card, EmptyState, Label, PageHeader, Table } from "@phanet/ui";
 import { createClient } from "@phanet/supabase/server";
-import { fmtDateTime } from "@phanet/supabase/format";
+import { fmtDate, fmtTime } from "@phanet/supabase/format";
 import type { Event, Program } from "@phanet/supabase/types";
 import { Flash, type FlashParams } from "@/components/Flash";
 
@@ -9,18 +9,22 @@ function EventTable({ events, programs }: { events: Event[]; programs: Map<strin
   return (
     <Table>
       <thead>
-        <tr><th>Event</th><th>When</th><th>Program</th><th>Where</th><th>Visibility</th><th /></tr>
+        <tr><th>Event</th><th>When</th><th className="hidden xl:table-cell">Where</th><th>Visibility</th><th /></tr>
       </thead>
       <tbody>
         {events.map((e) => (
           <tr key={e.id}>
-            <td>
+            <td className="min-w-[15rem]">
               <div className="font-bold">{e.title}</div>
-              <div className="text-xs text-muted">{e.academic_year ?? ""}{e.semester ? ` · Sem ${e.semester}` : ""}</div>
+              <div className="text-xs text-muted">
+                {[e.program_id ? programs.get(e.program_id) : null, e.academic_year, e.semester ? `Sem ${e.semester}` : null].filter(Boolean).join(" · ") || "—"}
+              </div>
             </td>
-            <td className="whitespace-nowrap">{fmtDateTime(e.starts_at)}{e.ends_at ? <span className="text-muted"> → {fmtDateTime(e.ends_at)}</span> : null}</td>
-            <td>{e.program_id ? programs.get(e.program_id) ?? "—" : "—"}</td>
-            <td>{e.location ?? "—"}</td>
+            <td className="min-w-[9rem] text-sm">
+              <div className="font-semibold whitespace-nowrap">{fmtDate(e.starts_at, { weekday: "short", day: "numeric", month: "short", year: "numeric" })}</div>
+              <div className="text-xs text-muted whitespace-nowrap">{fmtTime(e.starts_at)}{e.ends_at ? ` – ${fmtTime(e.ends_at)}` : ""}</div>
+            </td>
+            <td className="hidden xl:table-cell text-sm max-w-[14rem]"><div className="truncate">{e.location ?? "—"}</div></td>
             <td>{e.is_public ? <Badge tone="good">Public</Badge> : <Badge tone="warn">Staff only</Badge>}</td>
             <td className="text-right"><Link href={`/events/${e.id}`} className="btn btn-blue btn-sm">Edit</Link></td>
           </tr>

@@ -81,7 +81,6 @@ export function Blobs({ variant = "blue" }: { variant?: "blue" | "ice" }) {
     return (
       <>
         <div className="blob blob-sky blob-drift" style={{ width: 520, height: 520, top: -200, right: -160, opacity: 0.45 }} />
-        <div className="blob blob-orange" style={{ width: 360, height: 360, bottom: -180, left: -120, opacity: 0.25 }} />
       </>
     );
   }
@@ -152,9 +151,9 @@ export function Notice({ tone = "ice", children, className }: { tone?: "ice" | "
 export function PageHeader({ eyebrow, title, script, actions, className }: { eyebrow?: string; title: React.ReactNode; script?: string; actions?: React.ReactNode; className?: string }) {
   return (
     <div className={cn("flex flex-wrap items-end justify-between gap-4", className)}>
-      <div>
+      <div className="min-w-0 max-w-full">
         {eyebrow && <Label tone="orange" className="mb-2">{eyebrow}</Label>}
-        <h1 className="text-[32px] md:text-[40px] text-deep">
+        <h1 className="text-[32px] md:text-[40px] text-deep break-words">
           {title} {script && <span className="script text-royal text-[1.15em]">{script}</span>}
         </h1>
       </div>
@@ -164,10 +163,36 @@ export function PageHeader({ eyebrow, title, script, actions, className }: { eye
 }
 
 /* ---------- Table helpers ---------- */
+/** Cells wrap so the table fits its card; if it still can't, a slim scrollbar shows (never silently clipped). */
 export function Table({ className, ...rest }: React.TableHTMLAttributes<HTMLTableElement>) {
   return (
-    <div className="overflow-x-auto scrollbar-none -mx-2 px-2">
+    <div className="table-scroll -mx-2 px-2">
       <table className={cn("table", className)} {...rest} />
     </div>
+  );
+}
+
+/** A card that folds open: for "add / invite / import" forms that would otherwise crowd a page. */
+export function Disclosure({
+  title, description, label, defaultOpen, children, className, id,
+}: {
+  title: React.ReactNode; description?: React.ReactNode; label?: string; defaultOpen?: boolean;
+  children: React.ReactNode; className?: string; id?: string;
+}) {
+  return (
+    <details id={id} open={defaultOpen} className={cn("card disclosure group scroll-mt-6", className)}>
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 md:p-6">
+        <div className="min-w-0">
+          {label && <Label tone="orange" className="mb-1">{label}</Label>}
+          <div className="text-lg font-extrabold leading-snug text-deep">{title}</div>
+          {description && <p className="mt-1 text-sm text-muted">{description}</p>}
+        </div>
+        <span className="btn btn-ice btn-sm flex-none" aria-hidden>
+          <span className="group-open:hidden">Open</span>
+          <span className="hidden group-open:inline">Close</span>
+        </span>
+      </summary>
+      <div className="border-t border-ice px-5 pb-6 pt-5 md:px-6">{children}</div>
+    </details>
   );
 }

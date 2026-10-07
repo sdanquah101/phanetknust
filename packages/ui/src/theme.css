@@ -73,6 +73,8 @@
 }
 
 @layer base {
+  /* Grid items default to min-width:auto and get pushed wider by long words or tables; let them shrink. */
+  .grid > * { min-width: 0; }
   html { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; font-size: 16px; }
   body { font-size: 17px; line-height: 1.6; }
   body { color: var(--color-deep); background: var(--color-ice); min-height: 100dvh; }
@@ -172,7 +174,7 @@
   }
 
   /* ---------- Badges ---------- */
-  .badge { display: inline-flex; align-items: center; border-radius: var(--radius-pill); padding: 6px 11px; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; line-height: 1; }
+  .badge { display: inline-flex; align-items: center; border-radius: var(--radius-pill); padding: 6px 11px; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; line-height: 1; white-space: nowrap; }
   .badge-good { background: var(--color-ice); color: var(--color-royal); }
   .badge-warn { background: var(--color-peach-tint); color: var(--color-ember-ink); }
   .badge-mint { background: var(--color-mint); color: var(--color-mint-ink); }
@@ -258,7 +260,13 @@
   /* ---------- Tables ---------- */
   .table { width: 100%; border-collapse: collapse; font-size: 15px; }
   .table th { text-align: left; font-weight: 700; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-muted); padding: 10px 12px; border-bottom: 1px solid var(--color-ice); }
-  .table td { padding: 14px 12px; border-bottom: 1px solid var(--color-ice); vertical-align: middle; }
+  .table td { padding: 14px 12px; border-bottom: 1px solid var(--color-ice); vertical-align: middle; overflow-wrap: break-word; }
+  /* In a table, "truncate" can't work (cells grow to fit); wrap to two lines instead so columns can shrink. */
+  .table td .truncate { white-space: normal !important; text-overflow: clip !important; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .table-scroll { overflow-x: auto; scrollbar-width: thin; scrollbar-color: #c3d4f6 transparent; }
+  .table-scroll::-webkit-scrollbar { height: 8px; }
+  .table-scroll::-webkit-scrollbar-thumb { background: #c3d4f6; border-radius: 8px; }
+  .disclosure > summary::-webkit-details-marker { display: none; }
   .table tr:last-child td { border-bottom: 0; }
   .table .amt-in { color: var(--color-royal); font-weight: 700; }
   .table .amt-out { color: var(--color-ember-ink); font-weight: 700; }

@@ -60,7 +60,7 @@ export default async function OverviewPage() {
         <StatCard label="Orders to fulfil" value={s.ordersToFulfil} sub="paid, awaiting pickup" tone={s.ordersToFulfil ? "orange" : "white"} />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr] items-start">
         <Card>
           <div className="flex items-center justify-between mb-4">
             <Label tone="orange">Portals</Label>
@@ -94,7 +94,7 @@ export default async function OverviewPage() {
             ))}
           </ul>
           <div className="mt-auto flex flex-wrap gap-2">
-            <ButtonLink href="/users" variant="white" size="sm">Invite someone</ButtonLink>
+            <ButtonLink href="/users?invite=1#invite" variant="white" size="sm">Invite someone</ButtonLink>
             <ButtonLink href="/site" variant="ghost" size="sm">Edit site text</ButtonLink>
           </div>
         </Card>

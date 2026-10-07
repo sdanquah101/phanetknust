@@ -6,7 +6,10 @@ export function withFlash(path: string, f: { ok?: string; error?: string }) {
   if (f.ok) u.set("ok", f.ok);
   if (f.error) u.set("error", f.error);
   const q = u.toString();
-  return q ? `${path}${path.includes("?") ? "&" : "?"}${q}` : path;
+  if (!q) return path;
+  // Keep any #section at the very end, or the browser treats the query as part of the hash.
+  const [base, hash] = path.split("#", 2);
+  return `${base}${base.includes("?") ? "&" : "?"}${q}${hash ? `#${hash}` : ""}`;
 }
 export function fail(path: string, message: string): never {
   redirect(withFlash(path, { error: message }));

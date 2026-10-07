@@ -21,12 +21,12 @@ export default async function ProgramsPage({ searchParams }: { searchParams: Pro
         <Card>
           <Table>
             <thead>
-              <tr><th>Program</th><th>Schedule</th><th>Location</th><th>Order</th><th>Status</th><th /></tr>
+              <tr><th>Program</th><th>Schedule</th><th className="hidden xl:table-cell">Location</th><th className="hidden 2xl:table-cell">Order</th><th>Status</th><th /></tr>
             </thead>
             <tbody>
               {programs.map((p) => (
                 <tr key={p.id}>
-                  <td>
+                  <td className="min-w-[16rem]">
                     <div className="flex items-center gap-3">
                       {p.cover_url ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -40,9 +40,9 @@ export default async function ProgramsPage({ searchParams }: { searchParams: Pro
                       </div>
                     </div>
                   </td>
-                  <td className="whitespace-nowrap">{p.schedule_label ?? "—"}</td>
-                  <td>{p.location ?? "—"}</td>
-                  <td>{p.sort_order}</td>
+                  <td className="min-w-[9rem] text-sm">{p.schedule_label ?? "—"}</td>
+                  <td className="hidden xl:table-cell text-sm"><div className="truncate">{p.location ?? "—"}</div></td>
+                  <td className="hidden 2xl:table-cell">{p.sort_order}</td>
                   <td>{p.is_active ? <Badge tone="mint">Live</Badge> : <Badge tone="warn">Hidden</Badge>}</td>
                   <td className="text-right whitespace-nowrap">
                     <div className="inline-flex gap-2">

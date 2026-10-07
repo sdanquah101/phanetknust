@@ -285,7 +285,7 @@ function drawBackground(page: PDFPage) {
 /** Watermark rosette behind the recipient's name. */
 function drawWatermark(page: PDFPage) {
   const cx = W / 2;
-  const cy = 300;
+  const cy = 292;
   for (const d of guillocheRing(cx, cy, 170, 12, 40, 10)) stroke(page, d, GOLD, 0.35, 0.13);
   for (const d of guillocheRing(cx, cy, 132, 9, 32, 8)) stroke(page, d, GOLD, 0.3, 0.1);
   for (const d of guillocheRing(cx, cy, 98, 6, 24, 6)) stroke(page, d, GOLD, 0.3, 0.08);
@@ -406,6 +406,96 @@ function drawSeal(page: PDFPage, cx: number, cy: number, fonts: Fonts, year: num
   drawText(page, roman(year), cx, cy - 9.6, { font: fonts.capsBold, size: 3.6, color: INK_DEEP, tracking: 0.5 });
 }
 
+/**
+ * The PHANET logo, redrawn as vectors so it stays sharp in print: a white badge with a blue rim,
+ * "PHANET" arched over a blue globe, and a ring of people holding hands around it.
+ */
+function drawPhanetLogo(page: PDFPage, cx: number, cy: number, r: number, fonts: Fonts) {
+  const SKY = hex("#4FA3F7");
+  const BLUE = hex("#1F5EFF");
+  const BLUE_DEEP = hex("#0B3BD1");
+  const BODY = hex("#E4E7EE");
+  const BODY_SHADE = hex("#B9BFCC");
+  const OUTLINE = hex("#8A92A3");
+  const ORANGE = hex("#E8862A");
+  const YELLOW = hex("#F2B636");
+
+  // Gold keyline that ties the badge to the certificate, then a soft shadow and the blue rim.
+  stroke(page, circle(cx, cy, r + 3.4), GOLD, 0.6);
+  fill(page, circle(cx, cy - 0.8, r + 0.4), INK, 0.12);
+  fill(page, circle(cx, cy, r), SKY);
+  fill(page, circle(cx, cy - 0.9, r - 0.4), BLUE);
+  fill(page, circle(cx, cy + 0.35, r - 1.5), rgb(1, 1, 1));
+
+  // People holding hands on a ring seen from slightly above.
+  const n = 10;
+  const ringY = cy - r * 0.32;
+  const rx = r * 0.64;
+  const ry = r * 0.27;
+  const people = Array.from({ length: n }, (_, i) => {
+    const t = -Math.PI / 2 + (i / n) * TAU + 0.18;
+    const depth = (Math.sin(t) + 1) / 2; // 0 = front, 1 = back
+    const h = r * 0.45 * (1 - 0.24 * depth);
+    const x = cx + rx * Math.cos(t);
+    const y = ringY + ry * Math.sin(t);
+    const color = i === 0 ? ORANGE : i === 3 ? YELLOW : BODY;
+    return { x, y, h, depth, color, shoulder: { x, y: y + h * 0.68 } };
+  });
+  const hand = (a: (typeof people)[number], b: (typeof people)[number]) => ({ x: (a.shoulder.x + b.shoulder.x) / 2, y: (a.shoulder.y + b.shoulder.y) / 2 - a.h * 0.08 });
+
+  const person = (i: number) => {
+    const p = people[i];
+    const { x, y, h } = p;
+    const left = hand(p, people[(i + n - 1) % n]);
+    const right = hand(p, people[(i + 1) % n]);
+    const shade = p.color === BODY ? BODY_SHADE : p.color === ORANGE ? hex("#B8641A") : hex("#C98E1E");
+    const limb = h * 0.085;
+    for (const hd of [left, right]) {
+      page.drawLine({ start: { x, y: p.shoulder.y }, end: hd, thickness: limb + 0.5, color: OUTLINE, lineCap: 1 });
+      page.drawLine({ start: { x, y: p.shoulder.y }, end: hd, thickness: limb, color: p.color, lineCap: 1 });
+    }
+    const legs = (dx: number) => polyline([[x + dx * 0.02 * h, y + h * 0.42], [x + dx * 0.14 * h, y + h * 0.42], [x + dx * 0.17 * h, y], [x + dx * 0.08 * h, y]], true);
+    for (const dx of [-1, 1]) {
+      fill(page, legs(dx), dx > 0 ? shade : p.color);
+      stroke(page, legs(dx), OUTLINE, 0.25);
+    }
+    const torso = polyline([[x - 0.14 * h, y + h * 0.7], [x + 0.14 * h, y + h * 0.7], [x + 0.1 * h, y + h * 0.4], [x - 0.1 * h, y + h * 0.4]], true);
+    fill(page, torso, p.color);
+    fill(page, polyline([[x + 0.02 * h, y + h * 0.7], [x + 0.14 * h, y + h * 0.7], [x + 0.1 * h, y + h * 0.4], [x + 0.02 * h, y + h * 0.4]], true), shade, 0.7);
+    stroke(page, torso, OUTLINE, 0.25);
+    fill(page, circle(x, y + h * 0.84, h * 0.11, 40), p.color);
+    fill(page, circle(x + h * 0.03, y + h * 0.83, h * 0.07, 30), shade, 0.5);
+    stroke(page, circle(x, y + h * 0.84, h * 0.11, 40), OUTLINE, 0.25);
+  };
+
+  const order = people.map((_, i) => i).sort((a, b) => people[b].depth - people[a].depth);
+  const back = order.filter((i) => people[i].depth >= 0.5);
+  const front = order.filter((i) => people[i].depth < 0.5);
+  back.forEach(person);
+
+  // The globe: shaded sphere, graticule, highlight.
+  const gx = cx;
+  const gy = cy - r * 0.13;
+  const gr = r * 0.22;
+  fill(page, circle(gx, gy, gr), BLUE_DEEP);
+  fill(page, circle(gx - gr * 0.12, gy + gr * 0.12, gr * 0.86), BLUE);
+  fill(page, circle(gx - gr * 0.3, gy + gr * 0.3, gr * 0.5), SKY, 0.8);
+  for (const k of [-0.5, 0, 0.5]) {
+    const yy = gy + k * gr;
+    const half = Math.sqrt(1 - k * k) * gr;
+    stroke(page, `M ${P(gx - half, yy)} A ${half} ${half * 0.28} 0 0 0 ${P(gx + half, yy)}`, rgb(1, 1, 1), 0.3, 0.55);
+  }
+  stroke(page, `M ${P(gx, gy + gr)} A ${gr * 0.45} ${gr} 0 0 0 ${P(gx, gy - gr)}`, rgb(1, 1, 1), 0.3, 0.55);
+  stroke(page, `M ${P(gx, gy + gr)} A ${gr * 0.45} ${gr} 0 0 1 ${P(gx, gy - gr)}`, rgb(1, 1, 1), 0.3, 0.55);
+  fill(page, circle(gx - gr * 0.42, gy + gr * 0.46, gr * 0.16, 30), rgb(1, 1, 1), 0.85);
+
+  front.forEach(person);
+
+  // "PHANET" arched across the top.
+  // A gentle arch: a large circle whose centre sits well below the badge.
+  circularText(page, "PHANET", cx, cy - r * 0.98, r * 1.42, fonts.capsBold, r * 0.27, INK_DEEP, r * 0.06);
+}
+
 /** A4 landscape certificate with verification code and URL. */
 export async function renderCertificatePdf(cert: CertificateData, opts: { origin?: string } = {}): Promise<Uint8Array> {
   const pdf = await PDFDocument.create();
@@ -423,36 +513,38 @@ export async function renderCertificatePdf(cert: CertificateData, opts: { origin
 
   const cx = W / 2;
 
-  // Masthead
-  const mast = "PHANET ACADEMY";
-  const mastW = drawText(page, mast, cx, 494, { font: fonts.capsBold, size: 11.5, color: INK, tracking: 4.2 });
+  // Masthead: the PHANET logo between fading gold rules, then the academy name.
+  drawPhanetLogo(page, cx, 504, 28, fonts);
   for (const side of [-1, 1]) {
-    const from = cx + side * (mastW / 2 + 12);
-    const to = cx + side * (mastW / 2 + 52);
-    page.drawLine({ start: { x: from, y: 498 }, end: { x: to, y: 498 }, thickness: 0.6, color: GOLD });
-    diamondAt(page, to + side * 3.2, 498, 2.2, GOLD);
+    for (let i = 0; i < 24; i++) {
+      const a = 44 + (150 * i) / 24;
+      const b = 44 + (150 * (i + 1)) / 24;
+      page.drawLine({ start: { x: cx + side * a, y: 504 }, end: { x: cx + side * b, y: 504 }, thickness: 0.6, color: GOLD, opacity: 1 - (i / 24) ** 1.6 });
+    }
+    diamondAt(page, cx + side * 40, 504, 2, GOLD);
   }
-  drawText(page, "PHANET  KNUST  ·  KUMASI,  GHANA", cx, 479, { font: fonts.caps, size: 6.6, color: MUTED, tracking: 2.2 });
+  drawText(page, "PHANET ACADEMY", cx, 458, { font: fonts.capsBold, size: 11, color: INK, tracking: 4.2 });
+  drawText(page, "PHANET  KNUST  \u00b7  KUMASI,  GHANA", cx, 444, { font: fonts.caps, size: 6.4, color: MUTED, tracking: 2.2 });
 
   // Title
-  drawText(page, "CERTIFICATE", cx, 418, { font: fonts.caps, size: 44, color: INK, tracking: 9 });
-  drawText(page, "of Completion", cx, 384, { font: fonts.script, size: 31, color: GOLD });
+  drawText(page, "CERTIFICATE", cx, 396, { font: fonts.caps, size: 42, color: INK, tracking: 9 });
+  drawText(page, "of Completion", cx, 364, { font: fonts.script, size: 30, color: GOLD });
 
   // Recipient
-  drawText(page, say(fonts.italic, "This is to certify that"), cx, 341, { font: fonts.italic, size: 15, color: MUTED });
+  drawText(page, say(fonts.italic, "This is to certify that"), cx, 327, { font: fonts.italic, size: 15, color: MUTED });
   const name = say(fonts.name, cert.recipient_name.trim() || "PHANET Academy student");
   const nameOpts = { font: fonts.name, size: 50, color: INK };
   const nameSize = fit(name, nameOpts, 560, 26);
-  drawText(page, name, cx, 286, { ...nameOpts, size: nameSize });
-  fadingRule(page, cx, 270, 230, GOLD, 0.7, 3.2);
+  drawText(page, name, cx, 279, { ...nameOpts, size: nameSize });
+  fadingRule(page, cx, 264, 230, GOLD, 0.7, 3.2);
 
   // Course
   const course = say(fonts.capsBold, cert.course_title.trim().toUpperCase());
   const courseOpts = { font: fonts.capsBold, size: 17, color: INK, tracking: 2.2 };
   const { lines, size: courseSize } = balance(course, courseOpts, 540, 10);
-  drawText(page, say(fonts.italic, "has successfully completed the course"), cx, lines.length > 1 ? 246 : 243, { font: fonts.italic, size: 15, color: MUTED });
+  drawText(page, say(fonts.italic, "has successfully completed the course"), cx, lines.length > 1 ? 242 : 240, { font: fonts.italic, size: 15, color: MUTED });
   const lineGap = courseSize * 1.35;
-  const courseTop = lines.length > 1 ? 220 : 213;
+  const courseTop = lines.length > 1 ? 218 : 211;
   lines.forEach((line, i) => drawText(page, line, cx, courseTop - i * lineGap, { ...courseOpts, size: courseSize, tracking: courseSize * 0.13 }));
 
   // Footer: date | seal | signature

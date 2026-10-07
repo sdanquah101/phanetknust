@@ -123,3 +123,11 @@ begin
   insert into public.enrollments (user_id, course_id) values (auth.uid(), v_course) on conflict do nothing;
   return jsonb_build_object('certificate_code', public.maybe_issue_certificate(v_course));
 end $$;
+
+grant execute on function public.complete_lesson(uuid) to authenticated;
+grant execute on function public.submit_quiz_attempt(uuid, jsonb) to authenticated;
+grant execute on function public.lesson_has_quiz(uuid) to anon, authenticated;
+grant execute on function public.lesson_unlocked(uuid) to authenticated;
+
+-- Tell the Supabase API about the new functions straight away.
+notify pgrst, 'reload schema';

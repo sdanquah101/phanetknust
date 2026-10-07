@@ -13,6 +13,8 @@ The main website and seven portals for PHANET KNUST, themed on the 2026/27 word:
 | `apps/prayerwall` | prayerwall.phaneteers.com | Anonymous prayer topics with a code, testimonies by code |
 | `apps/admin` | admin.phaneteers.com | Accounts and portal access, site content, shop, academy content, moderation |
 
+Also in this repo, outside the pnpm workspace: `sites/pastor-eric-birthday` — Pastor Eric's birthday site, a standalone static site on Vercel + Neon. See [its README](sites/pastor-eric-birthday/README.md).
+
 Backend: one Supabase project (Postgres, Auth, Storage) — schema in `supabase/migrations`. Hosting: one Netlify site per app.
 
 - Design system and brand rules: [`docs/design-system.md`](docs/design-system.md)

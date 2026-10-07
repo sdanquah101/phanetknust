@@ -4,6 +4,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 DB=${DB:-phanet_test}
+# Supabase sessions see the "extensions" schema; functions pinned to search_path=public do not.
+export PGOPTIONS="-c search_path=public,extensions"
 dropdb --if-exists "$DB"; createdb "$DB"
 psql -v ON_ERROR_STOP=1 -q -d "$DB" -f supabase/tests/local-stubs.sql
 for f in supabase/migrations/*.sql; do psql -v ON_ERROR_STOP=1 -q -d "$DB" -f "$f"; done

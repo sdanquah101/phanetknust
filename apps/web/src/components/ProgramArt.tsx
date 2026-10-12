@@ -18,14 +18,15 @@ const ICONS: Record<ProgramIcon, React.ReactNode> = {
 const VIDEOS = new Set(["gathering-of-the-adelphos", "night-of-solemnities", "academic-excellence-retreat", "prophetic-convocation", "business-masterclass"]);
 
 /**
- * Program visual: its video ad if there is one, otherwise an uploaded cover image if the admin
+ * Program visual: its video ad if there is one (with a sound button when `sound` is set; leave it
+ * off where the art sits inside a link), otherwise an uploaded cover image if the admin
  * set one, otherwise a kente tile with the program's icon (for programs added later).
  */
-export function ProgramArt({ slug, name, cover, icon, sizes, priority }: { slug: string; name: string; cover: string | null; icon: ProgramIcon; sizes: string; priority?: boolean }) {
+export function ProgramArt({ slug, name, cover, icon, sizes, priority, sound }: { slug: string; name: string; cover: string | null; icon: ProgramIcon; sizes: string; priority?: boolean; sound?: boolean }) {
   if (VIDEOS.has(slug)) {
     return (
       <div className="relative aspect-[16/9] overflow-hidden bg-loom">
-        <ProgramVideo src={`/programs/${slug}`} poster={`/programs/${slug}.webp`} label={`${name}: short video`} />
+        <ProgramVideo src={`/programs/${slug}`} poster={`/programs/${slug}.webp`} label={`${name}: short video`} sound={sound} />
       </div>
     );
   }

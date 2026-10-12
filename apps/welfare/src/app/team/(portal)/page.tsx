@@ -59,7 +59,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           ) : (
             <Card className="flex flex-col divide-y divide-ice !p-2">
               {low.map((i) => (
-                <Link key={i.id} href={`/team/items/${i.id}`} className="flex items-center justify-between gap-3 px-4 py-3 no-underline text-deep hover:bg-row rounded-[16px]">
+                <Link key={i.id} href={`/team/items/${i.id}`} className="flex items-center justify-between gap-3 px-4 py-3 no-underline text-deep hover:bg-row">
                   <div className="min-w-0">
                     <div className="font-bold truncate">{i.name}</div>
                     <div className="text-xs text-muted">{i.category}</div>

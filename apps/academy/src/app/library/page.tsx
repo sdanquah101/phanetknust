@@ -9,7 +9,7 @@ export const metadata = { title: "Library" };
 
 function Cover({ r }: { r: Resource }) {
   return (
-    <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] bg-ice">
+    <div className="relative aspect-[4/3] overflow-hidden bg-ice">
       {r.cover_url ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={r.cover_url} alt="" className="h-full w-full object-cover" loading="lazy" />

@@ -7,7 +7,7 @@ export function AdelphosScene() {
   return (
     <Svg title="Cartoon: students sitting in a circle on a Saturday afternoon, sharing and studying the Bible together">
       <defs>
-        <linearGradient id={`${id}-wall`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#2a7ffb" /><stop offset="1" stopColor="#1766ec" /></linearGradient>
+        <linearGradient id={`${id}-wall`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#4a63ff" /><stop offset="1" stopColor="#1f3fff" /></linearGradient>
         <linearGradient id={`${id}-win`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#bfe6ff" /><stop offset="1" stopColor="#ffe2b8" /></linearGradient>
         <linearGradient id={`${id}-beam`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#fff" stopOpacity=".28" /><stop offset="1" stopColor="#fff" stopOpacity="0" /></linearGradient>
       </defs>
@@ -52,7 +52,7 @@ export function SolemnitiesScene() {
   return (
     <Svg title="Cartoon: students praying through the night, kneeling and lifting their hands, with a preacher on a stage under the moon">
       <defs>
-        <linearGradient id={`${id}-sky`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#061c63" /><stop offset=".65" stopColor="#0a3cc4" /><stop offset="1" stopColor="#1766ec" /></linearGradient>
+        <linearGradient id={`${id}-sky`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#0b1f5c" /><stop offset=".65" stopColor="#1430c8" /><stop offset="1" stopColor="#1f3fff" /></linearGradient>
         <radialGradient id={`${id}-moon`}><stop offset="0" stopColor="#fff6dc" stopOpacity=".55" /><stop offset="1" stopColor="#fff6dc" stopOpacity="0" /></radialGradient>
         <radialGradient id={`${id}-candle`}><stop offset="0" stopColor="#ffd36b" stopOpacity=".7" /><stop offset="1" stopColor="#ffd36b" stopOpacity="0" /></radialGradient>
       </defs>
@@ -64,7 +64,7 @@ export function SolemnitiesScene() {
       {/* clock: past midnight */}
       <g transform="translate(330 70)" filter="url(#pa-drop)"><circle r="22" fill="#fff" /><circle r="22" fill="none" stroke={C.peach} strokeWidth="4" /><path d="M0 0 V-14 M0 0 L9 5" stroke={C.navy} strokeWidth="3" strokeLinecap="round" /><circle r="2.5" fill={C.ember} /></g>
       <Ribbon d="M-30 180 C 120 130, 240 210, 400 160 S 600 120, 690 170" color={C.glow} opacity={0.18} />
-      <rect y="262" width="640" height="98" fill="#0a3cc4" /><ellipse cx="420" cy="300" rx="260" ry="30" fill="#5aa2fb" opacity=".12" />
+      <rect y="262" width="640" height="98" fill="#1430c8" /><ellipse cx="420" cy="300" rx="260" ry="30" fill="#5aa2fb" opacity=".12" />
       {/* preacher on the stage */}
       <StageDisc id={`${id}-stage`} cx={130} cy={276} rx={104} ry={22} />
       <Person x={130} y={278} s={1.05} skin={SKIN.c} hair="short" top={C.maroon} bottom="#2a1418" shoes="#111" pose="micup" mouth="open" collar="#111" />
@@ -96,8 +96,8 @@ export function AcademicScene() {
       </defs>
       <rect width="640" height="360" fill={`url(#${id}-sky)`} />
       {[[120, 70, 1], [470, 110, 0.8]].map(([x, y, k], i) => <g key={i} transform={`translate(${x} ${y}) scale(${k})`} fill="#fff" opacity=".9"><circle cx="-22" cy="4" r="16" /><circle cx="0" cy="-6" r="22" /><circle cx="24" cy="4" r="16" /><rect x="-38" y="4" width="78" height="16" rx="8" /></g>)}
-      <path d="M0 230 C 120 190, 220 210, 330 200 S 540 180, 640 210 V360 H0Z" fill="#2a7ffb" opacity=".55" />
-      <path d="M0 262 C 160 240, 300 258, 420 246 S 580 236, 640 250 V360 H0Z" fill="#1766ec" />
+      <path d="M0 230 C 120 190, 220 210, 330 200 S 540 180, 640 210 V360 H0Z" fill="#4a63ff" opacity=".55" />
+      <path d="M0 262 C 160 240, 300 258, 420 246 S 580 236, 640 250 V360 H0Z" fill="#1f3fff" />
       {/* trees */}
       {[[60, 250, 1.1], [600, 248, 1], [150, 236, 0.75]].map(([x, y, s], i) => (
         <g key={i} transform={`translate(${x} ${y}) scale(${s})`} filter="url(#pa-drop)"><rect x="-6" y="-40" width="12" height="44" rx="4" fill="#7a4a28" /><circle cy="-62" r="34" fill={`url(#${id}-leaf)`} /><circle cx="-20" cy="-48" r="22" fill={`url(#${id}-leaf)`} /><circle cx="22" cy="-50" r="24" fill={`url(#${id}-leaf)`} /><circle cx="-10" cy="-78" r="9" fill="#fff" opacity=".22" /></g>
@@ -135,9 +135,9 @@ export function ConvocationScene() {
   return (
     <Svg title="Cartoon: a large worship gathering with hands raised toward a lit stage where a preacher speaks">
       <defs>
-        <linearGradient id={`${id}-bg`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#061c63" /><stop offset="1" stopColor="#1766ec" /></linearGradient>
+        <linearGradient id={`${id}-bg`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#0b1f5c" /><stop offset="1" stopColor="#1f3fff" /></linearGradient>
         <linearGradient id={`${id}-ray`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#fff" stopOpacity=".55" /><stop offset="1" stopColor="#fff" stopOpacity="0" /></linearGradient>
-        <radialGradient id={`${id}-glow`}><stop offset="0" stopColor="#ffb36b" stopOpacity=".8" /><stop offset="1" stopColor="#fe7711" stopOpacity="0" /></radialGradient>
+        <radialGradient id={`${id}-glow`}><stop offset="0" stopColor="#f6d77a" stopOpacity=".8" /><stop offset="1" stopColor="#e8ad12" stopOpacity="0" /></radialGradient>
       </defs>
       <rect width="640" height="360" fill={`url(#${id}-bg)`} />
       {/* light rays */}
@@ -162,7 +162,7 @@ export function MasterclassScene() {
   return (
     <Svg title="Cartoon: a presenter pointing at a rising chart on a whiteboard while students take notes on laptops">
       <defs>
-        <linearGradient id={`${id}-wall`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#2a7ffb" /><stop offset="1" stopColor="#1766ec" /></linearGradient>
+        <linearGradient id={`${id}-wall`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#4a63ff" /><stop offset="1" stopColor="#1f3fff" /></linearGradient>
       </defs>
       <rect width="640" height="360" fill={`url(#${id}-wall)`} />
       <Ribbon d="M-20 300 C 120 250, 260 320, 400 270 S 580 240, 680 290" opacity={0.25} />

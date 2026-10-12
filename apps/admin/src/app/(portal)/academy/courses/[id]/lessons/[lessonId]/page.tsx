@@ -53,7 +53,7 @@ export default async function LessonEditPage({ params, searchParams }: { params:
         <Card className="flex flex-col gap-4">
           <Label tone="orange">Lesson</Label>
           {yt && (
-            <div className="aspect-video rounded-[18px] overflow-hidden bg-deep">
+            <div className="aspect-video overflow-hidden bg-deep">
               <iframe src={`https://www.youtube.com/embed/${yt}`} title={lesson.title} className="w-full h-full" allowFullScreen />
             </div>
           )}
@@ -103,7 +103,7 @@ export default async function LessonEditPage({ params, searchParams }: { params:
                     </div>
                     <ul className="grid gap-1.5 sm:grid-cols-2 text-sm">
                       {(Array.isArray(q.options) ? q.options : []).map((o, oi) => (
-                        <li key={oi} className={`rounded-xl px-3 py-2 ${oi === q.correct_index ? "bg-white font-bold text-royal" : "text-muted"}`}>
+                        <li key={oi} className={`px-3 py-2 ${oi === q.correct_index ? "bg-white font-bold text-royal" : "text-muted"}`}>
                           <span className="mr-2">{LETTERS[oi] ?? oi + 1}.</span>{o}{oi === q.correct_index && <span className="ml-2 text-[11px] uppercase tracking-wider">✓ correct</span>}
                         </li>
                       ))}

@@ -27,7 +27,7 @@ export default async function ItemsPage({ searchParams }: { searchParams: Promis
                   <tr key={i.id} className={i.is_active ? "" : "opacity-60"}>
                     <td>
                       <Link href={`/team/items/${i.id}`} className="flex items-center gap-3 no-underline text-deep">
-                        <span className="w-9 h-9 rounded-[12px] bg-row overflow-hidden grid place-items-center flex-none">
+                        <span className="w-9 h-9 bg-row overflow-hidden grid place-items-center flex-none">
                           {i.image_url ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img src={i.image_url} alt="" className="w-full h-full object-cover" />

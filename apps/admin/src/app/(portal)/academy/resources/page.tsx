@@ -40,9 +40,9 @@ export default async function ResourcesPage({ searchParams }: { searchParams: Pr
                     <div className="flex items-center gap-3">
                       {r.cover_url ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={r.cover_url} alt="" className="w-10 h-12 rounded-xl object-cover flex-none" />
+                        <img src={r.cover_url} alt="" className="w-10 h-12 object-cover flex-none" />
                       ) : (
-                        <span className="w-10 h-12 rounded-xl bg-ice flex-none" />
+                        <span className="w-10 h-12 bg-ice flex-none" />
                       )}
                       <div className="min-w-0">
                         <div className="font-bold truncate">{r.title}</div>

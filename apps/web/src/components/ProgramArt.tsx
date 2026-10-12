@@ -1,4 +1,7 @@
 import Image from "next/image";
+import { KenteCloth } from "@phanet/ui";
+
+const seedOf = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 9973, 7);
 import type { ProgramIcon } from "@/content/programs";
 import { SCENES } from "@/components/program-art/scenes";
 
@@ -17,19 +20,20 @@ const ICONS: Record<ProgramIcon, React.ReactNode> = {
 export function ProgramArt({ slug, name, cover, icon, sizes, priority }: { slug: string; name: string; cover: string | null; icon: ProgramIcon; sizes: string; priority?: boolean }) {
   if (cover) {
     return (
-      <div className="relative aspect-[16/9] overflow-hidden rounded-[20px] bg-deep">
+      <div className="relative aspect-[16/9] overflow-hidden bg-deep">
         <Image src={cover} alt={name} fill sizes={sizes} className="object-cover" priority={priority} />
       </div>
     );
   }
   const Scene = SCENES[slug];
   if (Scene) {
-    return <div className="relative aspect-[16/9] overflow-hidden rounded-[20px] bg-royal"><Scene /></div>;
+    return <div className="relative aspect-[16/9] overflow-hidden bg-royal"><Scene /></div>;
   }
   return (
-    <div className="relative aspect-[16/9] overflow-hidden rounded-[20px] grid place-items-center bg-[radial-gradient(120%_100%_at_80%_0%,#2a7ffb_0%,#1766ec_45%,#0a46e8_100%)]" aria-hidden>
-      <div className="absolute -bottom-10 -left-6 -right-6 h-20 rounded-[50%] bg-[radial-gradient(60%_80%_at_50%_30%,#ffc98f_0%,#fe7711_55%,#de2700_100%)] shadow-[inset_0_6px_0_rgba(255,255,255,.45)]" />
-      <svg viewBox="0 0 72 72" width="88" height="88" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="relative drop-shadow-[0_6px_14px_rgba(0,30,120,.45)]">{ICONS[icon]}</svg>
+    <div className="relative aspect-[16/9] overflow-hidden grid place-items-center bg-loom isolate" aria-hidden>
+      <KenteCloth seed={seedOf(slug) % 90} stripWidth={72} motion={false} className="absolute inset-0 h-full -z-10" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_50%,rgba(8,8,8,.45),rgba(8,8,8,.8)_75%)]" />
+      <svg viewBox="0 0 72 72" width="88" height="88" fill="none" stroke="#f6d77a" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="relative">{ICONS[icon]}</svg>
     </div>
   );
 }

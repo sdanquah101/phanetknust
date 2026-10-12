@@ -9,7 +9,7 @@ export function CourseCover({ course, className = "" }: { course: CourseCardData
   const first = firstLesson(course);
   const src = course.cover_url ?? youtubeThumb(first?.youtube_url) ?? null;
   return (
-    <div className={`relative aspect-video overflow-hidden rounded-[18px] bg-ice ${className}`}>
+    <div className={`relative aspect-video overflow-hidden bg-ice ${className}`}>
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" />

@@ -69,7 +69,7 @@ export function CheckoutForm({ items }: { items: WelfareItem[] }) {
         <ul className="flex flex-col divide-y divide-ice">
           {lines.map(({ item, qty }) => (
             <li key={item.id} className="py-3 flex items-center gap-3">
-              <div className="w-12 h-12 rounded-[14px] bg-row overflow-hidden grid place-items-center flex-none">
+              <div className="w-12 h-12 bg-row overflow-hidden grid place-items-center flex-none">
                 {item.image_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={item.image_url} alt="" className="w-full h-full object-cover" />

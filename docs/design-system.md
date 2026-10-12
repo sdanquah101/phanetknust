@@ -1,55 +1,53 @@
 # PHANET KNUST design system
 
-The flyer's world turned into a product: a royal‑blue fluid atmosphere, a glossy tangerine "stage" that lifts things up, and bubbly white 3D type. Joyful, youthful, confident. The 2026/27 theme "Let No Man Despise Thy Youth" (1 Tim 4:12) is the brand voice: hero headline, portal badge, verse of the day.
+Kente and paper: white and cream pages, black ink, gold and royal blue, and kente cloth drawn in code. Display type is big, heavy and narrow; everything else is quiet. The 2026/27 theme words, "Let No Man Despise Thy Youth" (1 Timothy 4:12), still appear in text.
 
-Everything below is implemented in `packages/ui/src/theme.css` (tokens + CSS classes) and `packages/ui/src/components/*` (React).
+Everything below lives in `packages/ui/src/theme.css` (tokens and CSS classes) and `packages/ui/src/components/*` (React).
 
 ## Rules
-- **Hero = the flyer's world.** On the home page a blurred copy of the flyer is the backdrop and the crisp artwork dissolves into it (CSS mask). The theme words appear once, in the artwork; the HTML headline says something else.
-- **Contrast first.** Body text on blue is pure white. Small labels on blue are white, never peach/orange. Small orange text on white uses `ember-ink` (#C2410C). Orange buttons use the deep gradient `#E0530A → #BF3C00` so white text passes AA.
-- **Typeface: Outfit** (Google Fonts, 400–900) for everything except the script accent. Outfit runs small, so body text is 17–18px and the Tailwind `text-xs…2xl` tokens are one step larger than default.
-- **Type scale (7 sizes):** `.t-display`, `.t-h1`, `.t-h2`, `.t-h3`, `.t-lead`, `.t-body`, `.t-small` (+ `.label-caps` 12px, `.t-ref` for scripture references, `.t-quote` for verses). No arbitrary `text-[NNpx]` headings.
-- **Script is an accent.** At most one Pacifico word per section, flat with soft depth (`.script-puffy` / `.script`). Never for verses or paragraphs: those use `.t-quote` (Outfit 500, upright: Outfit has no italic).
-- **One orange block per screen.** Hero edges use `<HeroCurve />` (ice curve with a thin tangerine rim), not a full orange band.
-- **Logo** is the PHANET crest (`<Crest />`, lifted from the flyer; swap `CREST_SRC` for a high-res file). The orange dot is no longer a logo or a bullet.
-- **No empty showcases.** Hide sections and stats that have no data instead of showing zeros or "coming soon" bars.
-- **Event photos** are black and white (`.photo-bw` on the wrapper) and colour in on hover, keyboard focus or tap. Leader portraits stay in colour.
-- **Rhythm:** only the hero and footer are full-bleed blue. Other blue panels are inset rounded cards on the ice page.
-- **Public site** = blue ground (`.ground-blue`), orange accent. **Portals** = ice ground (`.ground-ice`), white cards, blue + orange as paint.
-- Never more than **one orange gradient block per viewport**.
-- Pacifico (`.script` / `<Script>`) for **one word or phrase per headline**, always white or peach, ~1.1–1.5× the Outfit size. Never a whole sentence.
-- Nothing square: pills `999px`, cards 24–36px, phones 44px.
-- Backgrounds are never flat: `<Blobs />` inside a relative container.
-- Numbers large (`.num-lg` / `.num-xl`, 28–44px) with small tracked labels above (`<Label>`, `.label-caps`).
-- Copy: short, warm, second person. "Akwaaba, Ama", "Sow where you're planted", "I'm coming". Currency `GH₵` (`money()` helper). Rails: MTN MoMo, Telecel Cash.
+- **Paper first, cloth as accent.** Pages are white or cream. Kente appears as a thin bar along the top, as stoles, as a band above the footer, as the woven edge under a hero, and as the dark background of heroes and login screens. Never behind long lists or forms.
+- **Dark grounds are woven.** `.ground-blue` is now dark cloth (`#141210`) under a soft shade; put `<Blobs />` or `<KenteGround />` inside. White text and light-gold (`peach`) labels on it.
+- **Type: Bricolage Grotesque** (variable: weight, optical size, width). Headings use `opsz 96` and a narrow width (`wdth` 75–85). Body is 17–18px. The old script font is gone: the accent word in a heading (`<Script>`, `.script`) is the same face, narrower, in blue on white or light gold on dark.
+- **Type scale:** `.t-display`, `.t-h1`, `.t-h2`, `.t-h3`, `.t-lead`, `.t-body`, `.t-small`, plus `.t-word` (the giant blue word, e.g. "phanerōsis"), `.kicker` (the line above a name), `.t-ref` (scripture, gold text), `.t-quote`.
+- **Square corners** on cards, fields, badges and images. Only buttons, pills and avatars are round.
+- **Edges carry colour:** cards are white with a hairline (`line`); emphasis cards get a 6px top edge (gold on black `.card-blue`, navy on blue `.card-orange`, gold on cream `.card-gold`).
+- **Buttons:** gold (`orange` variant) is the main call to action, black (`black`) and blue (`blue`) for strong secondary actions, outlined black (`ice`) for quiet ones, white-outlined (`ghost`) on dark.
+- **Lists of facts** use `.facts` (a 3px black rule, then label/value rows). Tables use the same: a 3px rule under the header.
+- **Contrast:** gold is never used for small text on white; use `gold-text` (#8A6400). On dark, use `peach` (#F6D77A) for labels.
+- **Event photos** stay black and white until hover, focus or tap (`.photo-bw`). Leader portraits stay in colour.
+- **No empty showcases.** Hide sections with no data.
+- **Copy:** short, warm, second person. Currency `GH₵` (`money()`).
 
 ## Tokens (Tailwind v4 `@theme`)
+Names were kept from the earlier system so every app restyled from one file.
+
 | token | value | use |
 |---|---|---|
-| `royal` | #1F5EFF | primary ground, primary buttons, active states |
-| `deep` | #0B3BD1 | 3D text shadow, dark end of gradients, portal body text |
-| `sky` / `sky-light` | #4D8BFF / #7FB2FF | glow blobs, light end of gradients |
-| `tangerine` / `ember` / `ember-2` / `peach` | #FF7A00 / #FF4D00 / #FF5A00 / #FFB36B | CTAs, the stage, highlighted words, progress, small labels |
-| `ice` | #EAF1FF | portal page background, inactive chips, dividers |
-| `peach-tint` | #FFF0E3 | warning / outstanding badges with `ember-2` text |
-| `muted` | #4a5a86 | secondary copy on white |
-| `row` | #F5F8FF | unselected option rows, inputs |
+| `deep` / `ink` | #141414 | body text, black panels |
+| `royal` | #1F3FFF | blue accent, links, blue buttons |
+| `navy` | #0B1F5C | deep blue band (`.stage`), button hover |
+| `tangerine` / `gold` | #E8AD12 | gold buttons, rules, selected chips |
+| `ember-ink` / `gold-text` | #8A6400 | small gold text on white (labels, references) |
+| `peach` | #F6D77A | light gold on dark |
+| `ice` | #F3EFE4 | soft fills (badges, hover) |
+| `cream` / `row` | #FBF8F1 | alternate page sections, portal background |
+| `line` | #E4E0D6 | hairlines and card borders |
+| `field` | #D9D4C7 | input borders |
+| `loom` | #141210 | the dark under the cloth |
+| `muted` | #5F5F5F | secondary copy |
 
-Tailwind utilities: `bg-royal`, `text-deep`, `text-muted`, `bg-ice`, `rounded-card`, `rounded-pill`, `shadow-card`, `font-script`, etc.
+## Kente components (`kente.tsx`, `stoles.tsx`)
+The cloth is painted thread by thread on a canvas in the browser (warp stripes, weft motifs, shading, selvedge) and used as a background image. Same seed, same cloth.
 
-## CSS classes (theme.css)
-- Grounds: `.ground-blue`, `.ground-ice`, `.blob .blob-sky|blob-deep|blob-orange .blob-drift`, `.stage`, `.stage-lip`
-- Type: `.h3d` (white 3D headline on blue), `.script`, `.wordmark`, `.label-caps(-orange|-peach)`, `.num-xl`, `.num-lg`
-- Buttons: `.btn` + `.btn-orange|btn-white|btn-blue|btn-ice|btn-ghost|btn-outline-blue|btn-danger`, sizes `.btn-sm|.btn-lg`
-- Pills/chips: `.pill-glass|pill-ice|pill-white|pill-orange|pill-outline|pill-blue`, `.chip[data-selected]`, `.verse-badge`
-- Badges: `.badge-good` (ice/blue), `.badge-warn` (peach/ember), `.badge-mint`, `.badge-orange`, `.badge-white`, `.badge-glass`
-- Surfaces: `.card`, `.card-lg`, `.card-blue`, `.card-orange`, `.card-ice`, `.glass`, `.tilt-2|tilt-3|tilt-n2`, `.dot-orange`
-- Forms: `.field`, `.field-label`, `.input`, `.select`, `.textarea`, `.input-glass`, `.option-row[data-selected]` (+ `.radio`), `.check`
-- Data: `.table` (+ `.amt-in`, `.amt-out`), `.ring` / `.ring-ice` with `--pct`, `.chain-dot.claimed|.mine`
-- Nav: `.nav-glass` + `.nav-item[aria-current=page]`, `.sidebar` (+ `.sidebar-exec` for orange active pill), `.sidebar-item`, `.tabbar`
-- Misc: `.avatar`, `.stack`, `.notice-ice|peach|orange|mint`, `.ticker`, `.floaty`, `.fade-up`, `container-page` (1440 max, 22/48px gutters)
+| component | use |
+|---|---|
+| `<KenteStrip seed>` | one vertical strip (stole beside a photo, swatch) |
+| `<KenteEdge seed>` | a horizontal strip |
+| `<KenteCloth seed stripWidth motion>` | strips sewn side by side; drifts gently on scroll |
+| `<KenteBar>` | the 10px woven bar at the top of pages and the sidebar |
+| `<KenteGround>` | dark woven background with a shade (heroes, login) |
+| `<StoleRack items>` | stoles hanging from a rail as a section menu; they unroll, lengthen on hover and sway with the pointer |
 
-## React components (`@phanet/ui`)
-`Logo`, `Script`, `Button`, `ButtonLink`, `Badge`, `Label`, `VerseBadge`, `Card`, `StatCard`, `ProgressRing`, `Blobs`, `Ticker`, `Avatar`, `initials`, `Field`, `Input`, `Select`, `Textarea`, `EmptyState`, `Notice`, `PageHeader`, `Table`, `PillNav`, `SidebarNav`, `TabBar`, `PublicHeader`, `PortalShell`, `SidebarPromo`, `SidebarUser`, `BlueHero`, `Footer`, `SubmitButton`, `ConfirmSubmit`, `Toast`, `LoginScreen`, `NoAccess`, `cn`.
+Main-site only (`apps/web/src/components`): `WeaveIntro` (the opening: photos weave into one, once per browser session, with Skip and Escape) and `LoomGallery` (photos unweave into cloth and reweave as the next one).
 
-Fonts: `import { fontClassName } from "@phanet/ui/fonts"` on `<html>`.
+All motion is turned off for people who ask their device for reduced motion.

@@ -85,7 +85,7 @@ function ItemCard({ item, qty, onChange, disabled }: { item: WelfareItem; qty: n
   const max = Math.min(item.max_per_request, item.qty_available);
   return (
     <article className={cn("card p-4 flex flex-col gap-3", out && "opacity-60 grayscale")} aria-disabled={out}>
-      <div className="aspect-[4/3] rounded-[18px] bg-row overflow-hidden grid place-items-center">
+      <div className="aspect-[4/3] bg-row overflow-hidden grid place-items-center">
         {item.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={item.image_url} alt={item.name} className="w-full h-full object-cover" />

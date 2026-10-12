@@ -130,9 +130,9 @@ export default async function CoursePage({ params, searchParams }: { params: Pro
                   <span className="num-lg text-[20px] text-royal w-8 text-center flex-none">{i + 1}</span>
                   {yt ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={`https://i.ytimg.com/vi/${yt}/default.jpg`} alt="" className="w-16 h-12 rounded-xl object-cover flex-none hidden md:block bg-ice" />
+                    <img src={`https://i.ytimg.com/vi/${yt}/default.jpg`} alt="" className="w-16 h-12 object-cover flex-none hidden md:block bg-ice" />
                   ) : (
-                    <span className="w-16 h-12 rounded-xl bg-ice flex-none hidden md:grid place-items-center text-[10px] font-bold uppercase text-muted">{l.kind}</span>
+                    <span className="w-16 h-12 bg-ice flex-none hidden md:grid place-items-center text-[10px] font-bold uppercase text-muted">{l.kind}</span>
                   )}
                   <div className="min-w-0 flex-1">
                     <div className="font-bold truncate">{l.title}</div>
@@ -310,7 +310,7 @@ export default async function CoursePage({ params, searchParams }: { params: Pro
                     </div>
                     <ul className="grid gap-1.5 sm:grid-cols-2 text-sm">
                       {(Array.isArray(q.options) ? q.options : []).map((o, oi) => (
-                        <li key={oi} className={`rounded-xl px-3 py-2 break-words ${oi === q.correct_index ? "bg-white font-bold text-royal" : "text-muted"}`}>
+                        <li key={oi} className={`px-3 py-2 break-words ${oi === q.correct_index ? "bg-white font-bold text-royal" : "text-muted"}`}>
                           <span className="mr-2">{LETTERS[oi] ?? oi + 1}.</span>{o}{oi === q.correct_index && <span className="ml-2 text-[10px] uppercase tracking-wider">✓ correct</span>}
                         </li>
                       ))}

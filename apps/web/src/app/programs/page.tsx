@@ -63,7 +63,7 @@ export default async function ProgramsPage() {
               <ul className="grid gap-4 md:grid-cols-2">
                 {events.map((e) => (
                   <li key={e.id} className="card p-6 flex gap-5 items-start">
-                    <div className="card-blue rounded-[18px] px-4 py-3 text-center min-w-[76px]">
+                    <div className="card-blue px-4 py-3 text-center min-w-[76px]">
                       <div className="label-caps text-white">{new Date(e.starts_at).toLocaleDateString("en-GB", { month: "short" })}</div>
                       <div className="num-lg">{new Date(e.starts_at).getDate()}</div>
                     </div>

@@ -93,7 +93,7 @@ export default async function FollowupsPage({ searchParams }: { searchParams: Pr
           <ul className="flex flex-col divide-y divide-ice">
             {rows.map(({ f, mine, sharedBy, sharedCount }) => (
               <li key={f.id}>
-                <Link href={`/followups/${f.id}`} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 py-3 px-2 no-underline text-deep hover:bg-row rounded-2xl">
+                <Link href={`/followups/${f.id}`} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 py-3 px-2 no-underline text-deep hover:bg-row">
                   <span className="text-xs text-muted w-28 flex-none">{fmtDate(f.occurred_at)}</span>
                   <span className="font-bold text-sm sm:w-44 flex-none truncate">{nameOf(f.sheep_id)}</span>
                   <KindBadge kind={f.kind} />

@@ -32,8 +32,8 @@ export default async function WallPage({ searchParams }: { searchParams: Promise
   };
 
   return (
-    <Shell>
-      {/* Hero */}
+    <Shell
+      hero={
       <section className="grid gap-10 lg:grid-cols-[1.35fr_1fr] items-center">
         <div className="fade-up">
           <Label tone="peach">Prayer wall</Label>
@@ -58,12 +58,14 @@ export default async function WallPage({ searchParams }: { searchParams: Promise
             </ButtonLink>
           </div>
         </div>
-        <Card className="tilt-3 card-lg p-7 md:p-9 w-full max-w-md lg:ml-auto floaty">
+        <Card className="card-gold !border-x-0 !border-b-0 p-7 md:p-9 w-full max-w-md lg:ml-auto">
           <Label tone="orange">Verse of the day</Label>
           <blockquote className="t-quote text-deep mt-4">&ldquo;{verse.text}&rdquo;</blockquote>
           <div className="label-caps text-muted mt-5">{verse.reference}</div>
         </Card>
       </section>
+      }
+    >
 
       {/* Add a request */}
       <section id="add" className="scroll-mt-24">
@@ -106,21 +108,21 @@ export default async function WallPage({ searchParams }: { searchParams: Promise
       <section id="wall" className="scroll-mt-24 flex flex-col gap-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <Label tone="peach">The wall</Label>
-            <h2 className="h3d t-h2 mt-2">
+            <Label tone="orange">The wall</Label>
+            <h2 className="t-h2 mt-2 text-deep">
               {wall.total.toLocaleString("en-GH")} {wall.total === 1 ? "request" : "requests"}
-              {category ? <span className="text-white"> · {category}</span> : null}
+              {category ? <span className="text-royal"> · {category}</span> : null}
             </h2>
           </div>
-          <p className="text-white text-sm">Tap 🙏 to let someone know you&apos;re praying.</p>
+          <p className="text-muted text-sm">Tap 🙏 to let someone know you&apos;re praying.</p>
         </div>
 
-        <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-[22px] px-[22px] lg:mx-0 lg:px-0 lg:flex-wrap" role="list" aria-label="Filter by category">
-          <Link href={wallHref(1, undefined)} className={cn("pill", category ? "pill-glass" : "pill-white")} aria-current={category ? undefined : "true"} role="listitem">
+        <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-5 px-5 lg:mx-0 lg:px-0 lg:flex-wrap" role="list" aria-label="Filter by category">
+          <Link href={wallHref(1, undefined)} className={cn("pill", category ? "pill-ice" : "pill-black")} aria-current={category ? undefined : "true"} role="listitem">
             All
           </Link>
           {CATEGORIES.map((c) => (
-            <Link key={c} href={wallHref(1, c)} className={cn("pill", category === c ? "pill-white" : "pill-glass")} aria-current={category === c ? "true" : undefined} role="listitem">
+            <Link key={c} href={wallHref(1, c)} className={cn("pill", category === c ? "pill-black" : "pill-ice")} aria-current={category === c ? "true" : undefined} role="listitem">
               {c}
             </Link>
           ))}

@@ -62,10 +62,10 @@ function GiveFormInner({ funds, initialFund }: { funds: GivingFund[]; initialFun
         <div className="field-label mb-2">Pay with</div>
         <div className="flex flex-col gap-2">
           <button type="button" className="option-row" data-selected={method === "mobile_money"} onClick={() => setMethod("mobile_money")}>
-            <span className="w-8 h-8 rounded-[10px] bg-[#FFCC00]" aria-hidden /> <span>MTN MoMo · Telecel Cash<br /><span className="text-xs text-muted font-medium">Approve the prompt on your phone</span></span><span className="radio" />
+            <span className="w-8 h-8 bg-[#FFCC00]" aria-hidden /> <span>MTN MoMo · Telecel Cash<br /><span className="text-xs text-muted font-medium">Approve the prompt on your phone</span></span><span className="radio" />
           </button>
           <button type="button" className="option-row" data-selected={method === "card"} onClick={() => setMethod("card")}>
-            <span className="w-8 h-8 rounded-[10px] bg-royal" aria-hidden /> <span>Card · Visa / Mastercard</span><span className="radio" />
+            <span className="w-8 h-8 bg-royal" aria-hidden /> <span>Card · Visa / Mastercard</span><span className="radio" />
           </button>
         </div>
       </div>

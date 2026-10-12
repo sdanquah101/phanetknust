@@ -8,8 +8,8 @@ import * as React from "react";
 export const SKIN = { a: "#8d5524", b: "#a0662f", c: "#6b3e1f", d: "#c68642", e: "#7a4a28" } as const;
 export const HAIR = "#1c1410";
 export const C = {
-  royal: "#1766ec", deep: "#0a46e8", navy: "#0a2a7a", sky: "#5aa2fb", ice: "#eaf1ff", glow: "#b7e2ff",
-  orange: "#fe7711", ember: "#de2700", peach: "#ffcf94", white: "#ffffff", denim: "#2b4c8c", maroon: "#7a2335",
+  royal: "#1f3fff", deep: "#1430c8", navy: "#0b1f5c", sky: "#6f86ff", ice: "#eef0ff", glow: "#c9d2ff",
+  orange: "#e8ad12", ember: "#a3201c", peach: "#f6d77a", white: "#ffffff", denim: "#2b4c8c", maroon: "#7a2335",
   yellow: "#ffd36b", green: "#2fbf71", greenDark: "#1f9d5a", wood: "#b9773f",
 } as const;
 
@@ -157,7 +157,7 @@ export function Person({
   return (
     <g transform={`translate(${x} ${y}) scale(${flip ? -s : s} ${s})`}>
       <Shades skin={skin} top={top} bottom={bottom} hair={hair === "wrap" ? wrapColor : hairColor} shoes={shoes} />
-      <ellipse cx={lower === "sit" ? 10 : lower === "kneel" ? -8 : 0} cy={0} rx={lower === "stand" ? 22 : 28} ry={5} fill="#001a5c" opacity={0.35} filter="url(#pa-blur)" />
+      <ellipse cx={lower === "sit" ? 10 : lower === "kneel" ? -8 : 0} cy={0} rx={lower === "stand" ? 22 : 28} ry={5} fill="#0b1f5c" opacity={0.35} filter="url(#pa-blur)" />
       <g filter="url(#pa-drop)">
       {legs}
       <g transform={`translate(0 ${dy})`}>
@@ -205,15 +205,15 @@ export function StageDisc({ id, cx, cy, rx, ry, depth = 12 }: { id: string; cx: 
   return (
     <g>
       <defs>
-        <radialGradient id={`${id}-top`} cx="50%" cy="35%" r="70%"><stop offset="0" stopColor="#ffc98f" /><stop offset=".55" stopColor="#fe7711" /><stop offset="1" stopColor="#f45400" /></radialGradient>
-        <linearGradient id={`${id}-side`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#f45400" /><stop offset="1" stopColor="#c42200" /></linearGradient>
+        <radialGradient id={`${id}-top`} cx="50%" cy="35%" r="70%"><stop offset="0" stopColor="#ffe08a" /><stop offset=".55" stopColor="#e8ad12" /><stop offset="1" stopColor="#c98f00" /></radialGradient>
+        <linearGradient id={`${id}-side`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#c98f00" /><stop offset="1" stopColor="#8a6400" /></linearGradient>
       </defs>
       <ellipse cx={cx} cy={cy + depth} rx={rx} ry={ry} fill={`url(#${id}-side)`} />
       <rect x={cx - rx} y={cy} width={rx * 2} height={depth} fill={`url(#${id}-side)`} />
       <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill={`url(#${id}-top)`} />
-      <ellipse cx={cx} cy={cy} rx={rx - 2} ry={ry - 1.5} fill="none" stroke="#ffd9a0" strokeWidth={2.5} opacity={0.8} />
+      <ellipse cx={cx} cy={cy} rx={rx - 2} ry={ry - 1.5} fill="none" stroke="#fff0b8" strokeWidth={2.5} opacity={0.8} />
       <ellipse cx={cx - rx * 0.15} cy={cy - ry * 0.45} rx={rx * 0.55} ry={ry * 0.18} fill="#fff" opacity={0.5} filter="url(#pa-blur-s)" />
-      <ellipse cx={cx} cy={cy + depth + ry * 0.9} rx={rx * 1.05} ry={ry * 0.35} fill="#001a5c" opacity={0.35} filter="url(#pa-blur)" />
+      <ellipse cx={cx} cy={cy + depth + ry * 0.9} rx={rx * 1.05} ry={ry * 0.35} fill="#0b1f5c" opacity={0.35} filter="url(#pa-blur)" />
     </g>
   );
 }
@@ -246,8 +246,8 @@ export function Svg({ title, children }: { title: string; children: React.ReactN
       <defs>
         <filter id="pa-blur" x="-50%" y="-200%" width="200%" height="500%"><feGaussianBlur stdDeviation="3.5" /></filter>
         <filter id="pa-blur-s" x="-20%" y="-100%" width="140%" height="300%"><feGaussianBlur stdDeviation="2" /></filter>
-        <filter id="pa-drop" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="1.5" dy="3" stdDeviation="2.5" floodColor="#001a5c" floodOpacity="0.35" /></filter>
-        <radialGradient id="pa-vignette" cx="0.5" cy="0.45" r="0.75"><stop offset="0.6" stopColor="#001a5c" stopOpacity="0" /><stop offset="1" stopColor="#001a5c" stopOpacity="0.45" /></radialGradient>
+        <filter id="pa-drop" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="1.5" dy="3" stdDeviation="2.5" floodColor="#0b1f5c" floodOpacity="0.35" /></filter>
+        <radialGradient id="pa-vignette" cx="0.5" cy="0.45" r="0.75"><stop offset="0.6" stopColor="#0b1f5c" stopOpacity="0" /><stop offset="1" stopColor="#0b1f5c" stopOpacity="0.45" /></radialGradient>
         <radialGradient id="pa-key" cx="0.2" cy="0" r="0.8"><stop offset="0" stopColor="#ffffff" stopOpacity="0.18" /><stop offset="1" stopColor="#ffffff" stopOpacity="0" /></radialGradient>
       </defs>
       {children}

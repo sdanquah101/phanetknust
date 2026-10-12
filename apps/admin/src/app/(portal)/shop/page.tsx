@@ -52,9 +52,9 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
                     <div className="flex items-center gap-3">
                       {p.image_url ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={p.image_url} alt="" className="w-12 h-12 rounded-2xl object-cover flex-none" />
+                        <img src={p.image_url} alt="" className="w-12 h-12 object-cover flex-none" />
                       ) : (
-                        <span className="w-12 h-12 rounded-2xl bg-ice flex-none" />
+                        <span className="w-12 h-12 bg-ice flex-none" />
                       )}
                       <div className="min-w-0">
                         <div className="font-bold truncate">{p.name}</div>

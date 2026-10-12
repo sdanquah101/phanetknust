@@ -39,7 +39,7 @@ export default async function TransfersPage({ searchParams }: { searchParams: Pr
                 <div><div className="label-caps text-muted mb-0.5">From</div>{linkOf(t.from, (id) => `/leaders/${id}`)}</div>
                 <div><div className="label-caps text-muted mb-0.5">To</div>{linkOf(t.to, (id) => `/leaders/${id}`)}</div>
               </div>
-              {t.reason && <p className="text-sm text-muted bg-row rounded-[16px] p-3">“{t.reason}”</p>}
+              {t.reason && <p className="text-sm text-muted bg-row p-3">“{t.reason}”</p>}
               <div className="flex items-center justify-between gap-3 pt-1">
                 <span className="text-xs text-muted">Requested {fmtDate(t.created_at)}</span>
                 <div className="flex gap-2">

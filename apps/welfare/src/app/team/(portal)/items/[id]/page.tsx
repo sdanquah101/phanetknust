@@ -83,9 +83,9 @@ export default async function ItemPage({ params, searchParams }: { params: Promi
             <div className="flex items-center gap-3">
               {item.image_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={item.image_url} alt={item.name} className="w-16 h-16 rounded-[14px] object-cover bg-row" />
+                <img src={item.image_url} alt={item.name} className="w-16 h-16 object-cover bg-row" />
               ) : (
-                <span className="w-16 h-16 rounded-[14px] bg-row grid place-items-center"></span>
+                <span className="w-16 h-16 bg-row grid place-items-center"></span>
               )}
               <Field label="Replace photo" className="flex-1"><Input name="image" type="file" accept="image/*" className="!py-2.5" /></Field>
             </div>

@@ -26,7 +26,7 @@ export function BagClient() {
         <div className="glass p-4 flex flex-col divide-y divide-white/15">
           {lines.map((l) => (
             <div key={l.product_id + (l.option ?? "")} className="flex items-center gap-4 py-4">
-              <div className="w-16 h-16 rounded-[16px] bg-white/20 overflow-hidden grid place-items-center flex-none">
+              <div className="w-16 h-16 bg-white/20 overflow-hidden grid place-items-center flex-none">
                 {l.image_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={l.image_url} alt="" className="w-full h-full object-cover" />

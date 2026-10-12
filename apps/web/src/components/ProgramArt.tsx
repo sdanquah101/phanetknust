@@ -3,7 +3,7 @@ import { KenteCloth } from "@phanet/ui";
 
 const seedOf = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 9973, 7);
 import type { ProgramIcon } from "@/content/programs";
-import { SCENES } from "@/components/program-art/scenes";
+import { ProgramVideo } from "@/components/ProgramVideo";
 import { PHOTO_QUALITY } from "@/lib/image";
 
 const ICONS: Record<ProgramIcon, React.ReactNode> = {
@@ -14,21 +14,27 @@ const ICONS: Record<ProgramIcon, React.ReactNode> = {
   briefcase: <><rect x="12" y="22" width="48" height="32" rx="6" /><path d="M28 22v-6h16v6M12 36h48" /></>,
 };
 
+/** Programs with a video ad in /public/programs (<slug>.webm and <slug>.mp4, plus a <slug>.webp poster). */
+const VIDEOS = new Set(["gathering-of-the-adelphos", "night-of-solemnities", "academic-excellence-retreat", "prophetic-convocation", "business-masterclass"]);
+
 /**
- * Program illustration: an uploaded cover image if the admin set one, otherwise the hand-built
- * SVG cartoon for that program, otherwise a branded icon tile (for programs added later).
+ * Program visual: its video ad if there is one, otherwise an uploaded cover image if the admin
+ * set one, otherwise a kente tile with the program's icon (for programs added later).
  */
 export function ProgramArt({ slug, name, cover, icon, sizes, priority }: { slug: string; name: string; cover: string | null; icon: ProgramIcon; sizes: string; priority?: boolean }) {
+  if (VIDEOS.has(slug)) {
+    return (
+      <div className="relative aspect-[16/9] overflow-hidden bg-loom">
+        <ProgramVideo src={`/programs/${slug}`} poster={`/programs/${slug}.webp`} label={`${name}: short video`} />
+      </div>
+    );
+  }
   if (cover) {
     return (
       <div className="relative aspect-[16/9] overflow-hidden bg-deep">
         <Image quality={PHOTO_QUALITY} src={cover} alt={name} fill sizes={sizes} className="object-cover" priority={priority} />
       </div>
     );
-  }
-  const Scene = SCENES[slug];
-  if (Scene) {
-    return <div className="relative aspect-[16/9] overflow-hidden bg-royal"><Scene /></div>;
   }
   return (
     <div className="relative aspect-[16/9] overflow-hidden grid place-items-center bg-loom isolate" aria-hidden>

@@ -1,8 +1,8 @@
 /**
  * PHANET KNUST programs. Used for illustrations and as a fallback when the database has no programs.
  * The database (Admin → Programs) is the source of truth for names and schedules when it has rows;
- * each program has a hand-built SVG cartoon (components/program-art), matched by slug,
- * unless the program has its own cover image in the database.
+ * each program here has a 15-second video ad in /public/programs, matched by slug (made with
+ * tools/program-ads). Programs without one show their cover image from the database, or a kente tile.
  */
 export type ProgramIcon = "moon" | "people" | "book" | "flame" | "briefcase";
 export type ProgramContent = {

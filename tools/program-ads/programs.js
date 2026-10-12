@@ -1,0 +1,48 @@
+// What each ad says and shows. Photos are from the PHANET gallery; focus = where faces sit (0 top, 1 bottom).
+window.PROGRAMS = {
+  "gathering-of-the-adelphos": {
+    name: ["Gathering of", "the Adelphos"],
+    kicker: "Our main weekly meeting",
+    line: "Adelphos means brother. Every Saturday we gather as one family to worship, pray and study the Word.",
+    when: "Every Saturday · 2:30pm",
+    where: "2:30 to 5:30pm, on the KNUST campus",
+    photos: [["group-indoor", 0.45], ["friends-five", 0.62], ["selfie", 0.42]],
+    seed: 31,
+  },
+  "night-of-solemnities": {
+    name: ["Night of", "Solemnities"],
+    kicker: "Once a month",
+    line: "We stay up through the night to worship, intercede and hear the Word with Dr. Godfred Bonnah Nkansah.",
+    when: "Monthly · All night",
+    where: "An all-night of prayer, on the KNUST campus",
+    photos: [["group-night", 0.5], ["worship", 0.3], ["minister-greeting", 0.3]],
+    seed: 59,
+  },
+  "academic-excellence-retreat": {
+    name: ["Academic", "Excellence", "Retreat"],
+    kicker: "Once each semester",
+    line: "We pray over our studies, share study habits that work and push one another to excel.",
+    when: "Once each semester",
+    where: "A retreat for every student who wants to do well",
+    photos: [["session-slides", 0.5], ["listening", 0.38], ["question-mic", 0.42]],
+    seed: 47,
+  },
+  "prophetic-convocation": {
+    name: ["Prophetic", "Convocation"],
+    kicker: "Once each semester",
+    line: "Worship, the Word and prophetic prayer over the season ahead.",
+    when: "Once each semester",
+    where: "Come and hear what God is saying for this season",
+    photos: [["minister-mic", 0.28], ["attentive", 0.4], ["sunlit", 0.32]],
+    seed: 71,
+  },
+  "business-masterclass": {
+    name: ["Business", "Masterclass"],
+    kicker: "Once each year",
+    line: "Entrepreneurship, brand strategy and growing a business, so we can serve God well in the marketplace.",
+    when: "Once each year",
+    where: "Equipping emissaries for the marketplace",
+    photos: [["session-room", 0.4], ["young-man", 0.3], ["pair", 0.32]],
+    seed: 23,
+  },
+};

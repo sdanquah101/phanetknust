@@ -1,5 +1,5 @@
 /**
- * Photos from PHANET KNUST gatherings, served from /public/photos (WebP at 1920×2560, from the original uploads; WhatsApp photos cleaned up and upscaled with Real-ESRGAN, metadata stripped).
+ * Photos from PHANET KNUST gatherings, served from /public/photos (WebP at 1920×2560, metadata stripped). 15 portraits are the enhanced versions supplied in New_Photos.zip; the other 5 are rebuilt from the original uploads.
  * Order here is the order on the Gallery page. Add a photo: drop the file in /public/photos and add a line.
  */
 export type Photo = { src: string; width: number; height: number; alt: string };

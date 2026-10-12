@@ -10,6 +10,7 @@ import { ProgramArt } from "@/components/ProgramArt";
 import { getPrayerTeaser, getProgramViews, getSettings, getUpcomingEvents } from "@/lib/queries";
 import { photo } from "@/content/photos";
 import { ACADEMY_URL, PRAYERWALL_URL } from "@/lib/links";
+import { PHOTO_QUALITY } from "@/lib/image";
 
 export const revalidate = 60;
 
@@ -43,7 +44,7 @@ const LOOM: LoomPhoto[] = [
   { ...photo("listening"), focus: 0.4 },
   { ...photo("group-hall"), focus: 0.45 },
   { ...photo("two-brothers"), focus: 0.3 },
-].map(({ src, alt, focus }) => ({ src, alt, focus }));
+].map(({ src, alt, focus, width, height }) => ({ src, alt, focus, width, height }));
 
 export default async function Home() {
   const [settings, programs, events, prayer] = await Promise.all([getSettings(), getProgramViews(), getUpcomingEvents(4), getPrayerTeaser()]);
@@ -88,7 +89,7 @@ export default async function Home() {
       <section className="container-page section grid gap-12 lg:gap-24 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] items-start">
         <figure className="story-figure lg:sticky lg:top-24 max-w-[520px]">
           <KenteStrip seed={23} className="story-figure__stole" />
-          <Image src={portrait.src} alt={portrait.alt} width={portrait.width} height={portrait.height} sizes="(min-width: 1024px) 40vw, 90vw" className="object-[50%_25%]" />
+          <Image quality={PHOTO_QUALITY} src={portrait.src} alt={portrait.alt} width={portrait.width} height={portrait.height} sizes="(min-width: 1024px) 40vw, 90vw" className="object-[50%_25%]" />
         </figure>
         <div className="max-w-[62ch]">
           <h2 className="t-h2 text-black">We pray, and we make ourselves available.</h2>

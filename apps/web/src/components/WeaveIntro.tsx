@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
 import { KenteCloth, prefersReducedMotion } from "@phanet/ui";
+import { optimizedSrc } from "@/lib/image";
 
 type Shot = { src: string; focus?: number };
 
@@ -65,7 +66,8 @@ export function WeaveIntro({ weave, final, kicker, title }: { weave: Shot[]; fin
     document.addEventListener("keydown", onKey);
 
     (async () => {
-      const ims = await Promise.all([...weave.slice(0, 4), final].map((s) => loadImg(s.src)));
+      const need = Math.ceil(Math.min(innerHeight * 0.76, 760) * (window.devicePixelRatio || 1));
+      const ims = await Promise.all([...weave.slice(0, 4), final].map((s) => loadImg(optimizedSrc(s.src, need))));
       if (cancelled) return;
       const finalIm = ims[4];
       const small = innerWidth < 760;

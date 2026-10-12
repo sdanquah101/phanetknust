@@ -11,6 +11,7 @@ import { photo } from "@/content/photos";
 
 const storyPhoto = photo("group-night");
 import { ACADEMY_URL, PRAYERWALL_URL } from "@/lib/links";
+import { PHOTO_QUALITY } from "@/lib/image";
 
 export const metadata: Metadata = { title: "About" };
 export const revalidate = 60;
@@ -53,7 +54,7 @@ export default async function AboutPage() {
             </div>
             <div className="card overflow-hidden flex flex-col">
               <div className="photo-bw relative aspect-[16/9]">
-                <Image src={storyPhoto.src} alt={storyPhoto.alt} fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+                <Image quality={PHOTO_QUALITY} src={storyPhoto.src} alt={storyPhoto.alt} fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
               </div>
               <div className="p-8 md:p-10 flex flex-col gap-4">
               <Label tone="orange">Our story</Label>

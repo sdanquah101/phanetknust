@@ -1,8 +1,9 @@
 "use client";
 import * as React from "react";
 import { kenteStrip, kenteStripH, prefersReducedMotion } from "@phanet/ui";
+import { optimizedSrc } from "@/lib/image";
 
-export type LoomPhoto = { src: string; alt: string; focus?: number };
+export type LoomPhoto = { src: string; alt: string; focus?: number; width?: number; height?: number };
 
 const loadImg = (src: string) => new Promise<HTMLImageElement>((ok) => {
   const im = new Image();
@@ -101,7 +102,15 @@ export function LoomGallery({ photos, className = "" }: { photos: LoomPhoto[]; c
     api.current.to = to;
 
     (async () => {
-      ims = await Promise.all(photos.map((p) => loadImg(p.src)));
+      // ask for each photo at the size it is drawn: the frame (or wider, for landscape photos), times the screen density
+      const small = innerWidth < 760;
+      const frameW = Math.min(st.clientWidth - (small ? 0 : 140), st.clientHeight * (small ? 0.8 : 1.5), 1180);
+      const frameH = frameW / (small ? 0.8 : 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+      ims = await Promise.all(photos.map((p) => {
+        const ratio = p.width && p.height ? p.width / p.height : 1.5;
+        return loadImg(optimizedSrc(p.src, Math.ceil(Math.max(frameW, frameH * ratio) * dpr)));
+      }));
       if (!alive) return;
       layout();
       setThread(kenteStripH(300));

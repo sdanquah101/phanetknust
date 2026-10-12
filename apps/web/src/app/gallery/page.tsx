@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { LoomGallery } from "@/components/LoomGallery";
 import { getSettings } from "@/lib/queries";
 import { PHOTOS } from "@/content/photos";
+import { PHOTO_QUALITY } from "@/lib/image";
 
 export const metadata: Metadata = { title: "Gallery" };
 export const revalidate = 60;
@@ -16,7 +17,7 @@ const FOCUS: Record<string, number> = {
 };
 const LOOM = PHOTOS.map((p) => {
   const key = p.src.replace("/photos/", "").replace(".webp", "");
-  return { src: p.src, alt: p.alt, focus: FOCUS[key] ?? 0.45 };
+  return { src: p.src, alt: p.alt, width: p.width, height: p.height, focus: FOCUS[key] ?? 0.45 };
 });
 
 export default async function GalleryPage() {
@@ -43,7 +44,7 @@ export default async function GalleryPage() {
           {PHOTOS.map((p) => (
             <li key={p.src} className="mb-3 md:mb-4 break-inside-avoid">
               <a href={p.src} target="_blank" rel="noreferrer" className="photo-bw block bg-cream">
-                <Image src={p.src} alt={p.alt} width={p.width} height={p.height} sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw" className="w-full h-auto" />
+                <Image quality={PHOTO_QUALITY} src={p.src} alt={p.alt} width={p.width} height={p.height} sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw" className="w-full h-auto" />
               </a>
             </li>
           ))}

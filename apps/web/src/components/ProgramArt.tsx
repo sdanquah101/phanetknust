@@ -4,6 +4,7 @@ import { KenteCloth } from "@phanet/ui";
 const seedOf = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 9973, 7);
 import type { ProgramIcon } from "@/content/programs";
 import { SCENES } from "@/components/program-art/scenes";
+import { PHOTO_QUALITY } from "@/lib/image";
 
 const ICONS: Record<ProgramIcon, React.ReactNode> = {
   moon: <path d="M42 12a22 22 0 1 0 22 30A18 18 0 0 1 42 12z" />,
@@ -21,7 +22,7 @@ export function ProgramArt({ slug, name, cover, icon, sizes, priority }: { slug:
   if (cover) {
     return (
       <div className="relative aspect-[16/9] overflow-hidden bg-deep">
-        <Image src={cover} alt={name} fill sizes={sizes} className="object-cover" priority={priority} />
+        <Image quality={PHOTO_QUALITY} src={cover} alt={name} fill sizes={sizes} className="object-cover" priority={priority} />
       </div>
     );
   }

@@ -21,10 +21,10 @@ export function Script({ children, peach = false, className }: { children: React
 }
 
 /* ---------- Buttons ---------- */
-type Variant = "orange" | "white" | "blue" | "ice" | "ghost" | "outline-blue" | "danger";
+type Variant = "orange" | "white" | "blue" | "black" | "ice" | "ghost" | "outline-blue" | "danger";
 type Size = "sm" | "md" | "lg";
 const variantClass: Record<Variant, string> = {
-  orange: "btn-orange", white: "btn-white", blue: "btn-blue", ice: "btn-ice", ghost: "btn-ghost", "outline-blue": "btn-outline-blue", danger: "btn-danger",
+  orange: "btn-orange", white: "btn-white", blue: "btn-blue", black: "btn-black", ice: "btn-ice", ghost: "btn-ghost", "outline-blue": "btn-outline-blue", danger: "btn-danger",
 };
 const sizeClass: Record<Size, string> = { sm: "btn-sm", md: "", lg: "btn-lg" };
 
@@ -76,14 +76,9 @@ export function ProgressRing({ pct, size = 84, ice = false, className, children 
 }
 
 /* ---------- Atmosphere ---------- */
+/** Background for a section: `blue` is the dark woven ground (kente under a shade); `ice` is plain cream. */
 export function Blobs({ variant = "blue" }: { variant?: "blue" | "ice" }) {
-  if (variant === "ice") {
-    return (
-      <>
-        <div className="blob blob-sky blob-drift" style={{ width: 520, height: 520, top: -200, right: -160, opacity: 0.45 }} />
-      </>
-    );
-  }
+  if (variant === "ice") return null;
   return <Fluid />;
 }
 

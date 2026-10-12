@@ -1,18 +1,12 @@
-import { Outfit, Pacifico } from "next/font/google";
+import { Bricolage_Grotesque } from "next/font/google";
 
-export const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-outfit",
+/** Bricolage Grotesque, variable in weight, optical size and width (display type is set narrow). */
+export const bricolage = Bricolage_Grotesque({
+  subsets: ["latin", "latin-ext"],
+  axes: ["opsz", "wdth"],
+  variable: "--font-bricolage",
   display: "swap",
 });
 
-export const pacifico = Pacifico({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-pacifico",
-  display: "swap",
-});
-
-/** Put on <html> so both font variables are available everywhere. */
-export const fontClassName = `${outfit.variable} ${pacifico.variable}`;
+/** Put on <html> so the font variable is available everywhere. */
+export const fontClassName = bricolage.variable;

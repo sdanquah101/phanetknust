@@ -2,39 +2,35 @@ import * as React from "react";
 import { cn } from "../cn";
 import { Blobs, Logo, Label } from "./primitives";
 import { MobileMenu, PillNav, SidebarNav, TabBar, type NavItem } from "./nav";
+import { KenteBar, KenteCloth } from "./kente";
 
-/** Public header: crest + wordmark, glass pill nav on desktop, menu button on phones. */
-export function PublicHeader({ items, cta, brand = "PHANET KNUST", home = "/" }: { items: NavItem[]; cta?: React.ReactNode; brand?: string; home?: string }) {
+/**
+ * Public header: crest + wordmark, pill nav on desktop, menu button on phones.
+ * `tone="dark"` sits on a dark woven hero (white text); `tone="light"` sits on white with a kente bar above.
+ */
+export function PublicHeader({ items, cta, brand = "PHANET KNUST", home = "/", tone = "dark" }: { items: NavItem[]; cta?: React.ReactNode; brand?: string; home?: string; tone?: "dark" | "light" }) {
+  const light = tone === "light";
   return (
-    <header className="container-page pt-5 md:pt-6 relative z-30">
-      <div className="flex items-center justify-between gap-4">
-        <Logo text={brand} href={home} />
-        <div className="hidden md:block"><PillNav items={items} /></div>
-        <div className="flex items-center gap-2">
-          {cta}
-          <MobileMenu items={items} />
+    <>
+      {light && <KenteBar />}
+      <header className={cn("container-page relative z-30", light ? "py-4 md:py-5 border-b border-line bg-white/95 text-deep" : "pt-5 md:pt-6 text-white")}>
+        <div className="flex items-center justify-between gap-4">
+          <Logo text={brand} href={home} light={!light} />
+          <div className="hidden md:block"><PillNav items={items} /></div>
+          <div className="flex items-center gap-2">
+            {cta}
+            <MobileMenu items={items} tone={tone} />
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 }
 
-/** Soft curve from a blue hero into the ice page, with a thin tangerine rim: the "stage" edge. */
-export function HeroCurve({ fill = "#eaf1ff", rim = true }: { fill?: string; rim?: boolean }) {
-  return (
-    <svg className="hero-curve" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden>
-      <defs>
-        <linearGradient id="hc-rim" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0" stopColor="#fe7711" stopOpacity="0" />
-          <stop offset=".25" stopColor="#fe7711" />
-          <stop offset=".75" stopColor="#fcbd6b" />
-          <stop offset="1" stopColor="#fcbd6b" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <path d="M0 90 L0 60 Q720 -20 1440 60 L1440 90 Z" fill={fill} />
-      {rim && <path d="M0 60 Q720 -20 1440 60" fill="none" stroke="url(#hc-rim)" strokeWidth="4" />}
-    </svg>
-  );
+/** Woven edge between a dark hero and the page below (was a curve). Props kept for compatibility. */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function HeroCurve({ fill, rim = true }: { fill?: string; rim?: boolean }) {
+  return <KenteCloth seed={11} stripWidth={56} motion={false} className="hero-curve h-3 md:h-4" />;
 }
 
 /** Portal shell: ice page, rounded blue sidebar inset 20px, content on the right. */
@@ -46,18 +42,19 @@ export function PortalShell({
 }) {
   return (
     <div className="ground-ice min-h-dvh relative overflow-x-clip">
-      <Blobs variant="ice" />
-      <div className="relative flex gap-6 p-3 md:p-5 min-h-dvh">
-        <aside className={cn("sidebar hidden lg:flex w-[260px] flex-none sticky top-5 self-start max-h-[calc(100dvh-40px)]", variant === "exec" && "sidebar-exec")}>
-          <div className="px-3 pb-4 pt-1"><Logo text={brand} /></div>
+      <KenteBar className="lg:hidden" />
+      <div className="relative flex min-h-dvh">
+        <aside className={cn("sidebar hidden lg:flex w-[264px] flex-none sticky top-0 h-dvh overflow-y-auto", variant === "exec" && "sidebar-exec")}>
+          <KenteBar className="-mx-4 mb-5 flex-none" />
+          <div className="px-2 pb-5"><Logo text={brand} /></div>
           <SidebarNav items={items} />
           <div className="mt-auto pt-6 flex flex-col gap-4">
             {promo}
             {footer}
           </div>
         </aside>
-        <div className="flex-1 min-w-0 pb-28 lg:pb-8">
-          <div className="lg:hidden flex items-center justify-between mb-5 px-1">
+        <div className="flex-1 min-w-0 px-4 pt-5 md:px-8 md:pt-8 pb-28 lg:pb-10">
+          <div className="lg:hidden flex items-center justify-between mb-6">
             <Logo text={brand} light={false} />
             {topRight}
           </div>
@@ -74,9 +71,9 @@ export function PortalShell({
 /** Themed promo block for the bottom of the sidebar. */
 export function SidebarPromo({ label, children, href }: { label: string; children: React.ReactNode; href?: string }) {
   const body = (
-    <div className="card-orange p-4 rounded-[20px]">
-      <Label tone="white" className="mb-1 !text-[10px]">{label}</Label>
-      <div className="script text-[18px] leading-tight">{children}</div>
+    <div className="border-t-4 border-gold bg-white/5 p-4">
+      <Label tone="peach" className="mb-1 !text-[10px]">{label}</Label>
+      <div className="font-extrabold text-[18px] leading-tight text-white">{children}</div>
     </div>
   );
   return href ? <a href={href} className="no-underline block">{body}</a> : body;
@@ -106,6 +103,7 @@ export function BlueHero({ children, className, nav }: { children: React.ReactNo
 export function Footer({ brand = "PHANET KNUST", links = [], note }: { brand?: string; links?: { href: string; label: string }[]; note?: string }) {
   return (
     <footer className="ground-blue">
+      <KenteCloth seed={21} stripWidth={64} className="h-[56px]" />
       <div className="container-page py-10 flex flex-wrap items-center justify-between gap-6 text-sm text-white">
         <Logo text={brand} />
         <div className="flex flex-wrap gap-5">

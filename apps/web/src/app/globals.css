@@ -1,3 +1,67 @@
 @import "tailwindcss";
 @import "@phanet/ui/theme.css";
 @source "../../../../packages/ui/src";
+
+/* ================= OPENING: THE WEAVE ================= */
+html:not([data-intro="show"]) .intro { display: none; }
+.intro {
+  position: fixed; inset: 0; z-index: 100; overflow: hidden; color: white; background: var(--color-loom);
+  display: grid; place-items: center; padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+}
+.intro .intro__cloth { position: absolute; inset: 0; height: 100%; }
+.intro__shade { position: absolute; inset: 0; background: radial-gradient(ellipse at 40% 50%, rgba(8,8,8,.55), rgba(8,8,8,.82) 75%); }
+.intro__inner { position: relative; display: flex; align-items: center; gap: clamp(28px, 5vw, 80px); padding: 0 clamp(20px, 5vw, 80px); max-width: 100%; }
+.mosaic { --mw: 300px; --mh: 400px; position: relative; width: var(--mw); height: var(--mh); flex: 0 0 auto; }
+.mosaic::after { content: ""; position: absolute; inset: 0; pointer-events: none; box-shadow: 0 40px 90px rgba(0,0,0,.55); opacity: 0; transition: opacity 1s; }
+.mosaic.is-done::after { opacity: 1; }
+.mosaic .cell { position: absolute; overflow: hidden; will-change: transform; }
+.mosaic .cell > i { position: absolute; inset: 0; background-repeat: no-repeat; }
+.mosaic .cell > i + i { opacity: 0; }
+/* over/under: warp cells pass under the weft at their ends, weft cells at their sides */
+.mosaic .cell--warp { box-shadow: inset 0 8px 8px -6px rgba(0,0,0,.6), inset 0 -8px 8px -6px rgba(0,0,0,.6); }
+.mosaic .cell--weft { box-shadow: inset 8px 0 8px -6px rgba(0,0,0,.6), inset -8px 0 8px -6px rgba(0,0,0,.6); }
+.mosaic .cell::after { content: ""; position: absolute; inset: 0; box-shadow: inherit; z-index: 1; pointer-events: none; }
+.intro__text { max-width: 30ch; opacity: 0; transform: translateY(16px); transition: opacity .9s var(--ease-cloth), transform .9s var(--ease-cloth); }
+.intro__text.is-in { opacity: 1; transform: none; }
+.intro__kicker { margin: 0 0 6px; font-size: clamp(20px, 2vw, 28px); font-weight: 500; color: #f6d77a; }
+.intro__name { margin: 0 0 28px; font-weight: 800; text-transform: uppercase; line-height: .9; font-variation-settings: "opsz" 96, "wdth" 78; font-size: clamp(44px, 6vw, 96px); }
+.intro__status { position: absolute; left: clamp(20px, 5vw, 80px); bottom: 24px; margin: 0; font-size: 15px; color: rgba(255,255,255,.75); }
+.intro__skip { position: absolute; right: clamp(20px, 5vw, 80px); bottom: 18px; background: none; border: 0; cursor: pointer; color: white; font-size: 15px; font-weight: 600; padding: 8px 4px; text-decoration: underline; text-underline-offset: 4px; }
+.intro.is-leaving { animation: lift 1s var(--ease-cloth) forwards; }
+@keyframes lift { to { transform: translateY(-100%); } }
+@media (max-width: 760px) {
+  .intro__inner { flex-direction: column; gap: 22px; text-align: center; }
+  .intro__name { margin-bottom: 18px; }
+}
+
+/* ================= GALLERY: THE LOOM ================= */
+.loom-gallery { display: flex; flex-direction: column; }
+.loom-gallery__stage { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 2vw, 28px); height: min(72vh, 680px); min-height: 360px; position: relative; }
+.loomframe { position: relative; display: flex; overflow: hidden; flex: 0 0 auto; cursor: grab; touch-action: pan-y; background: var(--color-loom); box-shadow: var(--shadow-float); outline-offset: 6px; }
+.loomframe:active { cursor: grabbing; }
+.lstrip { position: relative; height: 100%; overflow: hidden; flex: 0 0 auto; }
+.lstrip + .lstrip { box-shadow: inset 1px 0 0 rgba(0,0,0,.35); }
+.lreel { position: absolute; left: 0; top: 0; width: 100%; will-change: transform; }
+.lseg { display: block; width: 100%; background-repeat: no-repeat; }
+.lseg--kente { background-repeat: repeat-y; background-size: 100% auto; box-shadow: inset 0 10px 12px -8px rgba(0,0,0,.6), inset 0 -10px 12px -8px rgba(0,0,0,.6); }
+.lstrip::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(0,0,0,.14), rgba(255,255,255,.04) 30%, rgba(0,0,0,0) 60%, rgba(0,0,0,.16)); }
+.gnav { flex: 0 0 auto; width: 54px; height: 54px; border-radius: 50%; border: 2px solid black; background: white; display: grid; place-items: center; cursor: pointer; transition: background .2s, color .2s; }
+.gnav:hover { background: black; color: white; }
+.gnav svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.threads { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; padding: 22px 0 0; }
+.threads button { width: 26px; height: 6px; padding: 0; border: 0; background: var(--color-line); cursor: pointer; transition: background .3s, width .3s; }
+.threads button.is-on { width: 54px; background-size: auto 100%; background-repeat: repeat-x; }
+@media (max-width: 760px) {
+  .loom-gallery__stage { height: min(70vh, 560px); padding-bottom: 70px; }
+  .gnav { position: absolute; bottom: 4px; z-index: 3; width: 48px; height: 48px; }
+  .gnav--prev { left: 0; } .gnav--next { right: 0; }
+  .threads { gap: 4px; } .threads button { width: 14px; } .threads button.is-on { width: 30px; }
+}
+
+/* ================= EDITORIAL BLOCKS ================= */
+.home-name { margin: 0; text-transform: uppercase; font-weight: 800; font-variation-settings: "opsz" 96, "wdth" 78; font-size: clamp(56px, 8.4vw, 140px); line-height: .86; letter-spacing: -.01em; color: black; }
+.home-name__title { display: block; font-size: .36em; line-height: 1.15; color: var(--color-royal); letter-spacing: 0; }
+.story-figure { margin: 0; position: relative; padding-left: 36px; }
+.story-figure img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.story-figure__stole { position: absolute; left: 0; top: 8%; bottom: -24px; width: 72px; z-index: 1; box-shadow: 6px 10px 24px rgba(0,0,0,.25); }
+.gold-list > li { padding-top: 16px; border-top: 4px solid var(--color-gold); }

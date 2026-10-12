@@ -8,3 +8,5 @@ export * from "./components/atmosphere";
 export * from "./components/skeletons";
 export * from "./components/crest";
 export * from "./components/route-error";
+export * from "./components/kente";
+export * from "./components/stoles";

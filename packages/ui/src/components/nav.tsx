@@ -57,7 +57,7 @@ export function TabBar({ items, className }: { items: NavItem[]; className?: str
 }
 
 /** Phone menu: a button that opens a full-width panel with every link. */
-export function MobileMenu({ items, cta }: { items: NavItem[]; cta?: React.ReactNode }) {
+export function MobileMenu({ items, cta, tone = "dark" }: { items: NavItem[]; cta?: React.ReactNode; tone?: "dark" | "light" }) {
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
   React.useEffect(() => { setOpen(false); }, [pathname]);
@@ -69,16 +69,16 @@ export function MobileMenu({ items, cta }: { items: NavItem[]; cta?: React.React
   }, [open]);
   return (
     <div className="md:hidden">
-      <button type="button" className="btn btn-ghost btn-sm !px-3" aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen((o) => !o)}>
+      <button type="button" className={cn("btn btn-sm !px-3", tone === "light" ? "btn-ice" : "btn-ghost")} aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen((o) => !o)}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden>
           {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
         </svg>
       </button>
       {open && (
-        <div id="mobile-menu" className="absolute left-4 right-4 top-[76px] z-50 card p-3 flex flex-col fade-up">
+        <div id="mobile-menu" className="absolute left-4 right-4 top-[76px] z-50 card p-2 flex flex-col fade-up shadow-[0_30px_60px_-20px_rgba(0,0,0,.35)]">
           {items.map((it) => {
             const active = isActive(pathname, it);
-            const cls = cn("rounded-[14px] px-4 py-3 font-semibold text-[15px] no-underline", active ? "bg-ice text-royal" : "text-deep hover:bg-row");
+            const cls = cn("px-4 py-3 font-semibold text-[16px] no-underline border-l-4", active ? "border-gold bg-cream text-deep" : "border-transparent text-deep hover:bg-cream");
             return it.external
               ? <a key={it.href} href={it.href} className={cls}>{it.label} ↗</a>
               : <Link key={it.href} href={it.href} className={cls} aria-current={active ? "page" : undefined}>{it.label}</Link>;

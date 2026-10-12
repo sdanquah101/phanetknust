@@ -1,6 +1,6 @@
 /**
  * PHANET KNUST leadership, shown in the "Leadership" drop-down on the About page.
- * Photos live in /public/leaders (numbered as on the original contact sheet).
+ * Photos live in /public/leaders (1–18 numbered as on the original contact sheet; 19–21 added later), cut out on a transparent background and shown on blue.
  * Order: Central Executive Committee, Congress convenor, then ministry heads
  * (each co-head / assistant right after their head). Reorder freely.
  */
@@ -11,6 +11,7 @@ const p = (n: number) => `/leaders/leader-${String(n).padStart(2, "0")}.webp`;
 export const LEADERS: Leader[] = [
   // Central Executive Committee
   { photo: p(7), name: "Nick Hopwood Danquah", role: "Head, Central Executive Committee" },
+  { photo: p(19), name: "Hannah Kotei Kotey", role: "Deputy Chair, Central Executive Committee" },
   { photo: p(2), name: "Kofi Annan Kumah", role: "Member, Central Executive Committee" },
   { photo: p(15), name: "Prince Owusu Osei Amoako", role: "Member, Central Executive Committee" },
   // Congress
@@ -26,7 +27,9 @@ export const LEADERS: Leader[] = [
   { photo: p(1), name: "Elisha Bentil Ampah", role: "Co-Head, Media" },
   { photo: p(14), name: "Akwasi Maisu", role: "Head, Academics" },
   { photo: p(17), name: "Ivy Nyarkoaa", role: "Head, Mobilization" },
+  { photo: p(21), name: "Glory Ogbonna", role: "Assistant Head, Mobilization" },
   { photo: p(5), name: "Freda Phidel Boakye", role: "Head, Protocol" },
+  { photo: p(20), name: "Philip Owusu Tabiri", role: "Head, Heirs of Zion (Choir), KNUST" },
   { photo: p(8), name: "El-Shaddai Lartey", role: "Head, Instrumentalists" },
   { photo: p(9), name: "Randy Opoku Mensah", role: "Head, Transportation" },
   { photo: p(12), name: "Edward Asare", role: "Head, Birthdays" },

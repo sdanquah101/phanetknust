@@ -21,7 +21,7 @@ export function Leadership({ leaders }: { leaders: Leader[] }) {
         <ul className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
           {leaders.map((l, i) => (
             <li key={l.photo} className="flex flex-col gap-3">
-              <div className="aspect-[3/4] overflow-hidden bg-loom">
+              <div className="aspect-[3/4] overflow-hidden bg-[linear-gradient(180deg,#1c6cf2,#0a46e8)]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={l.photo}

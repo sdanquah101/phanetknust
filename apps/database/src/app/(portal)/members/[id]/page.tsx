@@ -89,7 +89,7 @@ export default async function MemberPage({ params, searchParams }: { params: Pro
             ) : isAdmin ? (
               <form action={linkAccountAction} className="flex flex-col gap-3">
                 <input type="hidden" name="id" value={member.id} />
-                <Field label="Account email" hint="They must have signed in at least once."><Input name="email" type="email" required placeholder="ama@st.knust.edu.gh" /></Field>
+                <Field label="Account email" hint="They must have signed in at least once."><Input name="email" type="email" required placeholder="ama@example.com" /></Field>
                 <SubmitButton variant="blue" size="sm" pendingText="Linking…">Link account</SubmitButton>
               </form>
             ) : (

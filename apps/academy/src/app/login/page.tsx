@@ -1,12 +1,13 @@
 import { LoginScreen } from "@phanet/ui";
 import { magicLinkAction, signInAction, signUpAction } from "@phanet/supabase/actions";
+import { safePath } from "@phanet/supabase/safe-path";
 import { BRAND } from "@/lib/brand";
 
 export const metadata = { title: "Sign in" };
 
 export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string; error?: string }> }) {
   const sp = await searchParams;
-  const next = sp.next && sp.next.startsWith("/") && !sp.next.startsWith("//") ? sp.next : "/me";
+  const next = safePath(sp.next, "/me");
   return (
     <LoginScreen
       brand={BRAND}

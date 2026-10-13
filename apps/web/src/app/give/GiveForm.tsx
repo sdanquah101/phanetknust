@@ -72,7 +72,7 @@ function GiveFormInner({ funds, initialFund }: { funds: GivingFund[]; initialFun
 
       <div className="grid gap-4 sm:grid-cols-2">
         {!anonymous && <Field label="Name"><Input name="name" autoComplete="name" placeholder="Ama Owusu" /></Field>}
-        <Field label="Email" hint="Your receipt goes here." className={anonymous ? "sm:col-span-2" : ""}><Input name="email" type="email" autoComplete="email" placeholder="you@st.knust.edu.gh" required /></Field>
+        <Field label="Email" hint="Your receipt goes here." className={anonymous ? "sm:col-span-2" : ""}><Input name="email" type="email" autoComplete="email" placeholder="you@example.com" required /></Field>
         {!anonymous && <Field label="Phone"><Input name="phone" type="tel" autoComplete="tel" placeholder="024 000 0000" /></Field>}
         <Field label="Note (optional)" className={anonymous ? "sm:col-span-2" : ""}><Input name="note" placeholder="Seed for exams, thanksgiving…" /></Field>
       </div>

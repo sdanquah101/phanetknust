@@ -4,13 +4,10 @@ import { revalidatePath } from "next/cache";
 import { createClient, getSession } from "@phanet/supabase/server";
 import { requiredApproverRole, ROLE_LABELS } from "@phanet/supabase/roles";
 import { money } from "@phanet/supabase/format";
+import { safePath } from "@phanet/supabase/safe-path";
 import type { MemberSearchRow, TxChannel } from "@phanet/supabase/types";
 import { CHANNELS, str } from "@/lib/finance";
 
-function safePath(v: FormDataEntryValue | null, fallback: string) {
-  const s = typeof v === "string" ? v : "";
-  return s.startsWith("/") && !s.startsWith("//") ? s : fallback;
-}
 function withParam(path: string, key: "ok" | "error", msg: string) {
   const [base, qs] = path.split("?");
   const sp = new URLSearchParams(qs ?? "");

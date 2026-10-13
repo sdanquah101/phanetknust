@@ -47,7 +47,7 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
         <form className="flex flex-col gap-4">
           <div className="grid gap-4 md:grid-cols-2">
             <Field label="Full name"><Input name="full_name" placeholder="Ama Owusu" required /></Field>
-            <Field label="Email"><Input name="email" type="email" placeholder="ama@st.knust.edu.gh" required /></Field>
+            <Field label="Email"><Input name="email" type="email" placeholder="ama@example.com" required /></Field>
           </div>
           <RoleCheckboxes idPrefix="invite" />
           <Field label="Password (only for 'Create with password')" hint="At least 8 characters. Leave blank when inviting by email." className="md:max-w-md">

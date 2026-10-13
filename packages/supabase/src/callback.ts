@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "./server";
+import { safePath } from "./safe-path";
 
 /** Shared /auth/callback handler: exchanges a PKCE code or OTP token for a session. */
 export async function handleAuthCallback(request: NextRequest) {
@@ -7,8 +8,7 @@ export async function handleAuthCallback(request: NextRequest) {
   const code = url.searchParams.get("code");
   const token_hash = url.searchParams.get("token_hash");
   const type = url.searchParams.get("type");
-  const nextParam = url.searchParams.get("next") ?? "/";
-  const next = nextParam.startsWith("/") && !nextParam.startsWith("//") ? nextParam : "/";
+  const next = safePath(url.searchParams.get("next"), "/");
   const supabase = await createClient();
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);

@@ -1,12 +1,13 @@
 "use server";
 import { redirect } from "next/navigation";
 import { createClient } from "./server";
+import { safePath } from "./safe-path";
+import { requestOrigin } from "./request-origin";
 
 export type AuthState = { error?: string; message?: string } | undefined;
 
 function safeNext(v: FormDataEntryValue | null, fallback = "/") {
-  const s = typeof v === "string" ? v : "";
-  return s.startsWith("/") && !s.startsWith("//") ? s : fallback;
+  return safePath(v, fallback);
 }
 
 export async function signInAction(_prev: AuthState, formData: FormData): Promise<AuthState> {
@@ -23,7 +24,8 @@ export async function signInAction(_prev: AuthState, formData: FormData): Promis
 export async function magicLinkAction(_prev: AuthState, formData: FormData): Promise<AuthState> {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const next = safeNext(formData.get("next"));
-  const origin = String(formData.get("origin") ?? "");
+  const origin = await requestOrigin();
+  if (!origin) return { error: "Sign-in links can't be sent from this address." };
   if (!email) return { error: "Enter your email." };
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: `${origin}/auth/callback?next=${encodeURIComponent(next)}` } });
@@ -36,7 +38,8 @@ export async function signUpAction(_prev: AuthState, formData: FormData): Promis
   const password = String(formData.get("password") ?? "");
   const full_name = String(formData.get("full_name") ?? "").trim();
   const next = safeNext(formData.get("next"));
-  const origin = String(formData.get("origin") ?? "");
+  const origin = await requestOrigin();
+  if (!origin) return { error: "Sign-in links can't be sent from this address." };
   if (!email || !password || !full_name) return { error: "Name, email and password are required." };
   if (password.length < 8) return { error: "Password must be at least 8 characters." };
   const supabase = await createClient();

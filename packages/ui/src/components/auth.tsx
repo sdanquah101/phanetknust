@@ -20,7 +20,6 @@ export function LoginScreen({
   const [pwState, pwAction, pwPending] = useActionState(signIn, undefined);
   const [mlState, mlAction, mlPending] = useActionState(magicLink ?? signIn, undefined);
   const [suState, suAction, suPending] = useActionState(signUp ?? signIn, undefined);
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
   const state = mode === "password" ? pwState : mode === "magic" ? mlState : suState;
 
   return (
@@ -46,7 +45,7 @@ export function LoginScreen({
           {mode === "password" && (
             <form action={pwAction} className="flex flex-col gap-4">
               <input type="hidden" name="next" value={next} />
-              <Field label="Email"><Input name="email" type="email" autoComplete="email" placeholder="you@st.knust.edu.gh" required /></Field>
+              <Field label="Email"><Input name="email" type="email" autoComplete="email" placeholder="you@example.com" required /></Field>
               <Field label="Password"><Input name="password" type="password" autoComplete="current-password" placeholder="••••••••" required /></Field>
               <Button type="submit" size="lg" disabled={pwPending} className="mt-2">{pwPending ? "Signing in…" : "Sign in →"}</Button>
             </form>
@@ -54,17 +53,15 @@ export function LoginScreen({
           {mode === "magic" && magicLink && (
             <form action={mlAction} className="flex flex-col gap-4">
               <input type="hidden" name="next" value={next} />
-              <input type="hidden" name="origin" value={origin} />
-              <Field label="Email" hint="We'll email you a one-tap sign-in link."><Input name="email" type="email" autoComplete="email" placeholder="you@st.knust.edu.gh" required /></Field>
+              <Field label="Email" hint="We'll email you a one-tap sign-in link."><Input name="email" type="email" autoComplete="email" placeholder="you@example.com" required /></Field>
               <Button type="submit" size="lg" disabled={mlPending} className="mt-2">{mlPending ? "Sending…" : "Send me a link →"}</Button>
             </form>
           )}
           {mode === "signup" && signUp && (
             <form action={suAction} className="flex flex-col gap-4">
               <input type="hidden" name="next" value={next} />
-              <input type="hidden" name="origin" value={origin} />
               <Field label="Full name"><Input name="full_name" autoComplete="name" placeholder="Ama Owusu" required /></Field>
-              <Field label="Email"><Input name="email" type="email" autoComplete="email" placeholder="you@st.knust.edu.gh" required /></Field>
+              <Field label="Email"><Input name="email" type="email" autoComplete="email" placeholder="you@example.com" required /></Field>
               <Field label="Password" hint="At least 8 characters."><Input name="password" type="password" autoComplete="new-password" minLength={8} required /></Field>
               <Button type="submit" size="lg" disabled={suPending} className="mt-2">{suPending ? "Creating…" : "Create account →"}</Button>
             </form>

@@ -1,3 +1,4 @@
+import { safePath } from "@phanet/supabase/safe-path";
 import type { Followup } from "@phanet/supabase/types";
 import { FOLLOWUP_KINDS } from "./queries";
 
@@ -52,8 +53,7 @@ export function parseFollowup(formData: FormData): { error: string } | { input: 
 
 /** Only allow same-origin relative paths for redirect targets. */
 export function safeBack(v: FormDataEntryValue | null, fallback: string) {
-  const s = str(v);
-  return s.startsWith("/") && !s.startsWith("//") ? s : fallback;
+  return safePath(str(v), fallback);
 }
 
 export function withMsg(path: string, key: "ok" | "error", msg: string) {

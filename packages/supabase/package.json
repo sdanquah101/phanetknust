@@ -15,7 +15,8 @@
     "./types": "./src/types.ts",
     "./actions": "./src/actions.ts",
     "./callback": "./src/callback.ts",
-    "./public": "./src/public.ts"
+    "./public": "./src/public.ts",
+    "./safe-path": "./src/safe-path.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

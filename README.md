@@ -18,6 +18,7 @@ Backend: one Supabase project (Postgres, Auth, Storage) — schema in `supabase/
 - Design system and brand rules: [`docs/design-system.md`](docs/design-system.md)
 - Architecture, roles, approval ladder, deployment steps: [`docs/architecture.md`](docs/architecture.md)
 - Conventions for building an app in this repo: [`docs/building-an-app.md`](docs/building-an-app.md)
+- Plan for anatomical sketches from prompts (app + API): [`docs/anatomy-sketches.md`](docs/anatomy-sketches.md)
 
 ## Quick start
 ```bash

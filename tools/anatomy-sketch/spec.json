@@ -1,0 +1,26 @@
+{
+  "prompt": "labelled skeleton of a domestic dog, side view",
+  "spec": {
+    "species": { "id": "canis_familiaris", "common": "domestic dog", "scientific": "Canis familiaris", "class": "mammal" },
+    "system": "skeletal",
+    "region": "whole",
+    "view": "lateral-left",
+    "pose": "standing-neutral",
+    "style": "plate-engraving",
+    "labels": ["skull", "mandible", "cervical vertebrae", "scapula", "humerus", "radius", "ulna", "carpus", "metacarpals", "ribs", "lumbar vertebrae", "pelvis", "femur", "patella", "tibia", "fibula", "tarsus", "calcaneus", "metatarsals", "caudal vertebrae"],
+    "output": { "png": true, "svg": true, "width": 2048 }
+  },
+  "checklist": [
+    { "id": "limbs", "check": "exactly four limbs, two visible on the near side and two partly hidden on the far side", "severity": "block" },
+    { "id": "digits_fore", "check": "forepaw shows four weight-bearing digits plus a small raised dewclaw (five metacarpals)", "severity": "block" },
+    { "id": "digits_hind", "check": "hindpaw shows four weight-bearing digits, no dewclaw", "severity": "block" },
+    { "id": "stance", "check": "digitigrade: stands on the toes; calcaneus (heel) well above the ground; carpus and tarsus are visible joints above the paws", "severity": "block" },
+    { "id": "clavicle", "check": "no clavicle drawn as a bar between scapula and sternum", "severity": "block" },
+    { "id": "ribs", "check": "13 pairs of ribs; last ribs free (floating)", "severity": "warn" },
+    { "id": "vertebrae", "check": "7 cervical, 13 thoracic, 7 lumbar, sacrum, ~20 caudal vertebrae; spine roughly level, not arched like a cat", "severity": "warn" },
+    { "id": "skull", "check": "skull in profile with zygomatic arch, open orbit, carnassial teeth; mandible articulates below the ear", "severity": "warn" },
+    { "id": "scapula", "check": "scapula lies flat on the thorax, spine of scapula visible, no socket joint to the body", "severity": "warn" },
+    { "id": "no_text", "check": "no text, numbers, arrows or labels rendered inside the image", "severity": "block" },
+    { "id": "background", "check": "plain white background, nothing else in frame", "severity": "warn" }
+  ]
+}

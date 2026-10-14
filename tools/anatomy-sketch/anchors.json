@@ -1,0 +1,20 @@
+[
+  {"id": "skull", "label": "Skull (cranium)", "x": 0.14, "y": 0.10},
+  {"id": "mandible", "label": "Mandible", "x": 0.09, "y": 0.21},
+  {"id": "cervical", "label": "Cervical vertebrae (7)", "x": 0.25, "y": 0.22},
+  {"id": "scapula", "label": "Scapula", "x": 0.34, "y": 0.29},
+  {"id": "humerus", "label": "Humerus", "x": 0.30, "y": 0.42},
+  {"id": "radius_ulna", "label": "Radius and ulna", "x": 0.33, "y": 0.62},
+  {"id": "carpus", "label": "Carpus", "x": 0.33, "y": 0.79},
+  {"id": "metacarpals", "label": "Metacarpals and digits", "x": 0.34, "y": 0.89},
+  {"id": "thoracic", "label": "Thoracic vertebrae (13)", "x": 0.52, "y": 0.26},
+  {"id": "ribs", "label": "Ribs (13 pairs)", "x": 0.52, "y": 0.48},
+  {"id": "lumbar", "label": "Lumbar vertebrae (7)", "x": 0.69, "y": 0.26},
+  {"id": "pelvis", "label": "Pelvis (ilium)", "x": 0.78, "y": 0.29},
+  {"id": "femur", "label": "Femur", "x": 0.78, "y": 0.44},
+  {"id": "patella", "label": "Patella (stifle)", "x": 0.74, "y": 0.55},
+  {"id": "tibia_fibula", "label": "Tibia and fibula", "x": 0.80, "y": 0.67},
+  {"id": "calcaneus", "label": "Calcaneus (hock)", "x": 0.83, "y": 0.75},
+  {"id": "metatarsals", "label": "Metatarsals and digits", "x": 0.80, "y": 0.89},
+  {"id": "caudal", "label": "Caudal vertebrae", "x": 0.93, "y": 0.50}
+]

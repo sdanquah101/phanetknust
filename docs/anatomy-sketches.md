@@ -238,7 +238,16 @@ Ingest: `tools/anatomy-corpus/ingest.py` crops plates, writes metadata (species,
 - **Licensing.** Corpus is public domain only; SMAL is non-commercial by default; check each provider's terms on ownership of outputs before a paid launch.
 - **Long jobs on serverless.** Background functions give 15 minutes; the worker tier removes the limit entirely.
 
-## 10. Decisions needed before phase 0
+## 10. Trial run (14 Oct 2026)
+
+The pipeline was exercised by hand in the cloud session, one stage at a time, on "labelled skeleton of a domestic dog, side view". Code, spec, checklist, anchors and outputs are in [`tools/anatomy-sketch/`](../tools/anatomy-sketch/README.md).
+
+- **Draw** produced a credible 1456×1088 veterinary-plate dog skeleton with no text from the spec-built prompt on the first try (Canva's generator; the other connectors were out of credit). Only a 199 px thumbnail could be pulled into the container, which limits what follows.
+- **Verify** passed every blocking check visible at that size (four limbs, digitigrade stance, no clavicle bar, scapula on the thorax, no text). Counts of ribs, vertebrae and digits need the full-resolution image.
+- **Label** and **vectorize** work as designed: adaptive threshold → vtracer → path group, plus real SVG text with leader lines. Global thresholding dropped the hatching; adaptive thresholding fixed it. The leader-line layout needs a no-crossing rule.
+- **Blocked**: the OpenAI key is not visible in this session; once set in the environment's settings a new session can run stage 4 at full resolution and the edit-and-retry loop.
+
+## 11. Decisions needed before phase 0
 
 1. **Audience and style default**: veterinary/biology students (labelled, plate style) or artists (surface form, pencil)? Both are supported; it sets the default and the first 20 species.
 2. **Where it lives**: its own subdomain (`anatomy.phaneteers.com` or a new domain) as `apps/anatomy`, or inside the Academy. The design assumes a separate app with its own public API.
